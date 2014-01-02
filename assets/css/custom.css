@@ -1,0 +1,223 @@
+/* here you can put your own css to customize and override the theme */
+HiddenCol{
+   display:none;
+}
+
+td.noPad
+{
+	padding:0px;
+	box-sizing: content-box;
+}
+
+th.noPad
+{
+	padding:0px;
+	box-sizing: content-box;
+}
+
+td.noBorder
+{
+	border-color:Green;
+	border-bottom-style:none;
+	border-right-style:none;
+	border-bottom-color:transparent;
+	border-right-color:transparent;
+}
+
+table.proptable
+{
+}
+
+.proptable>thead>tr>th,.proptable>tbody>tr>th
+{
+	background-color:rgb(53,170,71);
+	color:#fff;
+	text-align:center;
+}
+
+.proptable>thead>tr>th:hover,.proptable>thead>tr>th:highlighted
+{
+	background-color:rgb(53,100,71);
+	color:#fff;
+}
+
+.proptable>thead>tr>td>Label,.proptable>tbody>tr>td>Label
+{
+	padding-left:8px;
+}
+
+.1proptable>thead>tr>td,.1proptable>tbody>tr>td
+{
+	border-color:rgb(53,170,71);
+}
+
+table.tbchild
+{
+	border-top-color: transparent;
+	border-left-color: transparent;
+	border-bottom-color:transparent;
+	border-right-color:transparent;
+	border-top-style:none;
+	border-left-style:none;
+	border-bottom-style:none;
+	border-right-style:none;
+	border-width:1px;
+	border-collapse: collapse;
+}
+
+.tbchild>thead>tr>td,.tbchild>tbody>tr>td
+{
+	border-top-color: #ddd;
+	border-left-color: #ddd;
+	border-bottom-color:transparent;
+	border-right-color:transparent;
+	border-top-style:solid;
+	border-left-style:solid;
+	border-bottom-style:none;
+	border-right-style:none;
+	border-width:1px;
+	border-collapse: collapse;
+}
+
+.tbchild tr:first-child th,
+.tbchild tr:first-child td {
+  border-top: 0;
+  
+}
+.tbchild tr:last-child td {
+  border-bottom: 0;
+  
+}
+.tbchild tr td:first-child,
+.tbchild tr th:first-child {
+  border-left: 0;
+  
+}
+.tbchild tr td:last-child,
+.tbchild tr th:last-child {
+  border-right: 0;
+  
+}
+
+.cbox
+{
+    border:solid black 0px;
+    padding-right:8px;
+    margin:0px;
+}
+
+.cboxdec
+{
+    border:solid black 0px;
+    padding-right:8px;
+    margin:0px;
+}
+
+.boxttans
+{
+    border:solid black 0px;
+    padding-right:8px;
+    margin:0px;
+    background-color:Transparent;
+}
+
+.calerror
+{
+	background-color:rgb(200,200,200);
+	background-repeat:no-repeat;
+	background-position:right;
+}
+    
+.boxleft
+{
+    border:solid black 0px;
+    padding-left:8px;
+    margin:0px;
+}
+
+.boxlefttrans
+{
+    border:solid black 0px;
+    padding-left:8px;
+    margin:0px;
+    background-color:Transparent;
+}
+
+.highlight {
+    border: 1px solid black;
+    background-color:#ddd;
+}
+
+.highlightactive {
+    border: 3px solid black;
+    background-color:#ddd;
+}
+
+.curpointer
+{
+	cursor:pointer;
+}
+
+
+.form-actions-half
+{
+	padding-bottom:10px;
+	padding-top:10px;
+	margin-top:0px;
+}
+
+.lblmartop
+{
+	margin-top:4px;
+}
+
+.listleftside
+{
+	position: absolute;
+	width:200px;
+}
+
+.nopadingtop
+{
+	padding-top:0;
+}
+
+.nomargintop
+{
+	margin-top:0;
+}
+
+.nopadingleft
+{
+	padding-left:0;
+}
+
+.margin1
+{
+	margin:1px;
+}
+
+.marginleft250
+{
+	margin-left:250px;
+}
+
+.textleft
+{
+	text-align:left;
+}
+
+.highlighttask {
+    border: 1px solid green;
+    margin:-1px;
+    outline-color:Green;
+    background-color:Green;
+}
+
+.cerrortask
+{
+	background-image: url("/assets/img/warning_sign.png");
+	background-repeat:no-repeat;
+	background-position:right;
+    padding-right: 17px;
+}
