@@ -113,6 +113,13 @@ table.tbchild
     margin:0px;
 }
 
+.cboxHours
+{
+    border:solid black 0px;
+    padding-right:8px;
+    margin:0px;
+}
+
 .boxttans
 {
     border:solid black 0px;
@@ -220,4 +227,32 @@ table.tbchild
 	background-repeat:no-repeat;
 	background-position:right;
     padding-right: 17px;
+}
+
+.csearchbg
+{
+	background-image: url("/assets/img/search-icon-blue.png");
+	background-repeat:no-repeat;
+	background-position:right;
+}
+
+.cbgstatusgreen
+{
+	background-image: url("/assets/img/green.png");
+	background-repeat:no-repeat;
+	background-position:left;
+}
+
+.cbgstatusyellow
+{
+	background-image: url("/assets/img/yellow.png");
+	background-repeat:no-repeat;
+	background-position:left;
+}
+
+.cbgstatusred
+{
+	background-image: url("/assets/img/red.png");
+	background-repeat:no-repeat;
+	background-position:left;
 }

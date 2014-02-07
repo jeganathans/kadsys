@@ -44,7 +44,11 @@
                 <li><i class="icon-home"></i><a href="dashboard.aspx">Home</a> <i class="icon-angle-right">
                 </i></li>
                 <%--<li><a href="#">Masters</a> <i class="icon-angle-right"></i></li>--%>
-                <li><a href="#">Contacts</a></li>
+                <li><a href="Contacts.aspx">Contacts</a></li>
+                <li id="brdliPageID">
+                    <i class="icon-angle-right"></i>
+                    <a id="brdPageID" href="#" runat="server"></a>
+                </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
@@ -68,9 +72,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Contact ID<span class="required">*</span></label>
+                                    <label class="control-label">Contact ID</label>
                                     <div class="input-groupd">
-                                    <asp:TextBox ID="txtContactID"  class="form-control" type="text" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtContactID" Enabled="false" CssClass="form-control" type="text" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -404,10 +408,12 @@
            if ($("#<%= hidprot.ClientID %>").val() == "portlet-control-grid") {
                $("#portlet-control-grid").show();
                $("#portlet-control").hide();
+               $("#brdliPageID").hide();
            }
            else {
                $("#portlet-control").show();
                $("#portlet-control-grid").hide();
+               $("#brdliPageID").show();
            }
            
            

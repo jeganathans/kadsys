@@ -43,7 +43,11 @@
                 <li><i class="icon-home"></i><a href="dashboard.aspx">Home</a> <i class="icon-angle-right">
                 </i></li>
                 <%--<li><a href="#">Masters</a> <i class="icon-angle-right"></i></li>--%>
-                <li><a href="#">Master Cost Items</a></li>
+                <li><a href="MasterCostItems.aspx">Master Cost Items</a></li>
+                <li id="brdliPageID">
+                    <i class="icon-angle-right"></i>
+                    <a id="brdPageID" href="#" runat="server"></a>
+                </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
@@ -361,10 +365,12 @@
             if ($("#<%= hidprot.ClientID %>").val() == "portlet-control-grid") {
                 $("#portlet-control-grid").show();
                 $("#portlet-control").hide();
+                $("#brdliPageID").hide();
             }
             else {
                 $("#portlet-control").show();
                 $("#portlet-control-grid").hide();
+                $("#brdliPageID").show();
             }
             
             $('[data-high]').click(function() {

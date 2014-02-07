@@ -6,7 +6,7 @@ var Login = function () {
 	            errorClass: 'help-block', // default input error message class
 	            focusInvalid: false, // do not focus the last invalid input
 	            rules: {
-	                username: {
+	                <%= txtusername.UniqueID %>: {
 	                    required: true
 	                },
 	                password: {
@@ -18,11 +18,11 @@ var Login = function () {
 	            },
 
 	            messages: {
-	                username: {
-	                    required: "Username is required"
+	                <%= txtusername.UniqueID %>: {
+	                    required: "Username is required."
 	                },
 	                password: {
-	                    required: "Password is required2"
+	                    required: "Password is required."
 	                }
 	            },
 

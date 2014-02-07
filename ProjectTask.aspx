@@ -22,9 +22,11 @@
                 Project Task
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="icon-home"></i><a href="dashboard.aspx">Home</a> <i class="icon-angle-right">
+                <li><i class="icon-home"></i><a href="ProjectDashboard.aspx">Home</a> <i class="icon-angle-right">
                 </i></li>
-                <li><a href="ProjectAll.aspx">Projects</a></li>
+                <li><a href="ProjectAll.aspx">Projects</a><i class="icon-angle-right">
+                </i></li>
+                <li><a id="brdProjectID" href="Projects.aspx" runat="server"></a></li>
             </ul>
             <!-- END PAGE Status & BREADCRUMB-->
         </div>
@@ -55,7 +57,8 @@
                             <asp:ListView ID="lvEmployee" runat="server">
                                 <LayoutTemplate>
                                     <ul class="clearfix nopadingleft">
-                                        <div class="clearfix">
+                                        <input id="empfilt" class="form-control csearchbg" />
+                                        <div class="clearfix zemplist">
                                             <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
                                         </div>
                                     </ul>
@@ -105,7 +108,7 @@
                                                     <asp:Label ID="lblEmployee" runat="server" Text="Employee"></asp:Label>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="EmpName" CssClass="boxlefttrans" runat="server" Width="210px" Style="max-width: 210px"
+                                                    <asp:TextBox ID="EmpName" CssClass="boxlefttrans" runat="server" Width="175px" Style="max-width: 210px"
                                                         Text='<%#Eval("EmpName")%>'></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
@@ -114,7 +117,7 @@
                                                     <asp:Label ID="lblTaskName" runat="server" Text="Task Name"></asp:Label>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="TaskName" CssClass="boxlefttrans" runat="server" Width="210px" Style="max-width: 210px"
+                                                    <asp:TextBox ID="TaskName" CssClass="boxlefttrans" runat="server" Width="175px" Style="max-width: 210px"
                                                         Text='<%#Eval("TaskName")%>'></asp:TextBox>
                                                         <i></i>
                                                 </ItemTemplate>
@@ -151,12 +154,28 @@
                                                         Text='<%#Eval("Hours")%>'></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center" Visible="false">
+                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center">
+                                                <HeaderTemplate>
+                                                    <asp:Label ID="lblTaskStatus" CssClass="text-center" Style="max-width: 75px" runat="server"
+                                                        Text="Task Status"></asp:Label>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <asp:DropDownList ID="TaskStatus" runat="server" ></asp:DropDownList>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center">
                                                 <HeaderTemplate>
                                                     <asp:Label ID="lblStatus" CssClass="text-center" runat="server" Text="Status"></asp:Label>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:Image ID="imgstatus" runat="server" Visible="false" />
+                                                    <asp:Image ID="imgstatus" runat="server" Visible="false"/>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="btn_deletetask" name="btn_deletetask" type="submit" class="btn purple btn-xs" ToolTip="Delete Task"
+                                                        runat="server" Text="<i class='icon-remove'></i>" OnCommand="btn_deletetask">
+                                                    </asp:LinkButton>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden">
@@ -267,6 +286,13 @@
                 return resValid;
                 
             }
+            
+            function setactiheight() {
+                if ($('.marginleft250').height() < $('.listleftside').height())
+                    $('.upheight').height($('.listleftside').height());
+                else
+                    $('.upheight').height($('.marginleft250').height());
+            }
         
             function LoadTaskScript() {
             
@@ -274,19 +300,28 @@
                     placeholder:" ", clearMaskOnLostFocus: true 
                 });
                 
+                $('#empfilt').keyup(function(){
+                   var valThis = $(this).val().toLowerCase();
+                    $('.zemplist>li').each(function(){
+                     var text = $(this).text().toLowerCase();
+                        if ((text.indexOf(valThis) > 0) || valThis=="")
+                            $(this).show();
+                        else
+                            $(this).hide();         
+                   });
+                   setactiheight();
+                });
+                
                
                 
+                setactiheight();
                 
                 
-                if ($('.marginleft250').height() < $('.listleftside').height())
-                    $('.upheight').height($('.listleftside').height());
-                 else
-                    $('.upheight').height($('.marginleft250').height());
                 
                 jQuery('input[data-newtask]').attr('readonly','readonly');
                 jQuery('input[data-newemp]').attr('readonly','readonly');
                 
-                $('input[data-taskinput]').change(function() {
+                $('[data-taskinput]').change(function() {
                     /*if (this.value.length == 0)
                     {
                         if ($(this).closest('tr').find("[name$=RecordSequence]").val() != "-1");

@@ -1,0 +1,17 @@
+G:\Project\Application\KedSys35\bin\KedSys35.dll
+G:\Project\Application\KedSys35\bin\KedSys35.pdb
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.Unity.dll
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.Unity.Interception.dll
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.ServiceLocation.dll
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.EnterpriseLibrary.Common.pdb
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.Unity.pdb
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.Unity.Interception.pdb
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.EnterpriseLibrary.Data.pdb
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+G:\Project\Application\KedSys35\bin\Microsoft.Practices.ServiceLocation.pdb
+G:\Project\Application\KedSys35\obj\Release\ResolveAssemblyReference.cache
+G:\Project\Application\KedSys35\obj\Release\KedSys35.dll
+G:\Project\Application\KedSys35\obj\Release\KedSys35.pdb

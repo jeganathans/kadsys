@@ -1999,6 +1999,10 @@ Custom tables
   font-size:12px; 
 }
 
+.tablefontxsm {					/*cust*/
+  font-size:10px; 
+}
+
 
 .table-toolbar {
   margin-bottom: 15px;

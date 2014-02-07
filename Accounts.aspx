@@ -45,7 +45,11 @@
                         <a href="javascript:;" class="expand"></a><a href="javascript:;" class="reload">
                         </a>
                     </div>--%>
-                <li><a href="#">Accounts</a></li>
+                <li><a href="Accounts.aspx">Accounts</a></li>
+                <li id="brdliPageID">
+                    <i class="icon-angle-right"></i>
+                    <a id="brdPageID" href="#" runat="server"></a>
+                </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
@@ -72,9 +76,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label" for"txtaccid"> Account ID<span class="required">*</span></label>
+                                    <label class="control-label" for"txtaccid"> Account ID</label>
                                     <div class="input-groupd">
-                                    <asp:TextBox ID="txtaccid"  class="form-control" type="text" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtaccid" Enabled="false"  CssClass="form-control" type="text" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -92,8 +96,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Account Type</label>
-                                    <asp:DropDownList ID="ddacctype" name ="ddacctype" class="form-control" runat="server"></asp:DropDownList>
+                                    <label class="control-label">Account Type<span class="required">*</span></label>
+                                    <div class="input-groupd">
+                                        <asp:DropDownList ID="ddacctype" name ="ddacctype" class="form-control" runat="server"></asp:DropDownList>
+                                    </div>
                                 </div>
                             </div>
                             <!--/span-->
@@ -151,7 +157,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Sector</label>
-                                    <asp:DropDownList ID="ddsector" name ="ddsector" class="form-control" runat="server"></asp:DropDownList>
+                                    <asp:TextBox ID="dusector" CssClass="zdusector" runat="server" style="display:none"></asp:TextBox>
+                                    <asp:DropDownList ID="ddsector" name ="ddsector" class="form-control select2me zddsector" multiple runat="server"></asp:DropDownList>
                                 </div>
                             </div>
                             <!--/span-->
@@ -175,7 +182,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Annual Revinue</label>
+                                    <label class="control-label">Annual Revenue</label>
                                     <asp:TextBox id = "txtannrev" name="txtannrev" class="form-control" type="text" runat="server"></asp:TextBox>
                                 </div>
                             </div>
@@ -202,8 +209,15 @@
                                     <asp:DropDownList ID="ddcontact" name ="ddcontact" class="form-control" runat="server"></asp:DropDownList>
                                 </div>
                             </div>
+                            <div>
+                                <label  class="checkbox-inline" >
+                                    <asp:CheckBox id="chkApproved" runat="server"/>
+                                    Approved
+                                </label>
+                            </div>
                             <!--/span-->
                         </div>
+                            
                         <div class="form-actions right">
                             <%--<script>
         jQuery(document).ready(function() {
@@ -454,10 +468,12 @@
            if ($("#<%= hidprot.ClientID %>").val() == "portlet-control-grid") {
                $("#portlet-control-grid").show();
                $("#portlet-control").hide();
+               $("#brdliPageID").hide();
            }
            else {
                $("#portlet-control").show();
                $("#portlet-control-grid").hide();
+               $("#brdliPageID").show();
            }
            
            var totalRows = $("#<%=GridView1.ClientID %> tr").length;
@@ -480,6 +496,33 @@
                $("#portlet-control-grid").hide();
                $("#<%= hidprot.ClientID %>").val("portlet-control");
            });
+           
+           $('.zddsector').on("change", function(e) {
+                var data1= $(this).select2('val');
+                var targetidcell = $('.zdusector');
+                $(targetidcell).val(JSON.stringify(data1));
+            });
+//            $('.zddsector').on("change", function(e) {
+//                var data1= $(this).select2('data');
+//                var targetidcell = $('.zdusector');
+//                $(targetidcell).val(JSON.stringify(data1));
+//            });
+            
+            
+       });
+       
+       $( window ).load(function() {
+                $('select.zddsector').select2({ placeholder: ""});
+                var data = [];
+                var strdata = $('.zdusector').val().replace(/"/g, '').replace('[','').replace(']','');
+                $(strdata.split(",")).each(function () {
+                    data.push({id: this, text: this});
+                });
+                if (strdata.length > 0)
+                    $('select.zddsector').select2('data', data);
+//            var data= $.parseJSON($('.zdusector').val());
+//            $('select.zddsector').select2('data', data);
+
        });
 
         jQuery(document).ready(function() {
@@ -531,6 +574,7 @@
                        required: true
                    },
                    <%= txtaccname.UniqueID %>: "required",
+                   <%= ddacctype.UniqueID %>: "required",
                    <%= txtemail.UniqueID %>: "email"
                },
 
@@ -538,7 +582,8 @@
                    <%= txtaccid.UniqueID %>: {
                        required: "Account ID is required."
                    },
-                   <%= txtaccname.UniqueID %>: "Account Name is required."
+                   <%= txtaccname.UniqueID %>: "Account Name is required.",
+                   <%= ddacctype.UniqueID %>: "Account Type is required.",
 
                },
 

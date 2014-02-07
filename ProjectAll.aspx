@@ -10,7 +10,7 @@
                 Project
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="icon-home"></i><a href="dashboard.aspx">Home</a> <i class="icon-angle-right">
+                <li><i class="icon-home"></i><a href="ProjectDashboard.aspx">Home</a> <i class="icon-angle-right">
                 </i></li>
                 <li><a href="#">Project</a></li>
             </ul>
@@ -28,6 +28,8 @@
                 <asp:LinkButton ID="btnRemoveFilter" class="btn btn-xs red" Text="Remove Filter <i class='icon-filter'></i>"
                     runat="server" OnClick="btnRemoveFilter_Click">
                 </asp:LinkButton>
+                <asp:LinkButton ID="btnadd" class="btn btn-xs default" Text="Add <i class='icon-plus'></i>" 
+                    runat="server" OnClick="btnadd_Click" Visible="false"></asp:LinkButton>
             </div>
         </div>
         
@@ -35,7 +37,7 @@
             <asp:GridView ID="GridView1" runat="server" Width="100%" AutoGenerateColumns="False"
                 AllowPaging="true" OnPageIndexChanging="OnPaging" PageSize="10" AllowSorting="true"
                 OnSorting="OnSorting" OnRowDataBound="gv_RowCommand" OnRowCommand="gv_RowCommand"
-                class="table table-striped table-bordered table-hover">
+                class="tablefontsm table table-striped table-bordered table-hover">
                 <Columns>
                     <asp:TemplateField Visible="false">
                         <ItemTemplate>
@@ -125,12 +127,31 @@
                             <asp:Label ID="Department" CssClass="" runat="server" Text='<%#Eval("Department")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                   
-                    <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Right">
+                   <asp:TemplateField >
+                        <HeaderTemplate>
+                            <asp:Label ID="lblStatus" runat="server" Text="Status"></asp:Label>
+                            <div class="pull-right" >
+                                <asp:linkbutton id="srtStatus" runat ="server" Text = "<i class='icon-sort'></i>"
+                                CommandName="Sort" SortExpression="Status" CommandArgument="Status"></asp:linkbutton>
+                                <a href="#" id="fltStatus" data-filterex="Status"><i class="icon-filter"></i></a> 
+                            </div>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Status" CssClass="" runat="server" Text='<%#Eval("Status")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center">
+                        <HeaderTemplate>
+                            <asp:Label ID="lblTask" runat="server" Text="Task"></asp:Label>
+                        </HeaderTemplate>
                         <ItemTemplate>
                             <asp:LinkButton ID="btn_task" name="btn_task" type="submit" class="btn green btn-xs" ToolTip="Task"
-                                runat="server" Text="<i class='icon-plus'></i>" OnClick="btn_task_Click">
+                                runat="server" Text="<i class='icon-tasks'></i>" OnClick="btn_task_Click">
                             </asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center">
+                        <ItemTemplate>
                             <asp:LinkButton ID="btn_select" name="btn_select" type="submit"  class="btn red btn-xs" ToolTip="Edit"
                                 runat="server" Text="<i class='icon-edit'></i>" OnClick="btn_select_Click">
                             </asp:LinkButton>

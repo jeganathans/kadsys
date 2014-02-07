@@ -123,13 +123,13 @@
                <div class="sidebar-toggler hidden-phone"></div>
                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
             </li>
-            <li class="">
+            <li class="" id="liDashboard" runat="server">
                <a href="Dashboard.aspx">
                <i class="icon-home"></i> 
                <span class="title">Dashboard</span>
                </a>
             </li>
-            <li class="">
+            <li class="" id="liProposal" runat="server">
                <a href="javascript:;">
                <i class="icon-book"></i> 
                <span class="title">Proposal</span>
@@ -146,7 +146,7 @@
                   </li>
                </ul>
             </li>
-            <li class="">
+            <li class="" id="liProjects" runat="server">
                <a href="javascript:;">
                <i class="icon-inbox"></i> 
                <span class="title">Projects</span>
@@ -163,13 +163,43 @@
                   </li>
                </ul>
             </li>
-            <li class="">
+            <li class="" id="liTimeSheet" runat="server">
+               <a href="javascript:;">
+               <i class="icon-time"></i> 
+               <span class="title">TimeSheet</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub-menu">
+                  <li >
+                     <a href="TimeSheetDashboard.aspx">
+                     Dashboard</a>
+                  </li>
+                  <li >
+                     <a href="TimeSheet.aspx">
+                     TimeSheet</a>
+                  </li>
+               </ul>
+            </li>
+            <li class="" id="liFinance" runat="server">
+               <a href="javascript:;">
+               <i class="icon-usd"></i> 
+               <span class="title">Finance</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub-menu">
+                  <li >
+                     <a href="ProjectInvoicing.aspx">
+                     Project Invoicing</a>
+                  </li>
+               </ul>
+            </li>
+            <li class="" id="liReports" runat="server">
                <a href="Reports.aspx">
                <i class="icon-certificate"></i> 
                <span class="title">Reports</span>
                </a>
             </li>
-            <li class="">
+            <li class="" id="liMasters" runat="server">
                <a href="javascript:;">
                <i class="icon-cogs"></i> 
                <span class="title">Masters</span>
@@ -213,8 +243,20 @@
                      Difficulty Index</a>
                   </li>
                   <li >
+                     <a href="EmailTemplate.aspx">
+                     Email Template</a>
+                  </li>
+                  <li >
                      <a href="Employee.aspx">
                      Employees</a>
+                  </li>
+                  <li >
+                     <a href="ExchangeRate.aspx">
+                     Exchange Rate</a>
+                  </li>
+                  <li >
+                     <a href="CommonMaster.aspx?listname=Holiday Calendar">
+                     Holiday Calendar</a>
                   </li>
                   <li >
                      <a href="CommonMaster.aspx?listname=Load Status">
@@ -292,10 +334,12 @@
            var pg = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
            pg = decodeURI(pg);
            pg = pg.replace('+', ' ');
-           if (pg == "Proposal.aspx")
+           if (pg == "Proposal.aspx" || pg == "Proposal.aspx?new=yes" || pg.indexOf("ProposalAll.aspx") != -1)
                pg = "ProposalAll.aspx";
-           if (pg == "Projects.aspx" || pg == "ProjectTask.aspx")
+           if (pg == "Projects.aspx" || pg == "ProjectTask.aspx" || pg == "Projects.aspx?new=yes")
                pg = "ProjectAll.aspx";
+           if (pg.indexOf("Accounts.aspx") != -1)
+               pg = "Accounts.aspx";
            $('a[href="' + pg + '"]').parent('li').addClass("active");
            $('a[href="' + pg + '"]').parent('li').parent('ul').parent('li').addClass("active");
        });

@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CommonMaster.aspx.cs" Inherits="KedSys35.WebForm7" Title="Untitled Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
+    <script type="text/javascript" src="assets/plugins/jquery.formatCurrency-1.4.0.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -44,7 +44,11 @@
                 <li><i class="icon-home"></i><a href="dashboard.aspx">Home</a> <i class="icon-angle-right">
                 </i></li>
                 <%--<li><a href="#">Masters</a> <i class="icon-angle-right"></i></li>--%>
-                <li><asp:LinkButton id="dynheader" runat="server"></asp:LinkButton></li>
+                <li><a id="brdliPageHeader" href="CommonMaster.aspx" runat="server"></a></li>
+                <li id="brdliPageID">
+                    <i class="icon-angle-right"></i>
+                    <a id="brdPageID" href="#" runat="server"></a>
+                </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
@@ -289,10 +293,12 @@
            if ($("#<%= hidprot.ClientID %>").val() == "portlet-control-grid") {
                $("#portlet-control-grid").show();
                $("#portlet-control").hide();
+               $("#brdliPageID").hide();
            }
            else {
                $("#portlet-control").show();
                $("#portlet-control-grid").hide();
+               $("#brdliPageID").show();
            }
            
            $('[data-high]').click(function() {
@@ -367,11 +373,40 @@
 
 jQuery(document).ready(function() {
 
+        var lblval =  $("#<%= lblListval2.ClientID %>");
+        if (lblval[0].innerHTML.indexOf('Daily Rate') >= 0)
+        {
+            $("#<%= txtListval2.ClientID %>").formatCurrency({roundToDecimalPlace:0,symbol:'',groupDigits:false});
+            
+            $("#<%= txtListval2.ClientID %>").change(function() {
+                var val2 = $("#<%= txtListval2.ClientID %>");
+                $(val2).val($(val2).asNumber({ parseType: 'int' }));
+                if (!$.isNumeric($(val2).val()))
+                        $(val2).val(0);
+                $(val2).formatCurrency({roundToDecimalPlace:0,symbol:'',groupDigits:false});
+            });
+        }
+
          jQuery.validator.addMethod("Listval2YesNo",
                 function(value, element){
                     var lblval =  $("#<%= lblListval2.ClientID %>");
                     if (lblval[0].innerHTML.indexOf('Display in Proposal') >= 0) {
                         var olistval2 = $("#<%= txtListval2.ClientID %>");
+                        if (olistval2.val().trim() == "Yes" || olistval2.val().trim() == "No")
+                            return true
+                        else
+                            return false
+                    }
+                    else
+                        return true 
+                },"Only Yes or No is allowed."
+             );
+             
+           jQuery.validator.addMethod("Listval4YesNo",
+                function(value, element){
+                    var lblval =  $("#<%= lblListval4.ClientID %>");
+                    if (lblval[0].innerHTML.indexOf('Base Currency') >= 0) {
+                        var olistval2 = $("#<%= txtListval4.ClientID %>");
                         if (olistval2.val().trim() == "Yes" || olistval2.val().trim() == "No")
                             return true
                         else
@@ -391,7 +426,7 @@ jQuery(document).ready(function() {
                    },
                    <%= txtListval2.UniqueID %>: {required:true,  Listval2YesNo:true},
                    <%= txtListval3.UniqueID %>: "required",
-                   <%= txtListval4.UniqueID %>: "required"
+                   <%= txtListval4.UniqueID %>: {required:true,  Listval4YesNo:true}
                },
 
                messages: {
@@ -400,7 +435,7 @@ jQuery(document).ready(function() {
                    },
                    <%= txtListval2.UniqueID %>: {required: "Required"},
                    <%= txtListval3.UniqueID %>: "Required.",
-                   <%= txtListval4.UniqueID %>: "Required.",
+                   <%= txtListval4.UniqueID %>: {required: "Required"}
                },
 
                invalidHandler: function(event, validator) { //display error alert on form submit

@@ -15,7 +15,11 @@
                 <li><i class="icon-home"></i><a href="dashboard.aspx">Home</a> <i class="icon-angle-right">
                 </i></li>
                 <%--<li><a href="#">Masters</a> <i class="icon-angle-right"></i></li>--%>
-                <li><a href="#">Employee</a></li>
+                <li><a href="Employee.aspx">Employee</a></li>
+                <li id="brdliPageID">
+                    <i class="icon-angle-right"></i>
+                    <a id="brdPageID" href="#" runat="server"></a>
+                </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
@@ -40,9 +44,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Employee ID<span class="required">*</span></label>
+                                    <label class="control-label">Employee ID</label>
                                     <div class="input-groupd">
-                                    <asp:TextBox ID="txtEmployeeID"  CssClass="form-control" type="text" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtEmployeeID" Enabled="false" CssClass="form-control" type="text" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +86,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Title</label>
                                     <div class="input-groupd">
-                                    <asp:DropDownList ID="ddTitle" class="form-control" runat="server"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddTitle" class="form-control select2me" runat="server"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +94,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Department</label>
                                     <div class="input-groupd">
-                                    <asp:DropDownList ID="ddDepartment" class="form-control" runat="server"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddDepartment" class="form-control select2me" runat="server"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +167,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Gender</label>
                                     <div class="input-groupd">
-                                    <asp:DropDownList ID="ddGender" class="form-control" runat="server"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddGender" class="form-control select2me" runat="server"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +185,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Direct Manager</label>
                                     <div class="input-groupd">
-                                    <asp:DropDownList ID="ddDirectManager" class="form-control" runat="server"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddDirectManager" class="form-control select2me" runat="server"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +193,25 @@
                                 <div class="form-group">
                                     <label class="control-label">Indirect Manager</label>
                                     <div class="input-groupd">
-                                    <asp:DropDownList ID="ddIndirectManager" class="form-control" runat="server"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddIndirectManager" class="form-control select2me" runat="server"></asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Director</label>
+                                    <div class="input-groupd">
+                                    <asp:DropDownList ID="ddDirector" class="form-control select2me" runat="server"></asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Role</label>
+                                    <div class="input-groupd">
+                                    <asp:DropDownList ID="ddEmployeeRole" class="form-control select2me" runat="server"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -203,14 +225,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Role</label>
-                                    <div class="input-groupd">
-                                    <asp:DropDownList ID="ddEmployeeRole" class="form-control" runat="server"></asp:DropDownList>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="form-group">
                             <div class="checkbox-list">
@@ -548,10 +563,12 @@
             if ($("#<%= hidprot.ClientID %>").val() == "portlet-control-grid") {
                 $("#portlet-control-grid").show();
                 $("#portlet-control").hide();
+                $("#brdliPageID").hide();
             }
             else {
                 $("#portlet-control").show();
                 $("#portlet-control-grid").hide();
+                $("#brdliPageID").show();
             }
             
             if ($("#<%= hidUID.ClientID %>").val().length == 0)

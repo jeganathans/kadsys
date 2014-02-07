@@ -13,9 +13,9 @@
                 Proposal
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="icon-home"></i><a href="dashboard.aspx">Home</a> <i class="icon-angle-right">
+                <li><i class="icon-home"></i><a href="ProposalDashboard.aspx">Home</a> <i class="icon-angle-right">
                 </i></li>
-                <li><a href="#">Proposal</a></li>
+                <li><a href="ProposalAll.aspx">Proposal</a></li>
             </ul>
             <!-- END PAGE Status & BREADCRUMB-->
         </div>
@@ -40,7 +40,7 @@
             <asp:GridView ID="GridView1" runat="server" Width="100%" AutoGenerateColumns="False"
                 AllowPaging="true" OnPageIndexChanging="OnPaging" PageSize="10" AllowSorting="true"
                 OnSorting="OnSorting" OnRowDataBound="gv_RowCommand" OnRowCommand="gv_RowCommand"
-                class="table table-striped table-bordered table-hover">
+                class="tablefontxsm table table-striped table-bordered table-hover">
                 <Columns>
                     <asp:TemplateField Visible="false">
                         <ItemTemplate>
@@ -86,7 +86,7 @@
                             </div>
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="Manager" CssClass="" runat="server" Text='<%#Eval("Manager")%>'></asp:Label>
+                            <asp:Label ID="Manager" CssClass="" runat="server" Text='<%#Eval("MgrName")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField>
@@ -99,7 +99,20 @@
                             </div>
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="Leader" CssClass="" runat="server" Text='<%#Eval("Leader")%>'></asp:Label>
+                            <asp:Label ID="Leader" CssClass="" runat="server" Text='<%#Eval("LeaderName")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            <asp:Label ID="lblCoordinatorName" runat="server" Text="Coordinator"></asp:Label>
+                            <div class="pull-right">
+                                <asp:LinkButton ID="srtCoordinatorName" runat="server" Text="<i class='icon-sort'></i>" CommandName="Sort"
+                                    SortExpression="CoordinatorName" CommandArgument="CoordinatorName"></asp:LinkButton>
+                                <a href="#" id="fltCoordinatorName" data-filterex="CoordinatorName"><i class="icon-filter"></i></a>
+                            </div>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="CoordinatorName" CssClass="" runat="server" Text='<%#Eval("CoordinatorName")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField>
@@ -115,7 +128,7 @@
                             <asp:Label ID="Department" CssClass="" runat="server" Text='<%#Eval("Department")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField>
+                    <asp:TemplateField ItemStyle-HorizontalAlign="Right">
                         <HeaderTemplate>
                             <asp:Label ID="lblOffered" runat="server" Text="Offered"></asp:Label>
                         </HeaderTemplate>
@@ -123,12 +136,20 @@
                             <asp:Label ID="Offered" CssClass="" runat="server" Text='<%#Eval("Offered")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField>
+                    <asp:TemplateField ItemStyle-HorizontalAlign="Right">
                         <HeaderTemplate>
                             <asp:Label ID="lblAgreed" runat="server" Text="Agreed"></asp:Label>
                         </HeaderTemplate>
                         <ItemTemplate>
                             <asp:Label ID="Agreed" CssClass="" runat="server" Text='<%#Eval("Agreed")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField ItemStyle-HorizontalAlign="Right">
+                        <HeaderTemplate>
+                            <asp:Label ID="lblProbability" runat="server" Text="Probability"></asp:Label>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Probability" CssClass="" runat="server" Text='<%#Eval("Probability")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField>

@@ -1,0 +1,23 @@
+CREATE PROCEDURE [dbo].[UP_Fetch_MasterCostItems]
+			@UID VARCHAR(50) = NULL
+AS
+BEGIN
+	SELECT 
+			[UID],
+			CostItemname,
+			Code,
+			isFormula,
+			Formula,
+			decimalplace,
+			showaspercent,
+			isEditable,
+			isCountable,
+			isTimecost,
+			perCity,
+			perMethod,
+			perOption,
+			isActive
+	FROM	MasterCostItems
+	WHERE	[UID] = ISNULL(@UID,[UID])
+	
+END

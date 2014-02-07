@@ -30,9 +30,13 @@
                 Proposal
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="icon-home"></i><a href="dashboard.aspx">Home</a> <i class="icon-angle-right">
+                <li><i class="icon-home"></i><a href="ProposalDashboard.aspx">Home</a> <i class="icon-angle-right">
                 </i></li>
                 <li><a href="ProposalAll.aspx">Proposal</a></li>
+                <li id="brdliPageID">
+                    <i class="icon-angle-right"></i>
+                    <a id="brdPageID" href="Proposal.aspx" runat="server"></a>
+                </li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
@@ -43,12 +47,13 @@
         <asp:HiddenField ID="hidoption" runat="server" />
         <asp:HiddenField ID="hidTotalHours" runat="server" />
         <asp:HiddenField ID="hidProjRef" runat="server" />
+        <asp:HiddenField ID="hidProjRefNext" runat="server" />
     </div>
         <div class="row">
         <div class="col-md-12">
             <div id="form_wizard_1" class="portlet box green" >
                 <div class="portlet-title">
-                    <div class="caption">Proposal Wizard - <span class="step-title">Step 1 of 4</span></div>
+                    <div class="caption">Proposal Wizard - <span class="step-title">Step 1 of 3</span></div>
                 </div>
                 <div class="portlet-body form">
                      <div id="submit_form">
@@ -137,7 +142,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Proposal Description<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:TextBox ID="txtProposalDesc" class="form-control" type="text" runat="server"></asp:TextBox>
+                                                                <asp:TextBox ID="txtProposalDesc" class="form-control" TextMode="multiline" rows ="3" type="textarea" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -147,8 +152,14 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">Client Name<span class="required">*</span></label>
+                                                            <div class="pull-right">
+                                                                <asp:LinkButton ID="btn_addclient" name="btn_addclient" class="btn green btn-xs" ToolTip="Add New Client"
+                                                                    Text="<i class='icon-plus-sign'></i>" OnClientClick="return addclientclick();" runat="server" >
+                                                                </asp:LinkButton>
+                                                            </div>
                                                             <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddClientName" class="form-control select2me" runat="server"></asp:DropDownList>
+                                                                <asp:DropDownList ID="ddClientName" class="form-control select2me" AutoPostBack="true" runat="server" OnSelectedIndexChanged="ClientIndexChanged"></asp:DropDownList>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -166,13 +177,16 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">Manager<span class="required">*</span></label>
+                                                            <label class="control-label">
+                                                                Coordinator</label>
                                                             <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddManager" class="form-control select2me" runat="server">
+                                                                <asp:DropDownList ID="ddCoordinator" class="form-control select2me" runat="server" 
+                                                                    AutoPostBack="true" OnSelectedIndexChanged="ddCoordinator_SelectedIndexChanged" >
                                                                 </asp:DropDownList>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
                                                     <!--/span-->
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -189,10 +203,9 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">
-                                                                Leader<span class="required">*</span></label>
+                                                            <label class="control-label">Manager<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddLeader" class="form-control select2me" runat="server">
+                                                                <asp:DropDownList ID="ddManager" class="form-control select2me" runat="server">
                                                                 </asp:DropDownList>
                                                             </div>
                                                         </div>
@@ -213,9 +226,9 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
-                                                                Broad Category<span class="required">*</span></label>
+                                                                Leader<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddBroadCategory" class="form-control select2me" runat="server">
+                                                                <asp:DropDownList ID="ddLeader" class="form-control select2me" runat="server">
                                                                 </asp:DropDownList>
                                                             </div>
                                                         </div>
@@ -236,9 +249,10 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
-                                                                RFQ/RFP Date<span class="required">*</span></label>
+                                                                Broad Category<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:TextBox ID="txtRFQRefDate" class="form-control form-control-inline date-picker-past" runat="server"></asp:TextBox>
+                                                                <asp:DropDownList ID="ddBroadCategory" class="form-control select2me" runat="server">
+                                                                </asp:DropDownList>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -246,7 +260,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
-                                                                Type of Study<span class="required">*</span></label>
+                                                                Type of Industry<span class="required">*</span></label>
                                                             <div class="input-groupd">
                                                                 <asp:DropDownList ID="ddTypeofstudy" class="form-control select2me" runat="server">
                                                                 </asp:DropDownList>
@@ -259,10 +273,9 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
-                                                                Department<span class="required">*</span></label>
+                                                                RFQ/RFP Date<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddDepartment" class="form-control select2me" runat="server">
-                                                                </asp:DropDownList>
+                                                                <asp:TextBox ID="txtRFQRefDate" class="form-control form-control-inline date-picker-past" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -283,15 +296,15 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
-                                                                Market<span class="required">*</span></label>
+                                                                Department<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddMarket" class="form-control select2me" runat="server">
+                                                                <asp:DropDownList ID="ddDepartment" class="form-control select2me" runat="server">
                                                                 </asp:DropDownList>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <!--/span-->
-                                                    <div class="col-md-6">
+                                                    <%--<div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
                                                                 Project Description</label>
@@ -299,21 +312,7 @@
                                                                 <asp:TextBox id = txtProjectDesc class="form-control" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <!--/span-->
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label">
-                                                                Coordinator</label>
-                                                            <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddCoordinator" class="form-control select2me" runat="server">
-                                                                </asp:DropDownList>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
+                                                    </div>--%>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
@@ -329,6 +328,17 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
+                                                            <label class="control-label">
+                                                                Market<span class="required">*</span></label>
+                                                            <div class="input-groupd">
+                                                                <asp:DropDownList ID="ddMarket" class="form-control select2me" runat="server">
+                                                                </asp:DropDownList>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
                                                             <div class="input-group">
                                                                 <label class="control-label input-medium">CurrencyType</label>
                                                                 <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Values</label>
@@ -342,6 +352,8 @@
                                                         </div>
                                                     </div>
                                                     <!--/span-->
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                                 <label class="control-label">Offered</label>
@@ -350,9 +362,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!--/span-->
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
@@ -362,6 +371,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
@@ -372,8 +383,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
@@ -553,7 +562,8 @@
                 <asp:ListView ID="lvEmployee" runat="server">
                     <LayoutTemplate>
                         <ul class="clearfix nopadingleft">
-                            <div class="clearfix">
+                            <input id="empfilt" class="form-control csearchbg" />
+                            <div class="clearfix zemplist">
                                 <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
                             </div>
                         </ul>
@@ -588,7 +598,7 @@
                                                 
                                                 <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                                     <ContentTemplate>
-                                                        <asp:GridView runat="server" ID="grdTasks" AutoGenerateColumns="false" 
+                                                        <asp:GridView runat="server" ID="grdTasks" AutoGenerateColumns="false"
                                                             OnRowDataBound="grdTasks_OnRowDataBound"
                                                             class="proptable table-bordered">
                                                             <Columns>
@@ -608,8 +618,8 @@
                                                                         <asp:Label ID="lblEmployee" runat="server" Text="Employee"></asp:Label>
                                                                     </HeaderTemplate>
                                                                     <ItemTemplate>
-                                                                        <asp:TextBox ID="EmpName" CssClass="boxlefttrans" runat="server" Width="210px" 
-                                                                            style="max-width: 210px" Text='<%#Eval("EmpName")%>'></asp:TextBox>
+                                                                        <asp:TextBox ID="EmpName" CssClass="boxlefttrans" runat="server" Width="180px" 
+                                                                            style="max-width: 180px" Text='<%#Eval("EmpName")%>'></asp:TextBox>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField>
@@ -617,8 +627,8 @@
                                                                         <asp:Label ID="lblTaskName" runat="server" Text="Task Name"></asp:Label>
                                                                     </HeaderTemplate>
                                                                     <ItemTemplate>
-                                                                        <asp:TextBox ID="TaskName" CssClass="boxlefttrans" runat="server" Width="210px" 
-                                                                            style="max-width: 210px" Text='<%#Eval("TaskName")%>'></asp:TextBox>
+                                                                        <asp:TextBox ID="TaskName" CssClass="boxlefttrans" runat="server" Width="180px" 
+                                                                            style="max-width: 180px" Text='<%#Eval("TaskName")%>'></asp:TextBox>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField>
@@ -639,20 +649,36 @@
                                                                         <asp:TextBox ID="EndDate" style="max-width: 100px" CssClass="hidden" runat="server" Text='<%#Eval("EndDate")%>'></asp:TextBox>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center">
+                                                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" Visible="false">
                                                                     <HeaderTemplate>
-                                                                        <asp:Label ID="lblHours" CssClass="text-center" style="max-width: 75px" runat="server" Text="Total Hours"></asp:Label>
+                                                                        <asp:Label ID="lblHours" CssClass="text-center" style="max-width: 75px" runat="server" Text="Hours per Day"></asp:Label>
                                                                     </HeaderTemplate>
                                                                     <ItemTemplate>
-                                                                        <asp:TextBox ID="Hours" style="max-width: 75px" CssClass="cboxdec text-right" runat="server" Text='<%#Eval("Hours")%>'></asp:TextBox>
+                                                                        <asp:TextBox ID="Hours" style="max-width: 75px" CssClass="cboxHours text-right" runat="server" Text='<%#Eval("Hours")%>'></asp:TextBox>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
+                                                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Right">
+                                                                    <HeaderTemplate>
+                                                                        <asp:Label ID="lblNoDays" CssClass="text-center" style="max-width: 75px" runat="server" Text="No of Days"></asp:Label>
+                                                                    </HeaderTemplate>
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="NoDays" style="max-width: 75px" CssClass="cbox text-right" runat="server" Text='<%#Eval("NoDays")%>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                
                                                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center">
                                                                     <HeaderTemplate>
                                                                         <asp:Label ID="lblStatus" CssClass="text-center" runat="server" Text="Status"></asp:Label>
                                                                     </HeaderTemplate>
                                                                     <ItemTemplate>
                                                                         <asp:Image ID="imgstatus" runat="server" Visible="false" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center">
+                                                                    <ItemTemplate>
+                                                                        <asp:LinkButton ID="btn_deletetask" name="btn_deletetask" type="submit" class="btn purple btn-xs" ToolTip="Delete Task"
+                                                                            runat="server" Text="<i class='icon-remove'></i>" OnCommand="btn_deletetask">
+                                                                        </asp:LinkButton>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden">
@@ -755,7 +781,69 @@
         </div>
     </div>
     
+     <div id="divAddClient" class="modal" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-body modal-body-center">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">Add New Client</div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="row" style="padding-left:15px">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label class="control-label">Client Name<span class="required">*</span></label>
+                                <div class="input-groupd">
+                                <asp:TextBox id = "txtaccname" name="txtaccname" class="form-control" type="text" runat="server"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions form-actions-half right">
+                        <asp:Button ID="btnaddClient" class="btn green" runat="server" Text="Ok" OnClick="btnAddNewClient"
+                            UseSubmitBehavior="false" />
+                        <input id="btn_addCancel" type="button" data-dismiss="modal" class="btn default"
+                            onclick="$('#divAddClient').hide();"
+                            value="Cancel">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
+    
+            function addclientclick() {
+                    $('#divAddClient').css('height',250);
+                    $('#divAddClient').css({ 'margin-top': window.pageYOffset - $(this).height() / 2, 'top': '50%' });
+                    $('#divAddClient').css({ 'margin-left': window.pageXOffset - $(this).width() / 2, 'left': '50%' });
+                    $("#<%= txtaccname.ClientID %>").val('');
+                    $("#<%= btnaddClient.ClientID %>").hide();
+                    $('#divAddClient').modal({'backdrop': 'static'});
+                    return false;
+                }
+            
+            jQuery(document).ready(function() {
+            
+                
+                
+                $("#<%= txtaccname.ClientID %>").keyup(function() {
+                    if ($("#<%= txtaccname.ClientID %>").val() == '')
+                        $("#<%= btnaddClient.ClientID %>").hide();
+                    else
+                        $("#<%= btnaddClient.ClientID %>").show();
+                });
+            });
+            
+            function clientaddcheck() {
+                if ($("#<%= txtaccname.ClientID %>").val() == '')
+                {
+                    alert("Please input client name");
+                    return false;
+                }   
+                else
+                    return true;
+                
+            }
     
             function setcurrentTab() {
                 if ($('form').valid() == false) {
@@ -779,7 +867,7 @@
                 return true;
             }
             
-            function enableproject() {
+            /*function enableproject() {
                 if ($("#<%= ddStatus.ClientID %>").val() == "Won")
                 {
                     if ($("#<%= hidProjRef.ClientID %>").val() == "")
@@ -789,14 +877,19 @@
                 }
                 else
                     $("#<%= btnCreateProject.ClientID %>").hide();
-            }
+            }*/
             
             jQuery(document).ready(function() {
-                enableproject();
+                //enableproject();
                 
-                $("#<%= ddStatus.ClientID %>").change(function() {
-                    enableproject();
-                });
+                //$("#<%= ddStatus.ClientID %>").change(function() {
+                //    enableproject();
+                //});
+                if ($("#<%= hidProjRefNext.ClientID %>").val().length > 0)
+                    $("#<%= btnCreateProject.ClientID %>").show();
+                else
+                    $("#<%= btnCreateProject.ClientID %>").hide();
+                
                 
                 $('.button-submit').click(function() {
                     var form = $('form');
@@ -948,10 +1041,23 @@
             
             function LoadTaskScript() {
             
-                $("[name$=Hours]").inputmask("9.99",{
+                /*$("[name$=Hours]").inputmask("9.99",{
                     placeholder:" ", clearMaskOnLostFocus: true 
-                });
+                });*/
                 
+                $('.cboxHours').formatCurrency({roundToDecimalPlace:2,symbol:''});
+                
+                $('#empfilt').keyup(function(){
+                   var valThis = $(this).val().toLowerCase();
+                    $('.zemplist>li').each(function(){
+                     var text = $(this).text().toLowerCase();
+                        if ((text.indexOf(valThis) > 0) || valThis=="")
+                            $(this).show();
+                        else
+                            $(this).hide();         
+                   });
+                   setactiheight();
+                });
                  
             
                 jQuery('input[data-newtask]').attr('readonly','readonly');
@@ -968,8 +1074,12 @@
                     
                     if (this.name.indexOf("Hours") > 0 )
                     {
-                        var ivalue = Number(this.value.replace(/[^0-9\.]+/g,""));
+                        //var ivalue = Number(this.value.replace(/[^0-9\.]+/g,""));
                         var tothours = Number($("[name$=hidTotalHours]")[0].value.replace(/[^0-9\.]+/g,""));
+                        
+                        $(this).val($(this).asNumber());
+                        $(this).formatCurrency({roundToDecimalPlace:2,symbol:'',groupDigits:false});
+                        var ivalue = $(this).val();
                         if (ivalue > tothours)
                         {
                             $(this).closest('td').find('input').addClass('cerrortask');
@@ -1139,14 +1249,14 @@
                 PropWizard.init();
                 LoadTaskScript();
                 
-                
                 $(".dmlvmethod").draggable({ revert: true });
                 //$('.csheadoption').droppable({
                 $('td[data-odroppable="1"]').droppable({
                     accept: ".dmlvmethod",
                     drop: function(event, ui) {
                         var targetoption = event.target.innerText.trim();
-                        var sourcemethod = event.srcElement.innerText.trim();
+                        //var sourcemethod = event.srcElement.innerText.trim();
+                        var sourcemethod = ui.draggable[0].innerText.trim();
                         var dupmethod = $(event.target).closest('tr').next().find("td:contains(" + sourcemethod + ")");
                         if (dupmethod.length == 0) {
                             //event.target.colSpan = event.target.colSpan + 1;
@@ -1214,6 +1324,20 @@
                         var sourcemethod = uidropped.attributes["data-method"].value;
                         var sourceoption = ui.draggable.closest('tr').prev().prev().find('[data-option]')[0].innerText.trim();
                         $("#<%= hidoption.ClientID %>").val("remove|" + sourceoption + "|" + sourcemethod + "|" + sourcecity);
+                        $("#<%= hidtab.ClientID %>").val("#tab2");
+                        __doPostBack();
+                    },
+                    activeClass: "highlightactive",
+                    hoverClass: "highlight",
+
+                });
+                
+                $("[data-option]").draggable({ revert: true });
+                $("#method_div").droppable({
+                    accept: '[data-option]',
+                    drop: function(event, ui) {
+                        var sourceoption = ui.draggable[0].innerText.trim();
+                        $("#<%= hidoption.ClientID %>").val("remove|" + sourceoption);
                         $("#<%= hidtab.ClientID %>").val("#tab2");
                         __doPostBack();
                     },
@@ -1325,7 +1449,7 @@
                 if (istimecost)
                 {
                    //$('#divTimecost').css({ 'hight', 400});
-                   $('#divTimecost').css('height',450);
+                   $('#divTimecost').css('height',600);
                    $('#divTimecost').css({ 'margin-top': window.pageYOffset - $(this).height() / 2, 'top': '50%' });
                    $('#divTimecost').css({ 'margin-left': window.pageXOffset - $(this).width() / 2, 'left': '50%' });
                    $("#<%= hidTimecost.ClientID %>").val('');
@@ -1335,6 +1459,12 @@
 
             jQuery(document).ready(function() {
                 //$('[id="testcalc"]').click(function() {
+                $('.boxttans').change(function() {
+                    $(this).val($(this).asNumber());
+                    if (!$.isNumeric($(this).val()))
+                        $(this).val(0);
+                    $(this).formatCurrency({roundToDecimalPlace:2,symbol:'',groupDigits:false});
+                });
                 $('.cbox').change(function() {
                     $(this).val($(this).asNumber({ parseType: 'int' }));
                     $(this).formatCurrency({roundToDecimalPlace:0,symbol:''});
@@ -1355,10 +1485,33 @@
                     $(this).formatCurrency({roundToDecimalPlace:2,symbol:''});
                 });
                 
+                $('.boxttans').formatCurrency({roundToDecimalPlace:2,symbol:''});
                 $('.cbox').formatCurrency({roundToDecimalPlace:0,symbol:''});
                 $('.cboxdec').formatCurrency({roundToDecimalPlace:2,symbol:''});
+                $('.cboxHours').formatCurrency({roundToDecimalPlace:2,symbol:'',groupDigits:false});
                 $('.camt').formatCurrency({roundToDecimalPlace:2,symbol:''});
+                
+                var operinputs = $('.zshowper');
+                $.each(operinputs, function(index, oinput) {
+                    $(oinput).val($(oinput).val() + "%");
+                });
             });
+            
+            function GMccode() {
+                var ofinputs = $('.zGMccode');
+                $.each(ofinputs, function(index, oinput) {
+                    $(oinput).removeClass('cbgstatusgreen').removeClass('cbgstatusyellow').removeClass('cbgstatusred');
+                    if (parseFloat($(oinput).val()) <= 15)
+                        $(oinput).addClass('cbgstatusred');
+                    else if (parseFloat($(oinput).val()) >= 16 && parseFloat($(oinput).val()) <= 40)
+                        $(oinput).addClass('cbgstatusyellow');
+                    else if (parseFloat($(oinput).val()) > 40)
+                        $(oinput).addClass('cbgstatusgreen');
+                    else
+                        $(oinput).addClass('cbgstatusred');
+                    
+                });
+            }
             
             function costcalculation(option) {
                 if (option)
@@ -1368,7 +1521,14 @@
                     
                 var ofinputs = otable.find('input[data-formula]');
                 $.each(ofinputs, function(index, oinput) {
-                    var res = eval(oinput.attributes["data-formula"].value);
+                    try
+                    {
+                        var res = eval(oinput.attributes["data-formula"].value);
+                    }
+                    catch(err)
+                    {
+                        res = "Error";
+                    }
                     if (!$.isNumeric(res))
                     {
                         $(oinput).val("");
@@ -1386,9 +1546,16 @@
                             $(oinput).val(Math.round(res));
                             $(oinput).formatCurrency({roundToDecimalPlace:0,symbol:''});
                         }
+                        
+                        if ($(oinput).hasClass("zshowper"))
+                        {
+                            $(oinput).val($(oinput).val() + "%");
+                        }
+                        
                         $(oinput).removeClass('calerror');
                     }
                 });
+                GMccode();
             }
             
             jQuery(document).ready(function() {
@@ -1477,7 +1644,7 @@
                        <%= ddMarket.UniqueID %>: "Market is required.",
                        <%= ddProbability.UniqueID %>: "Propability is required.",
                        <%= ddStatus.UniqueID %>: "Status is required.",
-                       <%= ddTypeofstudy.UniqueID %>: "Type of study is required."
+                       <%= ddTypeofstudy.UniqueID %>: "Type of Industry is required."
                    },
 
                    invalidHandler: function(event, validator) { //display error alert on form submit

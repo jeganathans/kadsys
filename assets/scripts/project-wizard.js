@@ -67,18 +67,48 @@ var ProjWizard = function() {
                     if (form.valid() == false) {
                         return false;
                     }
+                    if (checkvalid() == false) {
+                        toastr.options = {
+                            closeButton: true,
+                            timeOut: "6000",
+                            positionClass: "toast-bottom-full-width",
+                            onclick: null
+                        };
+                        var $toast = toastr["warning"]("Please correct the errors", "Validation Failed");
+                        return false;
+                    }
                     handleTitle(tab, navigation, clickedIndex);
                 },
                 onNext: function(tab, navigation, index) {
                     if (form.valid() == false) {
                         return false;
                     }
+                    if (checkvalid() == false) {
+                        toastr.options = {
+                            closeButton: true,
+                            timeOut: "6000",
+                            positionClass: "toast-bottom-full-width",
+                            onclick: null
+                        };
+                        var $toast = toastr["warning"]("Please correct the errors", "Validation Failed");
+                        return false;
+                    }
                     handleTitle(tab, navigation, index);
                 },
                 onPrevious: function(tab, navigation, index) {
-                    //success.hide();
-                    //error.hide();
-
+                    if (form.valid() == false) {
+                        return false;
+                    }
+                    if (checkvalid() == false) {
+                        toastr.options = {
+                            closeButton: true,
+                            timeOut: "6000",
+                            positionClass: "toast-bottom-full-width",
+                            onclick: null
+                        };
+                        var $toast = toastr["warning"]("Please correct the errors", "Validation Failed");
+                        return false;
+                    }
                     handleTitle(tab, navigation, index);
                 },
                 onTabShow: function(tab, navigation, index) {
