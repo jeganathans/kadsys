@@ -292,7 +292,7 @@
                                                                         <asp:Label ID="lblSupervisor" runat="server" Text="Supervisor"></asp:Label>
                                                                     </HeaderTemplate>
                                                                     <ItemTemplate>
-                                                                        <div id="SupTag">
+                                                                        <div id="SupTag" runat="server">
                                                                         <%--<asp:TextBox ID="txtPDSupervisorName" CssClass="boxlefttrans ztxtsup" runat="server" Width="210px" Style="max-width: 210px;display:none">--%>
                                                                         <input type="hidden" class="dsupplist" id="DSupervisorList" data-required="yes" />
                                                                         </div>
@@ -846,9 +846,11 @@
                 
                 $('li[data-emp]').draggable({ revert: true });
                 //$('input[name$=txtPDSupervisorName]').droppable({  //.closest('td').droppable({
-                $('[id=SupTag]').droppable({
+                $('.zSupTag').droppable({
                     accept: 'li[data-emp]',
                     drop: function(event, ui) {
+                        if ($(this).closest('tr')[0].disabled)
+                            return;
                         //var targecell = $(event.target); //.find('input');
                         var targecell = $(event.target).find('.dsupplist')
                         //var empname = event.srcElement.innerText.trim();

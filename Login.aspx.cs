@@ -69,6 +69,7 @@ namespace KedSys35
                     Session["EmployeeFullName"] = ds.Tables[0].Rows[0]["EmployeeFName"].ToString() + " " + ds.Tables[0].Rows[0]["EmployeeLName"].ToString();
                     Session["EmployeeID"] = ds.Tables[0].Rows[0]["EmployeeID"].ToString();
                     Session["EmployeeRole"] = ds.Tables[0].Rows[0]["EmployeeRole"].ToString();
+                    Session["Department"] = ds.Tables[0].Rows[0]["Department"].ToString();
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["ForcePasswordChange"].ToString()))
                         Response.Redirect("ChangePassword.aspx");
 

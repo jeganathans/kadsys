@@ -267,7 +267,8 @@ namespace KedSys35
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 DataRow row = ((DataRowView)e.Row.DataItem).Row;
-                DropDownList ddPDStatus = (DropDownList)e.Row.FindControl("ddPDStatus");
+
+                 DropDownList ddPDStatus = (DropDownList)e.Row.FindControl("ddPDStatus");
                 TextBox txtPDSupervisor = (TextBox)e.Row.FindControl("txtPDSupervisor");
                 
                 if (ddPDStatus != null)
@@ -302,6 +303,18 @@ namespace KedSys35
                         txtPDSupervisor.Text = strSupList;
                         //txtPDSupervisor.Text = "[{\"id\":\"00013\",\"text\":\"Employee13 Lname\"}]";
                     }
+                }
+                HtmlGenericControl SupTag = (HtmlGenericControl)e.Row.FindControl("SupTag");
+
+                if (Session["EmployeeRole"].ToString() == "Administrator" || Session["Department"].ToString() == row["Department"].ToString())
+                {
+                    e.Row.Enabled = true;
+                    SupTag.Attributes.Add("class", "zSupTag");
+                }
+                else
+                {
+                    e.Row.Enabled = false;
+                    SupTag.Attributes.Remove("class");
                 }
             }
         }
