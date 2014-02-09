@@ -20,6 +20,9 @@ namespace KedSys35
         int totalrecordsgrid = 0;
         string strloginuser = "";
 
+        PageAccess PGAccess;
+        string empRole;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -42,6 +45,30 @@ namespace KedSys35
                 BindGrid();
                 BindCombo();
             }
+
+            PageAccessControl();
+
+        }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("Finance", empRole);
+                ViewState["PGAccess"] = PGAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            if (PGAccess.AllowEdit)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
 
         }
 

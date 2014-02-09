@@ -15,8 +15,10 @@ namespace KedSys35
 {
     public partial class Site1 : System.Web.UI.MasterPage
     {
+        dal dl = new dal();
         string EmployeeFullName;
         string EmployeeRole;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["loginuser"] == null)
@@ -31,11 +33,26 @@ namespace KedSys35
                     Session["EmployeeFullName"] = "not logged in";
                 }
 
+
                 EmployeeFullName = Session["EmployeeFullName"].ToString();
                 lblemployeename.Text = EmployeeFullName;
                 EmployeeRole = Session["EmployeeRole"].ToString();
 
-                if (EmployeeRole == "Analyst")
+                DataSet dsM = dl.UP_Fetch_Modules(EmployeeRole);
+
+                if (dsM.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow r in dsM.Tables[0].Rows)
+                    {
+                        HtmlGenericControl lictrl = (HtmlGenericControl)FindControl(r["LinkID"].ToString());
+                        if (lictrl != null)
+                        {
+                            lictrl.Visible = true;
+                        }
+                    }
+                }
+
+                /*if (EmployeeRole == "Analyst")
                 {
                     liDashboard.Visible = false;
                     liProposal.Visible = true;
@@ -55,7 +72,7 @@ namespace KedSys35
                     liFinance.Visible = true;
                     liReports.Visible = true;
                     liMasters.Visible = true;
-                }
+                }*/
             }
 
             

@@ -20,12 +20,17 @@ namespace KedSys35
         int totalrecordsgrid = 0;
         string strloginuser = "";
 
+        PageAccess PGAccess;
+        string empRole;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["loginuser"] == null)
             {
                 Response.Redirect("SessionExpired.aspx");
             }
+
+            PageAccessControl();
 
             Page.Title = "Kadence | Master Cost Items";
             strloginuser = Session["loginuser"].ToString();
@@ -41,6 +46,33 @@ namespace KedSys35
                 reset_coltrols();
             }
         }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("Master Cost Items", empRole);
+                ViewState["PGAccess"] = PGAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            if (PGAccess.AllowEdit || PGAccess.AllowAdd)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+
+            if (PGAccess.AllowAdd)
+                btnadd.Visible = true;
+            else
+                btnadd.Visible = false;
+        }
+
 
         void reset_coltrols()
         {
@@ -165,6 +197,11 @@ namespace KedSys35
 
         protected void btn_select_Click(object sender, EventArgs e)
         {
+            if (PGAccess.AllowEdit)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+
             LinkButton btn = (LinkButton)sender;
             GridViewRow row = (GridViewRow)btn.NamingContainer;
             int i = Convert.ToInt32(row.RowIndex);

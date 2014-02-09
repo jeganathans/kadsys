@@ -25,6 +25,9 @@ namespace KedSys35
         string strloginuser = "";
         int totalrecordsinvoice = 0;
 
+        PageAccess PGAccess;
+        string empRole;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //Session["loginuser"] = "anandy";
@@ -36,6 +39,7 @@ namespace KedSys35
                 Response.Redirect("SessionExpired.aspx");
             }
             strloginuser = Session["loginuser"].ToString();
+
 
             if (Request.QueryString.AllKeys.Contains("new"))
             {
@@ -96,6 +100,41 @@ namespace KedSys35
                 ds = (DataSet)ViewState["BaseData"];
             }
 
+            PageAccessControl();
+
+        }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("Projects", empRole);
+                ViewState["PGAccess"] = PGAccess;
+                if (Session["ProjectID"].ToString() == "New")
+                    ViewState["NewProject"] = "Yes";
+                else
+                    ViewState["NewProject"] = "No";
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            if (PGAccess.AllowEdit || (PGAccess.AllowAdd && ViewState["NewProject"].ToString() == "Yes"))
+            {
+                btnsave.Visible = true;
+                btnsavecontinue.Visible = true;
+                btnfinalsumbit.Visible = true;
+            }
+            else
+            {
+                btnsave.Visible = false;
+                btnsavecontinue.Visible = false;
+                btnfinalsumbit.Visible = false;
+            }
         }
 
         void BindCombo()

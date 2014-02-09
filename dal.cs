@@ -13,43 +13,6 @@ namespace KedSys35
 {
     public class dal
     {
-        public DataSet testquery()
-        {
-            Database objDataBase = DatabaseFactory.CreateDatabase();
-            DataSet ds = new DataSet();
-            ds = objDataBase.ExecuteDataSet("GetTest");
-            return ds;
-        }
-
-        public DataSet masterdetails()
-        {
-            Database objDataBase = DatabaseFactory.CreateDatabase();
-            DataSet ds = new DataSet();
-            ds = objDataBase.ExecuteDataSet("GETMASTER");
-            return ds;
-        }
-
-        public Boolean UpdateMasterlists(string master, string strxml)
-        {
-            Boolean result = false;
-
-            Database objDataBase = DatabaseFactory.CreateDatabase();
-            DbCommand cmd;
-            try
-            {
-                cmd = objDataBase.GetStoredProcCommand("UP_IU_Masterlists");
-                objDataBase.AddInParameter(cmd, "@master ", DbType.String, master);
-                objDataBase.AddInParameter(cmd, "@xml ", DbType.Xml, strxml);
-                objDataBase.ExecuteDataSet(cmd);
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return result;
-        }
 
 #region proposal
 
@@ -1017,6 +980,20 @@ namespace KedSys35
         }
 
 
+        public DataSet UP_Fetch_InitialPage(string Role)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_InitialPage");
+            objDataBase.AddInParameter(cmd, "@Role", DbType.String, Role);
+            ds = objDataBase.ExecuteDataSet(cmd);
+
+            return ds;
+        }
+
+
 #endregion
 
 #region ExchangeRate
@@ -1109,6 +1086,103 @@ namespace KedSys35
         }
 #endregion
 
+#region RoleBasedAccess
+
+        public PageAccess UP_Fetch_ModuleAccess(string Modulename, string Role)
+        {
+            PageAccess result = new PageAccess();
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+
+            if (Role == "Administrator")
+            {
+                result.AllowAdd = true; result.AllowEdit = true; result.AllowDelete = true; result.AllowPage = true;
+            }
+            else
+            {
+                cmd = objDataBase.GetStoredProcCommand("UP_Fetch_ModuleAccess");
+                objDataBase.AddInParameter(cmd, "@Modulename", DbType.String, Modulename);
+                objDataBase.AddInParameter(cmd, "@Role", DbType.String, Role);
+                ds = objDataBase.ExecuteDataSet(cmd);
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    result.AllowAdd = Convert.ToBoolean(ds.Tables[0].Rows[0]["AllowAdd"].ToString());
+                    result.AllowEdit = Convert.ToBoolean(ds.Tables[0].Rows[0]["AllowEdit"].ToString());
+                    result.AllowDelete = Convert.ToBoolean(ds.Tables[0].Rows[0]["AllowDelete"].ToString());
+                    result.AllowPage = true;
+                }
+                else
+                {
+                    result.AllowAdd = false; result.AllowEdit = false; result.AllowDelete = false; result.AllowPage = false;
+                }
+            }
+
+            return result;
+        }
+
+
+        public DataSet UP_Fetch_Modules(string Role)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_Modules");
+            objDataBase.AddInParameter(cmd, "@Role", DbType.String, Role);
+            ds = objDataBase.ExecuteDataSet(cmd);
+
+            return ds;
+        }
+
+        public DataSet UP_Fetch_AccessModule_DD()
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_AccessModule_DD");
+            ds = objDataBase.ExecuteDataSet(cmd);
+
+            return ds;
+        }
+
+        public DataSet UP_Fetch_RoleBasedAccess(string Role)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_RoleBasedAccess");
+            objDataBase.AddInParameter(cmd, "@Role", DbType.String, Role);
+            ds = objDataBase.ExecuteDataSet(cmd);
+
+            return ds;
+        }
+
+        public Boolean UP_IU_RoleBasedAccess(string Role, string RBAXML)
+        {
+            Boolean result = false;
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DbCommand cmd;
+            try
+            {
+                cmd = objDataBase.GetStoredProcCommand("UP_IU_RoleBasedAccess");
+                objDataBase.AddInParameter(cmd, "@Role", DbType.String, Role);
+                objDataBase.AddInParameter(cmd, "@RBAXML", DbType.String, (RBAXML == string.Empty) ? (object)DBNull.Value : RBAXML);
+                objDataBase.ExecuteDataSet(cmd);
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+                result = false;
+            }
+            return result;
+        }
+#endregion
+
         public bool SendMail(string body, string subject, string messageTo)
         {
 
@@ -1185,37 +1259,15 @@ namespace KedSys35
             return dt;
         }
 
-        public DataSet temp_MasterCostItems()
-        {
-            Database objDataBase = DatabaseFactory.CreateDatabase();
-            DataSet ds = new DataSet();
-            ds = objDataBase.ExecuteDataSet("temp_MasterCostItems");
-            return ds;
-        }
 
-        public DataSet temp_Accounts()
-        {
-            Database objDataBase = DatabaseFactory.CreateDatabase();
-            DataSet ds = new DataSet();
-            ds = objDataBase.ExecuteDataSet("temp_Accounts");
-            return ds;
-        }
+    }
 
-        public DataSet temp_Contacts()
-        {
-            Database objDataBase = DatabaseFactory.CreateDatabase();
-            DataSet ds = new DataSet();
-            ds = objDataBase.ExecuteDataSet("temp_Contacts");
-            return ds;
-        }
-
-        public DataSet temp_prop()
-        {
-            Database objDataBase = DatabaseFactory.CreateDatabase();
-            DataSet ds = new DataSet();
-            ds = objDataBase.ExecuteDataSet("temp_prop");
-            return ds;
-        }
-
+    [Serializable]
+    public class PageAccess
+    {
+        public Boolean AllowAdd { get; set; }
+        public Boolean AllowEdit { get; set; }
+        public Boolean AllowDelete { get; set; }
+        public Boolean AllowPage { get; set; }
     }
 }

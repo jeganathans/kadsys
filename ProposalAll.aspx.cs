@@ -21,12 +21,17 @@ namespace KedSys35
         string strloginuser = "";
         string DBfilter = "";
 
+        PageAccess PGAccess, ProjAccess;
+        string empRole;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["loginuser"] == null)
             {
                 Response.Redirect("SessionExpired.aspx");
             }
+
+            PageAccessControl();
 
             strloginuser = Session["loginuser"].ToString();
 
@@ -66,6 +71,31 @@ namespace KedSys35
                 ViewState["FilterExpression"] = "";
                 BindGrid();
             }
+        }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("Proposal", empRole);
+                ViewState["PGAccess"] = PGAccess;
+                ProjAccess = dl.UP_Fetch_ModuleAccess("Projects", empRole);
+                ViewState["ProjAccess"] = ProjAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+                ProjAccess = (PageAccess)ViewState["ProjAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+
+            if (PGAccess.AllowAdd)
+                btnadd.Visible = true;
+            else
+                btnadd.Visible = false;
         }
 
         void BindGrid()
@@ -259,8 +289,14 @@ namespace KedSys35
                 {
                     if (string.IsNullOrEmpty(row["ProjectRefID"].ToString()) || row["ProjectRefID"].ToString() == "NULL")
                     {
-                        btn.Visible = true;
-                        btn_delete.Visible = true;
+                        if (ProjAccess.AllowAdd)
+                            btn.Visible = true;
+                        else
+                            btn.Visible = false;
+                        if (PGAccess.AllowDelete)
+                            btn_delete.Visible = true;
+                        else
+                            btn_delete.Visible = false;
                     }
                     else
                     {

@@ -16,6 +16,9 @@ namespace KedSys35
         string strProjectID;
         string strloginuser = "";
 
+        PageAccess PGAccess;
+        string empRole;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //Session["loginuser"] = "anandy";
@@ -62,7 +65,32 @@ namespace KedSys35
             else
                 dsTasks = (DataSet)ViewState["dsTasks"];
 
+
+            PageAccessControl();
+
         }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("Projects", empRole);
+                ViewState["PGAccess"] = PGAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            if (PGAccess.AllowEdit)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+        }
+
 
         private void BindTasks()
         {

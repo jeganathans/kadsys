@@ -28,6 +28,9 @@ namespace KedSys35
         string strloginuser = "";
         string strloginuserID = "";
 
+        PageAccess PGAccess, ProjAccess;
+        string empRole;
+
 
         public class codelist
         {
@@ -55,6 +58,7 @@ namespace KedSys35
             {
                 Response.Redirect("SessionExpired.aspx");
             }
+
             strloginuser = Session["loginuser"].ToString();
             strloginuserID = Session["EmployeeID"].ToString();
 
@@ -125,10 +129,60 @@ namespace KedSys35
             BindGrid();
         }
 
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("Proposal", empRole);
+                ViewState["PGAccess"] = PGAccess;
+                if (Session["ProposalID"].ToString() == "New")
+                    ViewState["NewProposal"] = "Yes";
+                else
+                    ViewState["NewProposal"] = "No";
+
+                ProjAccess = dl.UP_Fetch_ModuleAccess("Projects", empRole);
+                ViewState["ProjAccess"] = ProjAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+                ProjAccess = (PageAccess)ViewState["ProjAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            
+
+            if (PGAccess.AllowEdit || (PGAccess.AllowAdd && ViewState["NewProposal"].ToString()=="Yes"))
+            {
+                btnsave.Visible = true;
+                btnsavecontinue.Visible = true;
+                btnfinalsumbit.Visible = true;
+                btn_addclient.Visible = true;
+            }
+            else
+            {
+                btnsave.Visible = false;
+                btnsavecontinue.Visible = false;
+                btnfinalsumbit.Visible = false;
+                btn_addclient.Visible = false;
+            }
+
+            if (!ProjAccess.AllowAdd)
+            {
+                if (btnCreateProject.Visible)
+                    btnCreateProject.Visible = false;
+            }
+        }
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //ClientScript.GetPostBackEventReference(this, string.Empty);
             hidtoaster.Value = "";
+            PageAccessControl();
             if (!IsPostBack)
             {
                 //hidtab.Value = "#tab3";
@@ -981,30 +1035,36 @@ namespace KedSys35
                 hidProjRef.Value = (ds.Tables[2].Rows[0]["ProjectRefID"].ToString() == "NULL") ? string.Empty : ds.Tables[2].Rows[0]["ProjectRefID"].ToString();
 
                 string ProjectRefIDLast = (ds.Tables[2].Rows[0]["ProjectRefIDLast"].ToString() == "NULL") ? string.Empty : ds.Tables[2].Rows[0]["ProjectRefIDLast"].ToString();
-                if (!string.IsNullOrEmpty(ProjectRefIDLast))
-                {
-                    string[] strprojid = ProjectRefIDLast.Split('-');
-                    if (strprojid.Length == 2)
-                    {
-                        hidProjRefNext.Value = strprojid[0] + "-" + (Convert.ToInt16(strprojid[1]) + 1);
-                    }
-                    else if (strprojid.Length == 1)
-                    {
-                        hidProjRefNext.Value = strprojid[0] + "-2";
-                    }
-                    if (!string.IsNullOrEmpty(hidProjRefNext.Value))
-                    {
-                        btnCreateProject.Text = "Create Project " + hidProjRefNext.Value;
-                        btnCreateProject.Visible = true;
-                    }
 
-                }
+
+                
+                    if (!string.IsNullOrEmpty(ProjectRefIDLast))
+                    {
+                        string[] strprojid = ProjectRefIDLast.Split('-');
+                        if (strprojid.Length == 2)
+                        {
+                            hidProjRefNext.Value = strprojid[0] + "-" + (Convert.ToInt16(strprojid[1]) + 1);
+                        }
+                        else if (strprojid.Length == 1)
+                        {
+                            hidProjRefNext.Value = strprojid[0] + "-2";
+                        }
+                        if (!string.IsNullOrEmpty(hidProjRefNext.Value))
+                        {
+                            btnCreateProject.Text = "Create Project " + hidProjRefNext.Value;
+                            btnCreateProject.Visible = true;
+                        }
+
+                    }
+                
+
                 txtComments.Text = ds.Tables[2].Rows[0]["Comments"].ToString();
                 if (ds.Tables[2].Rows[0]["Status"].ToString() == "Won")
                 {
                     btnsave.Visible = false;
                     btnsavecontinue.Visible = false;
                     btnfinalsumbit.Visible = false;
+                    btn_addclient.Visible = false;
                 }
             }
             else
@@ -1052,7 +1112,7 @@ namespace KedSys35
             result = saveopertion(out strerrmsg, out newUID, out newProposalID);
             if (result == true)
             {
-                if (ddStatus.Text == "Won" && string.IsNullOrEmpty(hidProjRef.Value))
+                if (ddStatus.Text == "Won" && string.IsNullOrEmpty(hidProjRef.Value) && ProjAccess.AllowAdd)
                 {
                     if (hidUID.Value == "")
                         Session["ProposalRef"] = newProposalID;
@@ -1374,6 +1434,10 @@ namespace KedSys35
             lvEmployee.DataBind();
             dtEmp.RowFilter = "";
 
+            string xmldetails = getTasksXML();
+
+            dsLoadStatus = dl.UP_Fetch_Proposal_Task_LoadStatus(strProposalID, xmldetails);
+
             updateDSBeforeBind();
             BindTasks();
 
@@ -1453,6 +1517,11 @@ namespace KedSys35
                             NoDays.Text = dv[0]["NoDays"].ToString();
                             imgstatus.ImageUrl = "~/assets/img/" + dv[0]["ColorCode"].ToString() + ".png";
                             imgstatus.Visible = true;
+
+                            if (dv[0]["bitdup"].ToString() == "True")
+                                EmpName.Attributes.Add("data-dup", "yes"); 
+                            else
+                                EmpName.Attributes.Add("data-dup", "no"); 
                         }
                         dv.RowFilter = "";
                     }

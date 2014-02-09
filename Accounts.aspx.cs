@@ -23,6 +23,9 @@ namespace KedSys35
         string strloginuser = "";
         string DBfilter = "";
 
+        PageAccess PGAccess;
+        string empRole;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //Session["loginuser"] = "anandy";
@@ -31,6 +34,8 @@ namespace KedSys35
             {
                 Response.Redirect("SessionExpired.aspx");
             }
+
+            PageAccessControl();
 
             Page.Title = "Kadence | Accounts";
             strloginuser = Session["loginuser"].ToString();
@@ -52,6 +57,32 @@ namespace KedSys35
                 reset_coltrols();
             }
             
+        }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("Accounts", empRole);
+                ViewState["PGAccess"] = PGAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            if (PGAccess.AllowEdit || PGAccess.AllowAdd)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+
+            if (PGAccess.AllowAdd)
+                btnadd.Visible = true;
+            else
+                btnadd.Visible = false;
         }
 
 
@@ -255,6 +286,11 @@ namespace KedSys35
         //Populate the details in input conrolts for edit
         protected void btn_select_Click(object sender, EventArgs e)
         {
+            if (PGAccess.AllowEdit)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+
             LinkButton btn = (LinkButton)sender;
             GridViewRow row = (GridViewRow)btn.NamingContainer;
             int i = Convert.ToInt32(row.RowIndex);
@@ -275,7 +311,7 @@ namespace KedSys35
                 txtemail.Text = ds.Tables[0].Rows[0]["EmailAdd"].ToString();
                 txtwebsite.Text = ds.Tables[0].Rows[0]["Website"].ToString();
                 txttaxno.Text = ds.Tables[0].Rows[0]["TaxNo"].ToString();
-                
+
                 //ddsector.SelectedIndex = ddsector.Items.IndexOf(ddsector.Items.FindByText(ds.Tables[0].Rows[0]["Sector"].ToString()));
                 //string[] dSector = ds.Tables[0].Rows[0]["Sector"].ToString().Split(',');
                 //dusector.Text = "[";

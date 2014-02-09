@@ -13,12 +13,17 @@ namespace KedSys35
         dal dl = new dal();
         string strloginuser = "";
 
+        PageAccess PGAccess;
+        string empRole;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["loginuser"] == null)
             {
                 Response.Redirect("SessionExpired.aspx");
             }
+
+            PageAccessControl();
 
             strloginuser = Session["loginuser"].ToString();
 
@@ -28,6 +33,27 @@ namespace KedSys35
                 BindValues();
             }
             brdPageID.InnerText = ddTemplateName.SelectedItem.Text;
+        }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("EmailTemplate", empRole);
+                ViewState["PGAccess"] = PGAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            if (PGAccess.AllowEdit)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
         }
 
         void BindCombo()

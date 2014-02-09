@@ -138,7 +138,7 @@
                     <asp:LinkButton ID="btnRemoveFilter" class="btn btn-xs red" Text= "Remove Filter <i class='icon-filter'></i>" runat="server"
                     OnClick = "btnRemoveFilter_Click">
                     </asp:LinkButton>
-                    <a href="#" id="btnadd" class="btn btn-xs default">Add <i class="icon-plus"></i></a>
+                    <a href="#" id="btnadd" class="btn btn-xs default zbtnadd" runat="server">Add <i class="icon-plus"></i></a>
                     </div>
                     </div>
                 <div id="portlet-detail-grid" class="portlet-body">
@@ -327,7 +327,7 @@
        });
 
        jQuery(document).ready(function() {
-           jQuery('#btnadd').click(function() {
+           jQuery('.zbtnadd').click(function() {
                $("#portlet-control").show();
                $("#portlet-control-grid").hide();
                $("#<%= hidprot.ClientID %>").val("portlet-control");

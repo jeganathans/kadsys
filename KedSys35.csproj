@@ -60,6 +60,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessModule.aspx.cs">
+      <DependentUpon>AccessModule.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AccessModule.aspx.designer.cs">
+      <DependentUpon>AccessModule.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Accounts.aspx.designer.cs">
       <DependentUpon>Accounts.aspx</DependentUpon>
     </Compile>
@@ -113,12 +120,12 @@
     <Compile Include="MasterCostItems.aspx.designer.cs">
       <DependentUpon>MasterCostItems.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Masters.aspx.cs">
-      <DependentUpon>Masters.aspx</DependentUpon>
+    <Compile Include="NoAccess.aspx.cs">
+      <DependentUpon>NoAccess.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Masters.aspx.designer.cs">
-      <DependentUpon>Masters.aspx</DependentUpon>
+    <Compile Include="NoAccess.aspx.designer.cs">
+      <DependentUpon>NoAccess.aspx</DependentUpon>
     </Compile>
     <Compile Include="ProjectAll.aspx.cs">
       <DependentUpon>ProjectAll.aspx</DependentUpon>
@@ -230,13 +237,6 @@
     <Compile Include="temp.aspx.designer.cs">
       <DependentUpon>temp.aspx</DependentUpon>
     </Compile>
-    <Compile Include="tempprop.aspx.cs">
-      <DependentUpon>tempprop.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="tempprop.aspx.designer.cs">
-      <DependentUpon>tempprop.aspx</DependentUpon>
-    </Compile>
     <Compile Include="TimeSheet.aspx.cs">
       <DependentUpon>TimeSheet.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -253,6 +253,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AccessModule.aspx" />
     <Content Include="assets\css\animate.css" />
     <Content Include="assets\css\custom.css" />
     <Content Include="assets\css\pages\about-us.css" />
@@ -1930,7 +1931,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Login.aspx" />
     <Content Include="MasterCostItems.aspx" />
-    <Content Include="Masters.aspx" />
+    <Content Include="NoAccess.aspx" />
     <Content Include="ProjectAll.aspx" />
     <Content Include="ProjectDashboard.aspx" />
     <Content Include="ProjectInvoicing.aspx" />
@@ -1947,7 +1948,6 @@
     <Content Include="Reports.aspx" />
     <Content Include="CommonMaster.aspx" />
     <Content Include="temp.aspx" />
-    <Content Include="tempprop.aspx" />
     <Content Include="TimeSheet.aspx" />
     <Content Include="TimeSheetDashboard.aspx" />
   </ItemGroup>

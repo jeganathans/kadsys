@@ -563,9 +563,11 @@
                     <LayoutTemplate>
                         <ul class="clearfix nopadingleft">
                             <input id="empfilt" class="form-control csearchbg" />
+                            <%--<div class="scroller" style="height:400px" data-always-visible="1" data-rail-visible="0">--%>
                             <div class="clearfix zemplist">
                                 <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
                             </div>
+                            <%--</div>--%>
                         </ul>
                     </LayoutTemplate>
                     <ItemTemplate>
@@ -1031,7 +1033,12 @@
                 });
                 
                 if (hasvaluesAll == 1)
-                    resValid = true;
+                {
+                    if ($('.cerrortaskdup').length > 0 && $("ul#proptab li.active").find('a').attr('href') == "#tab3")
+                        resValid = false;
+                    else
+                        resValid = true;
+                }
                 else
                     resValid = false;
                 
@@ -1044,6 +1051,10 @@
                 /*$("[name$=Hours]").inputmask("9.99",{
                     placeholder:" ", clearMaskOnLostFocus: true 
                 });*/
+                
+                $('[data-dup="yes"]').attr("title", "This task is already assigned");
+                $('[data-dup="yes"]').addClass('cerrortaskdup');
+                $('[data-dup="no"]').removeClass('cerrortaskdup');
                 
                 $('.cboxHours').formatCurrency({roundToDecimalPlace:2,symbol:''});
                 
@@ -1194,8 +1205,13 @@
                     /*alert("change");
                     return;*/
                     
-                    if ($('.cerrortask').length > 0)
-                        return;
+                    var errtasks = $('.cerrortask');
+                    
+                    if (errtasks.length > 0)
+                    {
+                        if (!$(errtasks).attr('data-dup') == "yes")
+                            return;
+                    }
                         
                     var inputs = $(objchanged).closest('tr').find('input[data-taskinput]')
                     var hasvalues = 1;
@@ -1248,6 +1264,8 @@
             jQuery(document).ready(function() {
                 PropWizard.init();
                 LoadTaskScript();
+                
+                $('[name$=_OPC]').closest('tr').parents('tr').hide();
                 
                 $(".dmlvmethod").draggable({ revert: true });
                 //$('.csheadoption').droppable({
@@ -1500,12 +1518,14 @@
             function GMccode() {
                 var ofinputs = $('.zGMccode');
                 $.each(ofinputs, function(index, oinput) {
-                    $(oinput).removeClass('cbgstatusgreen').removeClass('cbgstatusyellow').removeClass('cbgstatusred');
-                    if (parseFloat($(oinput).val()) <= 15)
+                    $(oinput).removeClass('cbgstatusgreen').removeClass('cbgstatusyellow').removeClass('cbgstatusred').removeClass('cbgstatuspink');
+                    if (parseFloat($(oinput).val()) < 15)
                         $(oinput).addClass('cbgstatusred');
-                    else if (parseFloat($(oinput).val()) >= 16 && parseFloat($(oinput).val()) <= 40)
+                    else if (parseFloat($(oinput).val()) >= 15 && parseFloat($(oinput).val()) < 20)
+                        $(oinput).addClass('cbgstatuspink');
+                    else if (parseFloat($(oinput).val()) >= 20 && parseFloat($(oinput).val()) <= 24)
                         $(oinput).addClass('cbgstatusyellow');
-                    else if (parseFloat($(oinput).val()) > 40)
+                    else if (parseFloat($(oinput).val()) > 24)
                         $(oinput).addClass('cbgstatusgreen');
                     else
                         $(oinput).addClass('cbgstatusred');

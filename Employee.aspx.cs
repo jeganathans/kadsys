@@ -20,6 +20,8 @@ namespace KedSys35
         string Sort_Direction = "EmployeeID ASC";
         int totalrecordsgrid = 0;
         string strloginuser = "";
+        PageAccess PGAccess;
+        string empRole;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -27,6 +29,9 @@ namespace KedSys35
             {
                 Response.Redirect("SessionExpired.aspx");
             }
+
+
+            PageAccessControl();
 
             strloginuser = Session["loginuser"].ToString();
 
@@ -41,6 +46,32 @@ namespace KedSys35
                 BindGrid();
                 reset_coltrols();
             }
+        }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess("Employee", empRole);
+                ViewState["PGAccess"] = PGAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            if (PGAccess.AllowEdit || PGAccess.AllowAdd)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+
+            if (PGAccess.AllowAdd)
+                btnadd.Visible = true;
+            else
+                btnadd.Visible = false;
         }
 
         void reset_coltrols()
@@ -299,6 +330,11 @@ namespace KedSys35
 
         protected void btn_select_Click(object sender, EventArgs e)
         {
+            if (PGAccess.AllowEdit)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+
             LinkButton btn = (LinkButton)sender;
             GridViewRow row = (GridViewRow)btn.NamingContainer;
             int i = Convert.ToInt32(row.RowIndex);
@@ -364,7 +400,10 @@ namespace KedSys35
                 else
                     lbllocked.Text = "";
 
-                btn_reset.Visible = true;
+                if (PGAccess.AllowEdit)
+                    btn_reset.Visible = true;
+                else
+                    btn_reset.Visible = false;
                     
             }
 

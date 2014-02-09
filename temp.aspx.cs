@@ -21,15 +21,17 @@ namespace KedSys35
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session["loginuser"] = "anandy";
-            Session["EmployeeFName"] = "Anand Yesuraj";
-            Session["EmployeeFullName"] = "Anand Yesuraj Prakasham";
-            Session["EmployeeID"] = "337";
-            Session["EmployeeRole"] = "Administrator";
+            //Session["loginuser"] = "anandy";
+            //Session["EmployeeFName"] = "Anand Yesuraj";
+            //Session["EmployeeFullName"] = "Anand Yesuraj Prakasham";
+            //Session["EmployeeID"] = "337";
+            //Session["EmployeeRole"] = "Analyst";
+            ////Session["EmployeeRole"] = "Administrator";
+            //Session["Department"] = "Fieldwork";
 
-            Response.Redirect("TimeSheet.aspx");
+            //Response.Redirect("AccessModule.aspx");
 
-            //Session["ProposalID"] = "Q140128001";
+            //Session["ProposalID"] = "Q131209001";
             //Response.Redirect("Proposal.aspx");
 
             //Session["ProjectID"] = "IDA3001-3";

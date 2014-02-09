@@ -22,6 +22,9 @@ namespace KedSys35
         string strmastername = "";
         string[] strcoldetails;
 
+        PageAccess PGAccess;
+        string empRole;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,6 +33,7 @@ namespace KedSys35
             {
                 Response.Redirect("SessionExpired.aspx");
             }
+
 
             hidtoaster.Value = "";
             if (!IsPostBack)
@@ -91,6 +95,33 @@ namespace KedSys35
 
             strmastername = ViewState["strmastername"].ToString(); ;
             Page.Title = Page.Title = "Kadence | " + strmastername;
+            PageAccessControl();
+        }
+
+        void PageAccessControl()
+        {
+            empRole = Session["EmployeeRole"].ToString();
+            if (!IsPostBack)
+            {
+                PGAccess = dl.UP_Fetch_ModuleAccess(strmastername, empRole);
+                ViewState["PGAccess"] = PGAccess;
+            }
+            else
+            {
+                PGAccess = (PageAccess)ViewState["PGAccess"];
+            }
+            if (!PGAccess.AllowPage)
+                Response.Redirect("NoAccess.aspx");
+
+            if (PGAccess.AllowEdit || PGAccess.AllowAdd)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+
+            if (PGAccess.AllowAdd)
+                btnadd.Visible = true;
+            else
+                btnadd.Visible = false;
         }
 
 
@@ -229,6 +260,11 @@ namespace KedSys35
         //Populate the details in input conrolts for edit
         protected void btn_select_Click(object sender, EventArgs e)
         {
+            if (PGAccess.AllowEdit)
+                btn_submit.Visible = true;
+            else
+                btn_submit.Visible = false;
+
             LinkButton btn = (LinkButton)sender;
             GridViewRow row = (GridViewRow)btn.NamingContainer;
             int i = Convert.ToInt32(row.RowIndex);

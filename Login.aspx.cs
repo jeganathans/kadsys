@@ -74,8 +74,12 @@ namespace KedSys35
                         Response.Redirect("ChangePassword.aspx");
 
                     EmployeeRole = ds.Tables[0].Rows[0]["EmployeeRole"].ToString();
-                    if (EmployeeRole=="Administrator")
-                        Response.Redirect("Dashboard.aspx");
+
+                    DataSet dsIP = dl.UP_Fetch_InitialPage(EmployeeRole);
+                    if (dsIP.Tables[0].Rows.Count > 0)
+                    {
+                        Response.Redirect(dsIP.Tables[0].Rows[0]["InitialPage"].ToString());
+                    }
                     else
                         Response.Redirect("TimeSheet.aspx");
                     break;

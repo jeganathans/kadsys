@@ -229,6 +229,14 @@ table.tbchild
     padding-right: 17px;
 }
 
+.cerrortaskdup
+{
+	background-image: url("/assets/img/warning_sign.png");
+	background-repeat:no-repeat;
+	background-position:right;
+    padding-right: 17px;
+}
+
 .csearchbg
 {
 	background-image: url("/assets/img/search-icon-blue.png");
@@ -246,6 +254,13 @@ table.tbchild
 .cbgstatusyellow
 {
 	background-image: url("/assets/img/yellow.png");
+	background-repeat:no-repeat;
+	background-position:left;
+}
+
+.cbgstatuspink
+{
+	background-image: url("/assets/img/pink.png");
 	background-repeat:no-repeat;
 	background-position:left;
 }
