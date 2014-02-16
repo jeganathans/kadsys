@@ -85,9 +85,9 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">Project ID</label>
+                                                            <label class="control-label">Project ID<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:TextBox ID="txtProjectID" Enabled="false" CssClass="form-control" type="text" runat="server"></asp:TextBox>
+                                                                <asp:TextBox ID="txtProjectID" CssClass="form-control" type="text" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -221,6 +221,17 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">
+                                                                Actual Completion Date</label>
+                                                            <div class="input-groupd">
+                                                                <asp:TextBox id = "txtActualCompletionDate" class="form-control date-picker-end" runat="server"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label">
@@ -1023,6 +1034,7 @@
                    errorElement: 'span', //default input error message container
                    errorClass: 'help-block', // default input error message class
                    rules: {
+                       <%= txtProjectID.UniqueID %>: "required",
                        <%= txtProjectName.UniqueID %>: "required",
                        <%= txtProjectDesc.UniqueID %>: "required",
                        <%= ddClientName.UniqueID %>: "required",
@@ -1037,6 +1049,7 @@
                    },
 
                    messages: {
+                       <%= txtProjectID.UniqueID %>: "Project ID is required.",
                        <%= txtProjectName.UniqueID %>: "Project Name is required.",
                        <%= txtProjectDesc.UniqueID %>: "Description is required.",
                        <%= ddClientName.UniqueID %>: "Client is required.",

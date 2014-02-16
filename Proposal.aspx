@@ -131,9 +131,9 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">Proposal ID</label>
+                                                            <label class="control-label">Proposal ID<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:TextBox ID="txtProposalID" Enabled="false" CssClass="form-control" type="text" runat="server"></asp:TextBox>
+                                                                <asp:TextBox ID="txtProposalID" CssClass="form-control" type="text" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Web;
 
 namespace KedSys35
 {
@@ -73,7 +74,7 @@ namespace KedSys35
             if (ds.Tables[0].Rows.Count > 0)
             {
                 txtTempaleSubject.Text = ds.Tables[0].Rows[0]["TempaleSubject"].ToString();
-                TxtTempaleContent.Text = ds.Tables[0].Rows[0]["TempaleContent"].ToString();
+                TxtTempaleContent.Text = (ds.Tables[0].Rows[0]["TempaleContent"].ToString());
                 lblTelmpateFields.Text = "List of Predefined Fields : " + ds.Tables[0].Rows[0]["TelmpateFields"].ToString();
             }
             else
@@ -91,7 +92,8 @@ namespace KedSys35
         protected void btn_submit_Click(object sender, EventArgs e)
         {
             Boolean result = false;
-            result = dl.UP_U_EMailTemplate(ddTemplateName.SelectedItem.Text, txtTempaleSubject.Text, TxtTempaleContent.Text);
+            String TempaleContent = (TxtTempaleContent.Text);
+            result = dl.UP_U_EMailTemplate(ddTemplateName.SelectedItem.Text, txtTempaleSubject.Text, TempaleContent);
 
             if (result == true)
             {

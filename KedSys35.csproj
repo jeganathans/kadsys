@@ -630,6 +630,7 @@
     <Content Include="assets\img\pages\img4.png" />
     <Content Include="assets\img\photo1.jpg" />
     <Content Include="assets\img\photo2.jpg" />
+    <Content Include="assets\img\pink.png" />
     <Content Include="assets\img\portlet-collapse-icon-white.png" />
     <Content Include="assets\img\portlet-collapse-icon.png" />
     <Content Include="assets\img\portlet-config-icon-white.png" />

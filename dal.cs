@@ -182,6 +182,46 @@ namespace KedSys35
         }
 #endregion
 
+#region projectdashboard
+        public DataSet UP_Fetch_ProjectDB(string UserId)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_ProjectDB");
+            objDataBase.AddInParameter(cmd, "@UserId", DbType.String, (UserId == "") ? (object)DBNull.Value : UserId);
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Fetch_ProjectDBChart(string XType, DateTime MonthYear, string UserId)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_ProjectDBChart");
+            objDataBase.AddInParameter(cmd, "@XType", DbType.String, (XType == "") ? (object)DBNull.Value : XType);
+            objDataBase.AddInParameter(cmd, "@MonthYear", DbType.DateTime, (MonthYear.ToString() == "") ? (object)DBNull.Value : MonthYear);
+            objDataBase.AddInParameter(cmd, "@UserId", DbType.String, (UserId == "") ? (object)DBNull.Value : UserId);
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+#endregion
+
+#region dashboard
+
+        public DataSet UP_Fetch_Dashboard()
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_Dashboard");
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+#endregion
+
 #region project
 
         public DataSet UP_Fetch_Project_DD()
@@ -226,7 +266,7 @@ namespace KedSys35
             return ds;
         }
 
-        public Boolean UP_IU_Projects(string UID, string ProjectID, string ProposalRef, string ResearchEngineer, string ProjectName, string ProjectDesc, string ClientName, string Agency, string Leader, string ProjectType, string Department, string StartDate, string EndDate, string Status, string FWPOFieldwork, string FWTypeofStudy, string FWTargetSample, string FWSampleCollected, string FWTargetDate, string FWConSentDate, string FWType, string strloginuser, string DeptXML, string DeptSupervisors, string InvoiceXML, out string strerrmsg, out string newUID, out string newProjectID)
+        public Boolean UP_IU_Projects(string UID, string ProjectID, string ProposalRef, string ResearchEngineer, string ProjectName, string ProjectDesc, string ClientName, string Agency, string Leader, string ProjectType, string Department, string StartDate, string EndDate, string Status, string FWPOFieldwork, string FWTypeofStudy, string FWTargetSample, string FWSampleCollected, string FWTargetDate, string FWConSentDate, string FWType, string ActualCompletionDate, string strloginuser, string DeptXML, string DeptSupervisors, string InvoiceXML, out string strerrmsg, out string newUID, out string newProjectID)
         {
             Boolean result = false;
             Database objDataBase = DatabaseFactory.CreateDatabase();
@@ -260,6 +300,7 @@ namespace KedSys35
                 objDataBase.AddInParameter(cmd, "@FWTargetDate", DbType.String, (FWTargetDate == string.Empty) ? (object)DBNull.Value : FWTargetDate);
                 objDataBase.AddInParameter(cmd, "@FWConSentDate", DbType.String, (FWConSentDate == string.Empty) ? (object)DBNull.Value : FWConSentDate);
                 objDataBase.AddInParameter(cmd, "@FWType", DbType.String, (FWType == string.Empty) ? (object)DBNull.Value : FWType);
+                objDataBase.AddInParameter(cmd, "@ActualCompletionDate", DbType.String, (ActualCompletionDate == string.Empty) ? (object)DBNull.Value : ActualCompletionDate);
                 objDataBase.AddInParameter(cmd, "@DeptXML", DbType.String, (DeptXML == string.Empty) ? (object)DBNull.Value : DeptXML);
                 objDataBase.AddInParameter(cmd, "@DeptSupervisors", DbType.String, (DeptSupervisors == string.Empty) ? (object)DBNull.Value : DeptSupervisors);
                 objDataBase.AddInParameter(cmd, "@InvoiceXML", DbType.String, (InvoiceXML == string.Empty) ? (object)DBNull.Value : InvoiceXML);

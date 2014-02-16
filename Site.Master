@@ -238,18 +238,6 @@
                      <a href="CommonMaster.aspx?listname=Difficulty Index">
                      Difficulty Index</a>
                   </li>
-                  <li id="liEmailTemplate" runat="server" visible="false">
-                     <a href="EmailTemplate.aspx">
-                     Email Template</a>
-                  </li>
-                  <li id="liEmployee" runat="server" visible="false">
-                     <a href="Employee.aspx">
-                     Employees</a>
-                  </li>
-                  <li id="liExchangeRate" runat="server" visible="false">
-                     <a href="ExchangeRate.aspx">
-                     Exchange Rate</a>
-                  </li>
                   <li id="liHolidayCalendar" runat="server" visible="false">
                      <a href="CommonMaster.aspx?listname=Holiday Calendar">
                      Holiday Calendar</a>
@@ -258,17 +246,9 @@
                      <a href="CommonMaster.aspx?listname=Load Status">
                      Load Status</a>
                   </li>
-                  <li id="liMasterCostItems" runat="server" visible="false">
-                     <a href="MasterCostItems.aspx">
-                     Master Cost Items</a>
-                  </li>
                   <li id="liMethod" runat="server" visible="false">
                      <a href="CommonMaster.aspx?listname=Method">
                      Method</a>
-                  </li>
-                  <li id="liModuleAccess" runat="server" visible="false">
-                     <a href="AccessModule.aspx?listname=Method">
-                     Module Access</a>
                   </li>
                   <li id="liProbability" runat="server" visible="false">
                      <a href="CommonMaster.aspx?listname=Probability">
@@ -290,6 +270,35 @@
                   <li id="liTypeofStudy" runat="server" visible="false">
                      <a href="CommonMaster.aspx?listname=Type of Study">
                      Type of Study</a>
+                  </li>
+               </ul>
+            </li>
+            <li class="" id="liAdmin" runat="server" visible="false">
+               <a href="javascript:;">
+               <i class="icon-wrench"></i> 
+               <span class="title">Admin</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub-menu">
+                  <li id="liEmailTemplate" runat="server" visible="false">
+                     <a href="EmailTemplate.aspx">
+                     Email Template</a>
+                  </li>
+                  <li id="liEmployee" runat="server" visible="false">
+                     <a href="Employee.aspx">
+                     Employees</a>
+                  </li>
+                  <li id="liExchangeRate" runat="server" visible="false">
+                     <a href="ExchangeRate.aspx">
+                     Exchange Rate</a>
+                  </li>
+                  <li id="liMasterCostItems" runat="server" visible="false">
+                     <a href="MasterCostItems.aspx">
+                     Master Cost Items</a>
+                  </li>
+                  <li id="liModuleAccess" runat="server" visible="false">
+                     <a href="AccessModule.aspx?listname=Method">
+                     Module Access</a>
                   </li>
                </ul>
             </li>
@@ -336,7 +345,7 @@
            pg = pg.replace('+', ' ');
            if (pg == "Proposal.aspx" || pg == "Proposal.aspx?new=yes" || pg.indexOf("ProposalAll.aspx") != -1)
                pg = "ProposalAll.aspx";
-           if (pg == "Projects.aspx" || pg == "ProjectTask.aspx" || pg == "Projects.aspx?new=yes")
+           if (pg == "Projects.aspx" || pg == "ProjectTask.aspx" || pg == "Projects.aspx?new=yes" || pg.indexOf("ProjectAll.aspx") != -1)
                pg = "ProjectAll.aspx";
            if (pg.indexOf("Accounts.aspx") != -1)
                pg = "Accounts.aspx";

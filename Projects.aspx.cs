@@ -238,6 +238,8 @@ namespace KedSys35
                 txtProjectID.Text = ds.Tables[0].Rows[0]["ProjectID"].ToString();
                 if (txtProjectID.Text.Length == 0 && strProjectIDNext.Length > 0)
                     txtProjectID.Text = strProjectIDNext;
+                if (txtProjectID.Text.Length > 0)
+                    txtProjectID.Enabled = false;
                 txtProjectName.Text = ds.Tables[0].Rows[0]["ProjectName"].ToString();
                 txtProposalID.Text = ds.Tables[0].Rows[0]["ProposalRef"].ToString();
                 txtProjectDesc.Text = ds.Tables[0].Rows[0]["ProjectDesc"].ToString();
@@ -262,6 +264,8 @@ namespace KedSys35
                     duFWType.Text = string.Empty;
                 else
                     duFWType.Text = "[\"" + strduFWType.Replace(",", "\",\"") + "\"]";
+
+                txtActualCompletionDate.Text = ds.Tables[0].Rows[0]["ActualCompletionDate"].ToString();
 
                 //string[] dFWType = ds.Tables[0].Rows[0]["FWType"].ToString().Split(',');
                 //duFWType.Text = "[";
@@ -371,6 +375,7 @@ namespace KedSys35
                     hidtoaster.Value = "success|Added successfully";
                     hidUID.Value = newUID;
                     txtProjectID.Text = newProjectID;
+                    txtProjectID.Enabled = false;
                     brdProjectID.InnerText = newProjectID;
                     Session["ProjectID"] = newProjectID;
                 }
@@ -401,6 +406,7 @@ namespace KedSys35
                     hidtoaster.Value = "success|Added successfully";
                     hidUID.Value = newUID;
                     txtProjectID.Text = newProjectID;
+                    txtProjectID.Enabled = false;
                     brdProjectID.InnerText = newProjectID;
                     Session["ProjectID"] = newProjectID;
                 }
@@ -441,7 +447,7 @@ namespace KedSys35
         protected Boolean saveopertion(out String strerrmsg, out string newUID, out string newProjectID)
         {
             string UID, ProjectID, ProposalRef, ResearchEngineer, ProjectName, ProjectDesc, ClientName, Agency, Leader, ProjectType, Department, Status, FWPOFieldwork, FWTypeofStudy, FWTargetSample, FWSampleCollected, FWTargetDate, FWConSentDate, FWType;
-            string StartDate, EndDate;
+            string StartDate, EndDate, ActualCompletionDate;
             string[] DeptXML;
             string InvoiceXML;
             Boolean result = false;
@@ -476,6 +482,8 @@ namespace KedSys35
             FWTargetDate = txtFWTargetDate.Text.Trim();
             FWConSentDate = txtFWConSentDate.Text.Trim();
 
+            ActualCompletionDate = txtActualCompletionDate.Text;
+
 
             //FWType = (ddFWType.SelectedIndex == 0) ? string.Empty : ddFWType.SelectedValue;
             FWType = string.Empty;
@@ -488,7 +496,7 @@ namespace KedSys35
 
             InvoiceXML = getInvoiceXML();
 
-            result = dl.UP_IU_Projects(UID, ProjectID, ProposalRef, ResearchEngineer, ProjectName, ProjectDesc, ClientName, Agency, Leader, ProjectType, Department, StartDate, EndDate, Status, FWPOFieldwork, FWTypeofStudy, FWTargetSample, FWSampleCollected, FWTargetDate, FWConSentDate, FWType, strloginuser, DeptXML[0], DeptXML[1], InvoiceXML, out strerrmsg, out newUID, out newProjectID);
+            result = dl.UP_IU_Projects(UID, ProjectID, ProposalRef, ResearchEngineer, ProjectName, ProjectDesc, ClientName, Agency, Leader, ProjectType, Department, StartDate, EndDate, Status, FWPOFieldwork, FWTypeofStudy, FWTargetSample, FWSampleCollected, FWTargetDate, FWConSentDate, FWType, ActualCompletionDate, strloginuser, DeptXML[0], DeptXML[1], InvoiceXML, out strerrmsg, out newUID, out newProjectID);
 
             return result;
 

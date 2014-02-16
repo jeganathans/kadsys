@@ -1007,6 +1007,8 @@ namespace KedSys35
         {
             if (ds.Tables[2].Rows.Count > 0)
             {
+                txtProposalID.Enabled = false;
+
                 hidUID.Value = ds.Tables[2].Rows[0]["UID"].ToString();
                 txtProposalID.Text = ds.Tables[2].Rows[0]["ProposalID"].ToString();
                 txtProposalDesc.Text = ds.Tables[2].Rows[0]["ProposalDesc"].ToString();
@@ -1072,6 +1074,7 @@ namespace KedSys35
                 ddCoordinator.SelectedIndex = ddCoordinator.Items.IndexOf(ddCoordinator.Items.FindByValue(strloginuserID));
                 ddCoordinator_SelectedIndexChanged(null, null);
                 txtRFQRefDate.Text = DateTime.UtcNow.AddMinutes(420).ToShortDateString();
+                ddDepartment.SelectedIndex = ddDepartment.Items.IndexOf(ddDepartment.Items.FindByText(Session["Department"].ToString()));
             }
 
         }
@@ -1128,6 +1131,7 @@ namespace KedSys35
                     hidtoaster.Value = "success|Added successfully";
                     hidUID.Value = newUID;
                     txtProposalID.Text = newProposalID;
+                    txtProposalID.Enabled = false;
                     Session["ProposalID"] = newProposalID;
                     brdPageID.InnerText = txtProposalID.Text;
                 }
@@ -1158,6 +1162,7 @@ namespace KedSys35
                     hidtoaster.Value = "success|Added successfully";
                     hidUID.Value = newUID;
                     txtProposalID.Text = newProposalID;
+                    txtProposalID.Enabled = false;
                     Session["ProposalID"] = newProposalID;
                     brdPageID.InnerText = txtProposalID.Text;
                 }

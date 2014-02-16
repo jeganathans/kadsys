@@ -194,33 +194,6 @@ namespace KedSys35 {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liDifficultyIndex;
         
         /// <summary>
-        /// liEmailTemplate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liEmailTemplate;
-        
-        /// <summary>
-        /// liEmployee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liEmployee;
-        
-        /// <summary>
-        /// liExchangeRate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liExchangeRate;
-        
-        /// <summary>
         /// liHolidayCalendar control.
         /// </summary>
         /// <remarks>
@@ -239,15 +212,6 @@ namespace KedSys35 {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liLoadStatus;
         
         /// <summary>
-        /// liMasterCostItems control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liMasterCostItems;
-        
-        /// <summary>
         /// liMethod control.
         /// </summary>
         /// <remarks>
@@ -255,15 +219,6 @@ namespace KedSys35 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liMethod;
-        
-        /// <summary>
-        /// liModuleAccess control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liModuleAccess;
         
         /// <summary>
         /// liProbability control.
@@ -309,6 +264,60 @@ namespace KedSys35 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liTypeofStudy;
+        
+        /// <summary>
+        /// liAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liAdmin;
+        
+        /// <summary>
+        /// liEmailTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liEmailTemplate;
+        
+        /// <summary>
+        /// liEmployee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liEmployee;
+        
+        /// <summary>
+        /// liExchangeRate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liExchangeRate;
+        
+        /// <summary>
+        /// liMasterCostItems control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liMasterCostItems;
+        
+        /// <summary>
+        /// liModuleAccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liModuleAccess;
         
         /// <summary>
         /// MainContent control.

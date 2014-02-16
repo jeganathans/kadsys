@@ -19,6 +19,7 @@ namespace KedSys35
         string Sort_Direction = "inteOrder DESC, ProjectID DESC";
         int totalrecordsgrid = 0;
         string strloginuser = "";
+        string DBfilter = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,6 +29,34 @@ namespace KedSys35
             }
 
             strloginuser = Session["loginuser"].ToString();
+
+            if (Request.QueryString.AllKeys.Contains("status"))
+            {
+                DBfilter = "Status = '" + Request.QueryString["status"] + "'";
+            }
+            else if (Request.QueryString.AllKeys.Contains("ytd"))
+            {
+                string propyear = DateTime.UtcNow.AddMinutes(420).Year.ToString();
+                DBfilter = "ProjectYear = " + propyear;
+            }
+            else if (Request.QueryString.AllKeys.Contains("mtd"))
+            {
+                string propmonth = DateTime.UtcNow.AddMinutes(420).Month.ToString();
+                string propyear = DateTime.UtcNow.AddMinutes(420).Year.ToString();
+                DBfilter = "ProjectMonth = " + propmonth + " and ProjectYear = " + propyear;
+            }
+            else if (Request.QueryString.AllKeys.Contains("qualmtd"))
+            {
+                string propmonth = DateTime.UtcNow.AddMinutes(420).Month.ToString();
+                string propyear = DateTime.UtcNow.AddMinutes(420).Year.ToString();
+                DBfilter = "Department = 'Qualitative' and ProjectMonth = " + propmonth + " and ProjectYear = " + propyear;
+            }
+            else if (Request.QueryString.AllKeys.Contains("quanmtd"))
+            {
+                string propmonth = DateTime.UtcNow.AddMinutes(420).Month.ToString();
+                string propyear = DateTime.UtcNow.AddMinutes(420).Year.ToString();
+                DBfilter = "Department = 'Quantitative' and ProjectMonth = " + propmonth + " and ProjectYear = " + propyear;
+            }
 
             hidtoaster.Value = "";
             if (!IsPostBack)
@@ -43,13 +72,22 @@ namespace KedSys35
         {
             DataSet ds = dl.UP_Fetch_ProjectAll();
 
+            string filtercriteria = "";
+            filtercriteria = DBfilter;
+
             if (ViewState["FilterExpression"].ToString().Length > 0)
+                if (filtercriteria.Length > 0)
+                    filtercriteria = filtercriteria + " and " + ViewState["FilterExpression"].ToString();
+                else
+                    filtercriteria = ViewState["FilterExpression"].ToString();
+
+            if (filtercriteria.Length > 0)
             {
                 try
                 {
                     using (DataTable objDataTable = ds.Tables[0])
                     {
-                        DataRow[] objDataRows = objDataTable.Select(ViewState["FilterExpression"].ToString(), ViewState["SortExpr"].ToString());
+                        DataRow[] objDataRows = objDataTable.Select(filtercriteria, ViewState["SortExpr"].ToString());
                         if (objDataRows.Length > 0)
                         {
                             using (DataTable objFilteredTable = objDataRows.CopyToDataTable())
@@ -64,7 +102,10 @@ namespace KedSys35
                             totalrecordsgrid = 0;
                         }
                     }
-                    btnRemoveFilter.Visible = true;
+                    if (ViewState["FilterExpression"].ToString().Length > 0)
+                        btnRemoveFilter.Visible = true;
+                    else
+                        btnRemoveFilter.Visible = false;
                 }
                 catch
                 {
@@ -72,7 +113,7 @@ namespace KedSys35
                     hidtoaster.Value = "error|Filter not applied. Please do not use wildcard characters.";
                 }
             }
-            if (ViewState["FilterExpression"].ToString().Length == 0)
+            else if (filtercriteria.Length == 0)
             {
                 DataView dv = ds.Tables[0].DefaultView;
                 dv.Sort = ViewState["SortExpr"].ToString();
