@@ -16,12 +16,13 @@ namespace KedSys35
 
 #region proposal
 
-        public DataSet UP_Fetch_Proposal()
+        public DataSet UP_Fetch_Proposal(string EmployeeID)
         {
             Database objDataBase = DatabaseFactory.CreateDatabase();
             DataSet ds = new DataSet();
             DbCommand cmd;
             cmd = objDataBase.GetStoredProcCommand("UP_Fetch_Proposal");
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
             ds = objDataBase.ExecuteDataSet(cmd);
             return ds;
         }
@@ -79,7 +80,7 @@ namespace KedSys35
             return ds;
         }
 
-        public Boolean UP_IU_Proposals(string UID, string ProposalID, string ProposalDesc, string ClientName, string Manager, string Leader, string BroadCategory, string RFQRefDate, string Department, string Market, string Coordinator, string CurrencyType, string Value, string Offered, string Agreed, string Duedate, string Senddate, string Approvaldate, string Typeofstudy, string ProjectType, string ProjectDesc, string Probability, string Agency, string Status, string ProjectRefID, string Comments, string strloginuser, string CostXML, string TimeCostXML, string TaskXML, out string strerrmsg, out string newUID, out string newProposalID)
+        public Boolean UP_IU_Proposals(string UID, string ProposalID, string ProposalDesc, string ClientName, string Manager, string Leader, string BroadCategory, string RFQRefDate, string Department, string Market, string Coordinator, string CurrencyType, string Value, string Offered, string Agreed, string Duedate, string Senddate, string Approvaldate, string Typeofstudy, string ProjectType, string ProjectDesc, string Probability, string Agency, string Status, string ProjectRefID, string Comments, string AgreedBaseCurrency, string strloginuser, string CostXML, string TimeCostXML, string TaskXML, out string strerrmsg, out string newUID, out string newProposalID)
         {
             Boolean result = false;
             Database objDataBase = DatabaseFactory.CreateDatabase();
@@ -118,6 +119,7 @@ namespace KedSys35
                 objDataBase.AddInParameter(cmd, "@Status", DbType.String, (Status == string.Empty) ? (object)DBNull.Value : Status);
                 objDataBase.AddInParameter(cmd, "@ProjectRefID", DbType.String, (ProjectRefID == string.Empty) ? (object)DBNull.Value : ProjectRefID);
                 objDataBase.AddInParameter(cmd, "@Comments", DbType.String, (Comments == string.Empty) ? (object)DBNull.Value : Comments);
+                objDataBase.AddInParameter(cmd, "@AgreedBaseCurrency", DbType.String, (AgreedBaseCurrency == string.Empty) ? (object)DBNull.Value : AgreedBaseCurrency);
                 objDataBase.AddInParameter(cmd, "@CostXML", DbType.String, (CostXML == string.Empty) ? (object)DBNull.Value : CostXML);
                 objDataBase.AddInParameter(cmd, "@TimeCostXML", DbType.String, (TimeCostXML == string.Empty) ? (object)DBNull.Value : TimeCostXML);
                 objDataBase.AddInParameter(cmd, "@TaskXML", DbType.String, (TaskXML == string.Empty) ? (object)DBNull.Value : TaskXML);
@@ -157,18 +159,18 @@ namespace KedSys35
 
 #region proposaldashboard
 
-        public DataSet UP_Fetch_ProposalDB(string UserId)
+        public DataSet UP_Fetch_ProposalDB(string EmployeeID)
         {
             Database objDataBase = DatabaseFactory.CreateDatabase();
             DataSet ds = new DataSet();
             DbCommand cmd;
             cmd = objDataBase.GetStoredProcCommand("UP_Fetch_ProposalDB");
-            objDataBase.AddInParameter(cmd, "@UserId", DbType.String, (UserId == "") ? (object)DBNull.Value : UserId);
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
             ds = objDataBase.ExecuteDataSet(cmd);
             return ds;
         }
 
-        public DataSet UP_Fetch_ProposalDBChart(string XType, DateTime MonthYear,  string UserId)
+        public DataSet UP_Fetch_ProposalDBChart(string XType, DateTime MonthYear, string EmployeeID)
         {
             Database objDataBase = DatabaseFactory.CreateDatabase();
             DataSet ds = new DataSet();
@@ -176,25 +178,25 @@ namespace KedSys35
             cmd = objDataBase.GetStoredProcCommand("UP_Fetch_ProposalDBChart");
             objDataBase.AddInParameter(cmd, "@XType", DbType.String, (XType == "") ? (object)DBNull.Value : XType);
             objDataBase.AddInParameter(cmd, "@MonthYear", DbType.DateTime, (MonthYear.ToString() == "") ? (object)DBNull.Value : MonthYear);
-            objDataBase.AddInParameter(cmd, "@UserId", DbType.String, (UserId == "") ? (object)DBNull.Value : UserId);
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
             ds = objDataBase.ExecuteDataSet(cmd);
             return ds;
         }
 #endregion
 
 #region projectdashboard
-        public DataSet UP_Fetch_ProjectDB(string UserId)
+        public DataSet UP_Fetch_ProjectDB(string EmployeeID)
         {
             Database objDataBase = DatabaseFactory.CreateDatabase();
             DataSet ds = new DataSet();
             DbCommand cmd;
             cmd = objDataBase.GetStoredProcCommand("UP_Fetch_ProjectDB");
-            objDataBase.AddInParameter(cmd, "@UserId", DbType.String, (UserId == "") ? (object)DBNull.Value : UserId);
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
             ds = objDataBase.ExecuteDataSet(cmd);
             return ds;
         }
 
-        public DataSet UP_Fetch_ProjectDBChart(string XType, DateTime MonthYear, string UserId)
+        public DataSet UP_Fetch_ProjectDBChart(string XType, DateTime MonthYear, string EmployeeID)
         {
             Database objDataBase = DatabaseFactory.CreateDatabase();
             DataSet ds = new DataSet();
@@ -202,7 +204,7 @@ namespace KedSys35
             cmd = objDataBase.GetStoredProcCommand("UP_Fetch_ProjectDBChart");
             objDataBase.AddInParameter(cmd, "@XType", DbType.String, (XType == "") ? (object)DBNull.Value : XType);
             objDataBase.AddInParameter(cmd, "@MonthYear", DbType.DateTime, (MonthYear.ToString() == "") ? (object)DBNull.Value : MonthYear);
-            objDataBase.AddInParameter(cmd, "@UserId", DbType.String, (UserId == "") ? (object)DBNull.Value : UserId);
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
             ds = objDataBase.ExecuteDataSet(cmd);
             return ds;
         }
@@ -216,6 +218,26 @@ namespace KedSys35
             DataSet ds = new DataSet();
             DbCommand cmd;
             cmd = objDataBase.GetStoredProcCommand("UP_Fetch_Dashboard");
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Fetch_Dashboard_Proposal()
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_Dashboard_Proposal");
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Fetch_Dashboard_Project()
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_Dashboard_Project");
             ds = objDataBase.ExecuteDataSet(cmd);
             return ds;
         }
@@ -244,12 +266,13 @@ namespace KedSys35
             return ds;
         }
 
-        public DataSet UP_Fetch_ProjectAll()
+        public DataSet UP_Fetch_ProjectAll(string EmployeeID)
         {
             Database objDataBase = DatabaseFactory.CreateDatabase();
             DataSet ds = new DataSet();
             DbCommand cmd;
             cmd = objDataBase.GetStoredProcCommand("UP_Fetch_ProjectAll");
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
             ds = objDataBase.ExecuteDataSet(cmd);
             return ds;
         }
@@ -1125,6 +1148,16 @@ namespace KedSys35
             }
             return result;
         }
+
+        public DataSet UP_Fetch_AdminEmailIds()
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_AdminEmailIds");
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
 #endregion
 
 #region RoleBasedAccess
@@ -1223,6 +1256,40 @@ namespace KedSys35
             return result;
         }
 #endregion
+
+        public string SendMailtest(string body, string subject, string messageTo)
+        {
+
+            try
+            {
+                System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+                msg.Body = body;
+                msg.IsBodyHtml = true;
+                string mailServer = System.Configuration.ConfigurationManager.AppSettings["MailServer"].ToString();
+                string messageFrom = System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"].ToString();
+                msg.From = new System.Net.Mail.MailAddress(messageFrom);
+                msg.To.Add(messageTo);
+                msg.Subject = subject;
+                System.Net.Mail.SmtpClient sc;
+                if (mailServer == "smtp.gmail.com")
+                    sc = new System.Net.Mail.SmtpClient(mailServer, 587);
+                else
+                    sc = new System.Net.Mail.SmtpClient(mailServer);
+                if (messageFrom == "kadsysv2@gmail.com")
+                {
+                    sc.EnableSsl = true;
+                    sc.UseDefaultCredentials = false;
+                    sc.Credentials = new System.Net.NetworkCredential("kadsysv2@gmail.com", "kadsysv2123");
+                }
+                sc.Send(msg);
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
 
         public bool SendMail(string body, string subject, string messageTo)
         {

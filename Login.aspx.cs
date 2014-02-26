@@ -120,7 +120,7 @@ namespace KedSys35
                     lblalert.Text = "Password has not been sent to your mail.";
                 else
                     lblalert.Text = "Password has been sent to your mail.";
-                
+
                 divalert.Visible = true;
             }
             else

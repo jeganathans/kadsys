@@ -597,18 +597,18 @@ namespace KedSys35
             }
             ddBaseCurrency.SelectedIndex = ddBaseCurrency.Items.IndexOf(ddBaseCurrency.Items.FindByText(ds.Tables[5].Rows[0]["BaseCurrency"].ToString()));
 
-            lblagreed.Text = ds.Tables[0].Rows[0]["Agreed"].ToString();
+            lblagreed.Text = ds.Tables[0].Rows[0]["AgreedBaseCurrency"].ToString();
 
             decimal TotalInvoiceAmount = 0, TotalPendingValue = 0;
             foreach (DataRow row in ds.Tables[3].Rows)
             {
-                TotalInvoiceAmount += Convert.ToDecimal(row["BillingAmount"].ToString().Replace(",", ""));
+                TotalInvoiceAmount += Convert.ToDecimal(row["BaseAmount"].ToString().Replace(",", ""));
             }
 
             lblTotalInvoiceAmount.Text = TotalInvoiceAmount.ToString();
 
             decimal agreedamount = 0;
-            decimal.TryParse(ds.Tables[0].Rows[0]["Agreed"].ToString().Replace(",", ""), out agreedamount);
+            decimal.TryParse(ds.Tables[0].Rows[0]["AgreedBaseCurrency"].ToString().Replace(",", ""), out agreedamount);
 
             TotalPendingValue = agreedamount - TotalInvoiceAmount;
             if (TotalPendingValue < 0)

@@ -101,7 +101,7 @@ namespace KedSys35
                 Label CurrencyType = (Label)row.FindControl("CurrencyType");
                 TextBox CurrencyValue = (TextBox)row.FindControl("CurrencyValue");
                 xmldetails += "<detail><CurrencyType>" + CurrencyType.Text + "</CurrencyType>";
-                xmldetails += "<CurrencyValue>" + CurrencyValue.Text + "</CurrencyValue>";
+                xmldetails += "<CurrencyValue>" + CurrencyValue.Text.Replace(",","") + "</CurrencyValue>";
                 xmldetails += "</detail>";
             }
             xmldetails += "</root>";

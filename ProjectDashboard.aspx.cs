@@ -17,6 +17,8 @@ namespace KedSys35
     {
         dal dl = new dal();
         string strloginuser = "";
+        string strloginEmployeeID = "";
+        string empRole;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,6 +32,9 @@ namespace KedSys35
             }
 
             strloginuser = Session["loginuser"].ToString();
+            strloginEmployeeID = Session["EmployeeID"].ToString();
+            empRole = Session["EmployeeRole"].ToString();
+
             if (!IsPostBack)
             {
                 BindValues();
@@ -39,7 +44,11 @@ namespace KedSys35
 
         void BindValues()
         {
-            DataSet ds = dl.UP_Fetch_ProjectDB(strloginuser);
+            DataSet ds;
+            if (empRole == "Administrator")
+                ds = dl.UP_Fetch_ProjectDB(string.Empty);
+            else
+                ds = dl.UP_Fetch_ProjectDB(strloginEmployeeID);
 
             ddmonth.DataSource = ds.Tables[0];
             ddmonth.DataTextField = "MonthYear";
@@ -56,13 +65,19 @@ namespace KedSys35
         }
 
 
-        [System.Web.Services.WebMethod]
+        [System.Web.Services.WebMethod(EnableSession = true)]
         public static string[][] ProjectDBChart(string XType, DateTime MonthYear)
         {
-            string strloginuser = "anandy";//Session["loginuser"].ToString();
+            string strloginEmployeeID = HttpContext.Current.Session["EmployeeID"].ToString();
+            string empRole = HttpContext.Current.Session["EmployeeRole"].ToString();
+
             dal dlchart = new dal();
             DataSet dsChart;
-            dsChart = dlchart.UP_Fetch_ProjectDBChart(XType, MonthYear, strloginuser);
+            if (empRole == "Administrator")
+                dsChart = dlchart.UP_Fetch_ProjectDBChart(XType, MonthYear, string.Empty);
+            else
+                dsChart = dlchart.UP_Fetch_ProjectDBChart(XType, MonthYear, strloginEmployeeID);
+
             DataTable dtChart = dsChart.Tables[0];
             string[][] result = new string[dtChart.Rows.Count][];
             for (int i = 0; i < dtChart.Rows.Count; i++)

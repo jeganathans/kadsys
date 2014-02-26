@@ -1352,6 +1352,7 @@
     <Content Include="assets\plugins\flot\jquery.flot.symbol.min.js" />
     <Content Include="assets\plugins\flot\jquery.flot.threshold.js" />
     <Content Include="assets\plugins\flot\jquery.flot.threshold.min.js" />
+    <Content Include="assets\plugins\flot\jquery.flot.tickrotor.js" />
     <Content Include="assets\plugins\flot\jquery.flot.time.js" />
     <Content Include="assets\plugins\flot\jquery.flot.time.min.js" />
     <Content Include="assets\plugins\flot\jquery.js" />

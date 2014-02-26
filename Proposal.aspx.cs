@@ -27,6 +27,7 @@ namespace KedSys35
         string strProposalID;
         string strloginuser = "";
         string strloginuserID = "";
+        string strMinGMValue = "";
 
         PageAccess PGAccess, ProjAccess;
         string empRole;
@@ -161,6 +162,17 @@ namespace KedSys35
                 btnsavecontinue.Visible = true;
                 btnfinalsumbit.Visible = true;
                 btn_addclient.Visible = true;
+
+                if (!IsPostBack && ds.Tables[2].Rows.Count > 0)
+                {
+                    if (ds.Tables[2].Rows[0]["Status"].ToString() == "Won")
+                    {
+                        btnsave.Visible = false;
+                        btnsavecontinue.Visible = false;
+                        btnfinalsumbit.Visible = false;
+                        btn_addclient.Visible = false;
+                    }
+                }
             }
             else
             {
@@ -350,6 +362,8 @@ namespace KedSys35
             ddStatus.DataBind();
             ddStatus.Items.Insert(0, new ListItem("--Select--", ""));
             ddStatus.SelectedIndex = ddStatus.Items.IndexOf(ddStatus.Items.FindByText("Follow up"));
+
+            hidBaseCurrency.Value = ds.Tables[12].Rows[0]["BaseCurrency"].ToString();
            
         }
 
@@ -1025,6 +1039,7 @@ namespace KedSys35
                 txtValue.Text = ds.Tables[2].Rows[0]["Value"].ToString();
                 txtOffered.Text = ds.Tables[2].Rows[0]["Offered"].ToString();
                 txtAgreed.Text = ds.Tables[2].Rows[0]["Agreed"].ToString();
+                txtAgreedBase.Text = ds.Tables[2].Rows[0]["AgreedBaseCurrency"].ToString();
                 txtDueDate.Text = ds.Tables[2].Rows[0]["Duedate"].ToString();
                 txtSenddate.Text = ds.Tables[2].Rows[0]["Senddate"].ToString();
                 txtApprovaldate.Text = ds.Tables[2].Rows[0]["Approvaldate"].ToString();
@@ -1188,9 +1203,31 @@ namespace KedSys35
             if (result == true)
             {
                 if (hidUID.Value == "")
+                {
                     hidtoaster.Value = "success|Added successfully";
+                    txtProposalID.Text = newProposalID;
+                }
                 else
                     hidtoaster.Value = "success|Updated successfully";
+
+                if (Convert.ToDecimal(strMinGMValue) < 40)
+                {
+                    DataSet dsEmail = dl.UP_Fetch_AdminEmailIds();
+                    int totalusers = dsEmail.Tables[0].Rows.Count;
+                    if (totalusers > 0)
+                    {
+                        string[] messageTo = new string[totalusers];
+                        for (int i = 0; i < totalusers; i++)
+                        {
+                            messageTo[i] = dsEmail.Tables[0].Rows[i]["EmailAddress"].ToString();
+                        }
+
+                        string mailbody, mailsubject;
+                        GrossMarginAlert(out mailbody, out mailsubject);
+                        dl.SendMail(mailbody, mailsubject, messageTo);
+                    }
+                }
+
                 Response.Redirect("ProposalAll.aspx");
             }
             else
@@ -1200,10 +1237,25 @@ namespace KedSys35
             }
         }
 
+        private void GrossMarginAlert(out string mailbody, out string mailsubject)
+        {
+            string stroutput = "", strsubjet = "";
+            DataSet dsET = dl.UP_Fetch_EMailTemplate("Gross Margin Alert");
+            if (dsET.Tables[0].Rows.Count > 0)
+            {
+                stroutput = dsET.Tables[0].Rows[0]["TempaleContent"].ToString();
+                stroutput = stroutput.Replace("&lt;ProposalID&gt;", txtProposalID.Text);
+                stroutput = stroutput.Replace("&lt;GMValue&gt;", strMinGMValue);
+                strsubjet = dsET.Tables[0].Rows[0]["TempaleSubject"].ToString();
+            }
+            mailbody = stroutput;
+            mailsubject = strsubjet;
+        }
+
         protected Boolean saveopertion(out String strerrmsg, out string newUID, out string newProposalID)
         {
             string UID, ProposalID, ProposalDesc, ClientName, Manager, Leader, BroadCategory, RFQRefDate, Department, Market, Coordinator, CurrencyType, Value, Offered, Agreed, Duedate, Senddate, Approvaldate, Typeofstudy, ProjectType, ProjectDesc, Probability, Agency, Status, ProjectRefID;
-            string CostXML, TimeCostXML, TaskXML, Comments;
+            string CostXML, TimeCostXML, TaskXML, Comments, AgreedBaseCurrency;
             Boolean result = false;
 
             if (string.IsNullOrEmpty(hidUID.Value.Trim()) == true)
@@ -1236,12 +1288,13 @@ namespace KedSys35
             Status = (ddStatus.SelectedIndex == 0) ? string.Empty : ddStatus.SelectedValue;
             ProjectRefID = string.Empty;
             Comments = txtComments.Text.Trim();
+            AgreedBaseCurrency = txtAgreedBase.Text.Trim();
 
             CostXML = getCostXML();
             TimeCostXML = getTimeCostXML();
             TaskXML = getTasksXML();
 
-            result = dl.UP_IU_Proposals(UID, ProposalID, ProposalDesc, ClientName, Manager, Leader, BroadCategory, RFQRefDate, Department, Market, Coordinator, CurrencyType, Value, Offered, Agreed, Duedate, Senddate, Approvaldate, Typeofstudy, ProjectType, ProjectDesc, Probability, Agency, Status, ProjectRefID, Comments, strloginuser, CostXML, TimeCostXML, TaskXML, out strerrmsg, out newUID, out newProposalID);
+            result = dl.UP_IU_Proposals(UID, ProposalID, ProposalDesc, ClientName, Manager, Leader, BroadCategory, RFQRefDate, Department, Market, Coordinator, CurrencyType, Value, Offered, Agreed, Duedate, Senddate, Approvaldate, Typeofstudy, ProjectType, ProjectDesc, Probability, Agency, Status, ProjectRefID, Comments, AgreedBaseCurrency, strloginuser, CostXML, TimeCostXML, TaskXML, out strerrmsg, out newUID, out newProposalID);
 
             return result;
             
@@ -1252,7 +1305,12 @@ namespace KedSys35
         {
             string strOption, strMethod, strCity, strCode, strValue;
             getalltxtboxvalues(GridView1);
+
+            strMinGMValue = string.Empty;
+
             string xmldetails = "<root>";
+
+
             foreach (inputlist oinput in gridinputlist)
             {
                 string[] oinputs = oinput.txtid.Split('_');
@@ -1269,6 +1327,26 @@ namespace KedSys35
                 }
                 else if (oinputs.Length == 3)
                     strMethod = oinputs[2];
+
+                if (strCode == "GM")
+                {
+                    Decimal decGMValue;
+                    try
+                    {
+                        decGMValue = Convert.ToDecimal(strValue.Replace(",", "").Replace("%", ""));
+                    }
+                    catch
+                    {
+                        decGMValue = 0;
+                    }
+                    if (string.IsNullOrEmpty(strMinGMValue))
+                        strMinGMValue = decGMValue.ToString();
+                    else
+                    {
+                        if (Convert.ToDecimal(strMinGMValue) > decGMValue)
+                            strMinGMValue = decGMValue.ToString();
+                    }
+                }
 
                 xmldetails += "<detail><option>" + strOption + "</option>";
                 xmldetails += "<code>" + strCode + "</code>";

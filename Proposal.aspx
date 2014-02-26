@@ -216,7 +216,7 @@
                                                             <label class="control-label">
                                                                 Sent Date</label>
                                                             <div class="input-groupd">
-                                                                <asp:TextBox ID="txtSenddate" class="form-control form-control-inline date-picker" runat="server"></asp:TextBox>
+                                                                <asp:TextBox ID="txtSenddate" class="form-control form-control-inline date-picker zCBA" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -344,7 +344,7 @@
                                                                 <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Values</label>
                                                             </div>
                                                             <div class="input-group">
-                                                                <asp:DropDownList ID="ddCurrencyType" class="form-control input-medium select2me" runat="server"></asp:DropDownList>
+                                                                <asp:DropDownList ID="ddCurrencyType" class="form-control input-medium select2me zCBA" runat="server"></asp:DropDownList>
                                                                 <div class="col-md-6">
                                                                     <asp:TextBox ID="txtValue" class="form-control input-medium camt" type="text" runat="server"></asp:TextBox>
                                                                 </div>
@@ -364,10 +364,16 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">
-                                                                Agreed</label>
-                                                            <div class="input-groupd">
-                                                                <asp:TextBox ID="txtAgreed" class="form-control camt" type="text" runat="server"></asp:TextBox>
+                                                            <div class="input-group">
+                                                                <label class="control-label input-medium">Agreed</label>
+                                                                <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Agreed (in Base Currency)</label>
+                                                            </div>
+                                                            <div class="input-group input-groupd">
+                                                                <asp:TextBox ID="txtAgreed" class="form-control input-medium camt zCBA" type="text" runat="server"></asp:TextBox>
+                                                                <div class="col-md-6">
+                                                                    <asp:HiddenField ID="hidBaseCurrency" runat="server" />
+                                                                    <asp:TextBox ID="txtAgreedBase" CssClass="form-control input-medium camt" type="text" runat="server"></asp:TextBox>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1046,6 +1052,55 @@
                 
             }
             
+            function CalculateBaseAmount() {
+                var InvoiceDate = $("#<%= txtSenddate.ClientID %>").val();
+                var BillingCurrency = $("#<%= ddCurrencyType.ClientID %>").val()
+                var BillingAmount = $("#<%= txtAgreed.ClientID %>").val()
+                var BaseCurrency = $("#<%= hidBaseCurrency.ClientID %>").val()
+                
+                if (InvoiceDate == "" || BillingCurrency == "" || BillingAmount == "")
+                {
+                    $("#<%= txtAgreedBase.ClientID %>").val("0.00");
+                }
+                else if (BaseCurrency == BillingCurrency)
+                {
+                    $("#<%= txtAgreedBase.ClientID %>").val(BillingAmount);
+                    $("#<%= txtAgreedBase.ClientID %>").change();
+                }
+                else
+                {
+                    var response = '';
+                    $.ajax({
+                        type: "POST",
+                        url: "Projects.aspx/CalculateBaseAmount",
+                        async: false,
+                        data: '{InvoiceDate: "' + InvoiceDate + '", BillingCurrency: "' + BillingCurrency + '", BillingAmount: "' + BillingAmount + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data) {
+                            response = data;
+                            if (response.d == "Exchange Rate Not Available" || response.d == "Unable to calculate base amount.")
+                            {
+                                alert(response.d);
+                                $("#<%= txtAgreedBase.ClientID %>").val("0.00");
+                            }
+                            else
+                            {
+                                $("#<%= txtAgreedBase.ClientID %>").val(response.d);
+                                $("#<%= txtAgreedBase.ClientID %>").change();
+                            }
+                        },
+                        failure: function() {
+                            $("#<%= txtAgreedBase.ClientID %>").val("0.00");
+                            alert("Unable to calculate base amount.");
+                        }
+                    }).responseText;
+                    
+                    
+                }
+
+            }
+            
             function LoadTaskScript() {
             
                 /*$("[name$=Hours]").inputmask("9.99",{
@@ -1264,6 +1319,13 @@
             jQuery(document).ready(function() {
                 PropWizard.init();
                 LoadTaskScript();
+                
+                $('.zCBA').change(function() {
+                    CalculateBaseAmount();
+                });
+                
+                //$("#<%= txtAgreedBase.ClientID %>").prop('disabled', true);
+                $("#<%= txtAgreedBase.ClientID %>").attr("readonly", "readonly");
                 
                 $('[name$=_OPC]').closest('tr').parents('tr').hide();
                 
@@ -1600,7 +1662,8 @@
                         var stat =  $("#<%= ddStatus.ClientID %>");
                         if (stat.val() == "Won") {
                             var agreed = $("#<%= txtAgreed.ClientID %>").asNumber();
-                            if (agreed>0)
+                            var agreedBase = $("#<%= txtAgreedBase.ClientID %>").asNumber();
+                            if (agreed>0 && agreedBase>0)
                                 return true
                             else
                                 return false

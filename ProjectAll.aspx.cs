@@ -20,6 +20,9 @@ namespace KedSys35
         int totalrecordsgrid = 0;
         string strloginuser = "";
         string DBfilter = "";
+        string strloginEmployeeID = "";
+
+        string empRole;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,6 +32,8 @@ namespace KedSys35
             }
 
             strloginuser = Session["loginuser"].ToString();
+            strloginEmployeeID = Session["EmployeeID"].ToString();
+            empRole = Session["EmployeeRole"].ToString();
 
             if (Request.QueryString.AllKeys.Contains("status"))
             {
@@ -70,7 +75,11 @@ namespace KedSys35
 
         void BindGrid()
         {
-            DataSet ds = dl.UP_Fetch_ProjectAll();
+            DataSet ds;
+            if (empRole == "Administrator")
+                ds = dl.UP_Fetch_ProjectAll(string.Empty);
+            else
+                ds = dl.UP_Fetch_ProjectAll(strloginEmployeeID);
 
             string filtercriteria = "";
             filtercriteria = DBfilter;

@@ -20,6 +20,7 @@ namespace KedSys35
         int totalrecordsgrid = 0;
         string strloginuser = "";
         string DBfilter = "";
+        string strloginEmployeeID = "";
 
         PageAccess PGAccess, ProjAccess;
         string empRole;
@@ -31,9 +32,10 @@ namespace KedSys35
                 Response.Redirect("SessionExpired.aspx");
             }
 
-            PageAccessControl();
-
             strloginuser = Session["loginuser"].ToString();
+            strloginEmployeeID = Session["EmployeeID"].ToString();
+            empRole = Session["EmployeeRole"].ToString();
+            PageAccessControl();
 
             if (Request.QueryString.AllKeys.Contains("status"))
             {
@@ -62,6 +64,10 @@ namespace KedSys35
                 string propyear = DateTime.UtcNow.AddMinutes(420).Year.ToString();
                 DBfilter = "Department = 'Quantitative' and ProposalMonth = " + propmonth + " and ProposalYear = " + propyear;
             }
+            else if (Request.QueryString.AllKeys.Contains("GM"))
+            {
+                DBfilter = "MinGMValue < " + Request.QueryString["GM"] ;
+            }
 
             hidtoaster.Value = "";
             if (!IsPostBack)
@@ -75,7 +81,7 @@ namespace KedSys35
 
         void PageAccessControl()
         {
-            empRole = Session["EmployeeRole"].ToString();
+            
             if (!IsPostBack)
             {
                 PGAccess = dl.UP_Fetch_ModuleAccess("Proposal", empRole);
@@ -100,7 +106,11 @@ namespace KedSys35
 
         void BindGrid()
         {
-            DataSet ds = dl.UP_Fetch_Proposal();
+            DataSet ds;
+            if (empRole == "Administrator")
+                ds = dl.UP_Fetch_Proposal(string.Empty);
+            else
+                ds = dl.UP_Fetch_Proposal(strloginEmployeeID);
             string filtercriteria = "";
             filtercriteria = DBfilter;
             if (ViewState["FilterExpression"].ToString().Length > 0)
@@ -287,7 +297,7 @@ namespace KedSys35
                 Label Status = (Label)e.Row.FindControl("Status");
                 if (btn != null && row != null)
                 {
-                    if (string.IsNullOrEmpty(row["ProjectRefID"].ToString()) || row["ProjectRefID"].ToString() == "NULL")
+                    if ((string.IsNullOrEmpty(row["ProjectRefID"].ToString()) || row["ProjectRefID"].ToString() == "NULL") && row["Status"].ToString().ToLower() == "won")
                     {
                         if (ProjAccess.AllowAdd)
                             btn.Visible = true;

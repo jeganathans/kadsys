@@ -130,7 +130,7 @@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="portlet box red">                <div class="portlet-title">
                      <div class="caption"><i class="icon-reorder"></i>Quick Links</div>                </div>
-                <div class="portlet-body">                     <a href="Proposal.aspx?new=yes" class="list-group-item">New Proposal</a>                     <a href="ProposalAll.aspx?status=Won" class="list-group-item">Won Proposals</a>                     <a href="ProposalAll.aspx?status=WIP" class="list-group-item">WIP Proposals</a>                     <a href="ProposalAll.aspx?status=Follow up" class="list-group-item">Follow up Proposals</a>                     <a href="ProposalAll.aspx" class="list-group-item">All Proposals</a>                     <a href="Accounts.aspx?newclient=yes" class="list-group-item">New Clients</a>                </div>
+                <div class="portlet-body">                     <a href="Proposal.aspx?new=yes" class="list-group-item">New Proposal</a>                     <a href="ProposalAll.aspx?status=Won" class="list-group-item">Won Proposals</a>                     <a href="ProposalAll.aspx?status=WIP" class="list-group-item">WIP Proposals</a>                     <a href="ProposalAll.aspx?status=Follow up" class="list-group-item">Follow up Proposals</a>                     <a href="ProposalAll.aspx" class="list-group-item">All Proposals</a>                     <a href="ProposalAll.aspx?GM=40" class="list-group-item">Proposals <40% Gross Margin</a>                     <a href="Accounts.aspx?newclient=yes" class="list-group-item">New Clients</a>                </div>
                 
             </div>
         </div>

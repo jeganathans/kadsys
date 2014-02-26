@@ -39,14 +39,34 @@ namespace KedSys35
 
         public void populatecharddetails()
         {
+            populatecharddetailsProposals();
+            populatecharddetailsProjects();
+
+        }
+
+        public void populatecharddetailsProposals()
+        {
             DataSet dsChart;
-            dsChart = dl.UP_Fetch_Dashboard();
-            hidchart1.Value = convertToChartDataPie(dsChart.Tables[0]);
-            hidchart2.Value = convertToChartDataPie(dsChart.Tables[1]);
-            hidchart3.Value = convertToChartData(dsChart.Tables[2]);
-            hidchart4.Value = convertToChartData(dsChart.Tables[3]);
-            hidchart5.Value = convertToChartData(dsChart.Tables[4]);
-            hidchart6.Value = convertToChartDataPie(dsChart.Tables[5]);
+            dsChart = dl.UP_Fetch_Dashboard_Proposal();
+            hidProposalchart1.Value = convertToChartDataPie(dsChart.Tables[0]);
+            hidProposalchart2.Value = convertToChartDataPie(dsChart.Tables[1]);
+            hidProposalchart3.Value = convertToChartData(dsChart.Tables[2]);
+            hidProposalchart4.Value = convertToChartData(dsChart.Tables[3]);
+            hidProposalchart5.Value = convertToChartData(dsChart.Tables[4]);
+            hidProposalchart6.Value = convertToChartDataPie(dsChart.Tables[5]);
+
+        }
+
+        public void populatecharddetailsProjects()
+        {
+            DataSet dsChart;
+            dsChart = dl.UP_Fetch_Dashboard_Project();
+            hidProjchart1.Value = convertToChartDataPie(dsChart.Tables[0]);
+            hidProjchart2.Value = convertToChartDataPie(dsChart.Tables[1]);
+            hidProjchart3.Value = convertToChartData(dsChart.Tables[2]);
+            hidProjchart4.Value = convertToChartData(dsChart.Tables[3]);
+            hidProjchart5.Value = convertToChartData(dsChart.Tables[4]);
+            hidProjchart6.Value = convertToChartDataPie(dsChart.Tables[5]);
             
         }
 
