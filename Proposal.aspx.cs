@@ -288,7 +288,7 @@ namespace KedSys35
             ddAgency.DataTextField = "AccountName";
             ddAgency.DataValueField = "AccountName";
             ddAgency.DataBind();
-            ddAgency.Items.Insert(0, new ListItem("--Select--", ""));
+            //ddAgency.Items.Insert(0, new ListItem("--Select--", ""));
 
             dv = ds.Tables[3].DefaultView;
             //dv.RowFilter = "Manager = True";
@@ -1047,7 +1047,17 @@ namespace KedSys35
                 ddProjectType.SelectedIndex = ddProjectType.Items.IndexOf(ddProjectType.Items.FindByText(ds.Tables[2].Rows[0]["ProjectType"].ToString()));
                 //txtProjectDesc.Text = ds.Tables[2].Rows[0]["ProjectDesc"].ToString();
                 ddProbability.SelectedIndex = ddProbability.Items.IndexOf(ddProbability.Items.FindByText(ds.Tables[2].Rows[0]["Probability"].ToString()));
-                ddAgency.SelectedIndex = ddAgency.Items.IndexOf(ddAgency.Items.FindByText(ds.Tables[2].Rows[0]["Agency"].ToString()));
+                
+                //ddAgency.SelectedIndex = ddAgency.Items.IndexOf(ddAgency.Items.FindByText(ds.Tables[2].Rows[0]["Agency"].ToString()));
+                string strduAgency = ds.Tables[2].Rows[0]["Agency"].ToString();
+                if (string.IsNullOrEmpty(strduAgency))
+                    duAgency.Text = string.Empty;
+                else
+                    duAgency.Text = "[\"" + strduAgency.Replace(",", "\",\"") + "\"]";
+
+
+
+
                 ddStatus.SelectedIndex = ddStatus.Items.IndexOf(ddStatus.Items.FindByText(ds.Tables[2].Rows[0]["Status"].ToString()));
                 hidProjRef.Value = (ds.Tables[2].Rows[0]["ProjectRefID"].ToString() == "NULL") ? string.Empty : ds.Tables[2].Rows[0]["ProjectRefID"].ToString();
 
@@ -1284,7 +1294,12 @@ namespace KedSys35
             ProjectType = (ddProjectType.SelectedIndex == 0) ? string.Empty : ddProjectType.SelectedValue;
             ProjectDesc = string.Empty;
             Probability = (ddProbability.SelectedIndex == 0) ? string.Empty : ddProbability.SelectedValue;
-            Agency = (ddAgency.SelectedIndex == 0) ? string.Empty : ddAgency.SelectedValue;
+            //Agency = (ddAgency.SelectedIndex == 0) ? string.Empty : ddAgency.SelectedValue;
+            Agency = string.Empty;
+            if (duAgency.Text.Length > 0)
+            {
+                Agency = duAgency.Text.Replace("[", "").Replace("]", "").Replace("\"", "");
+            }
             Status = (ddStatus.SelectedIndex == 0) ? string.Empty : ddStatus.SelectedValue;
             ProjectRefID = string.Empty;
             Comments = txtComments.Text.Trim();

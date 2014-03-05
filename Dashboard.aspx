@@ -213,7 +213,7 @@
                 },
                 legend: {
                     show: false
-                }, colors: ["#9EAEB3"]
+                }, colors: ["#2EDEB3"]
             });
 
             var data3 = $.parseJSON($("#<%= hidProposalchart3.ClientID %>").val());
@@ -242,7 +242,7 @@
                 },
                 xaxis: {
                     mode: "categories",
-                    tickLength: 0
+                    rotateTicks: 45
                 }, colors: ["#84978F"]
             });
 

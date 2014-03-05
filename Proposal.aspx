@@ -168,7 +168,8 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Agency<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddAgency" class="form-control select2me" runat="server"></asp:DropDownList>
+                                                                <asp:TextBox ID="duAgency" CssClass="zduAgency" runat="server" style="display:none"></asp:TextBox> 
+                                                                <asp:DropDownList ID="ddAgency" name ="ddAgency" class="form-control select2me zddAgency" multiple runat="server"></asp:DropDownList>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -665,7 +666,7 @@
                                                                         <asp:TextBox ID="Hours" style="max-width: 75px" CssClass="cboxHours text-right" runat="server" Text='<%#Eval("Hours")%>'></asp:TextBox>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Right">
+                                                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Right" Visible="false">
                                                                     <HeaderTemplate>
                                                                         <asp:Label ID="lblNoDays" CssClass="text-center" style="max-width: 75px" runat="server" Text="No of Days"></asp:Label>
                                                                     </HeaderTemplate>
@@ -1316,9 +1317,29 @@
                 });
             }
             
+            
+            $( window ).load(function() {
+                    $('select.zddAgency').select2({ placeholder: ""});
+                    var data = [];
+                    var strdata = $('.zduAgency').val().replace(/"/g, '').replace('[','').replace(']','');
+                    $(strdata.split(",")).each(function () {
+                        data.push({id: this, text: this});
+                    });
+                    if (strdata.length > 0)
+                        $('select.zddAgency').select2('data', data);
+
+           });
+            
             jQuery(document).ready(function() {
                 PropWizard.init();
                 LoadTaskScript();
+                
+                
+                $('.zddAgency').on("change", function(e) {
+                    var data1= $(this).select2('val');
+                    var targetidcell = $('.zduAgency');
+                    $(targetidcell).val(JSON.stringify(data1));
+                });
                 
                 $('.zCBA').change(function() {
                     CalculateBaseAmount();

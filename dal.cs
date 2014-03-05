@@ -1301,6 +1301,7 @@ namespace KedSys35
                 msg.IsBodyHtml = true;
                 string mailServer = System.Configuration.ConfigurationManager.AppSettings["MailServer"].ToString();
                 string messageFrom = System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"].ToString();
+                string mailpwd = System.Configuration.ConfigurationManager.AppSettings["MailPwd"].ToString();
                 msg.From = new System.Net.Mail.MailAddress(messageFrom);
                 msg.To.Add(messageTo);
                 msg.Subject = subject;
@@ -1313,13 +1314,18 @@ namespace KedSys35
                 {
                     sc.EnableSsl = true;
                     sc.UseDefaultCredentials = false;
-                    sc.Credentials = new System.Net.NetworkCredential("kadsysv2@gmail.com", "kadsysv2123");
+                    //sc.Credentials = new System.Net.NetworkCredential("kadsysv2@gmail.com", "kadsysv2123");
                 }
+                
+                if (mailpwd.Length > 0)
+                    sc.Credentials = new System.Net.NetworkCredential(messageFrom, mailpwd);
+
                 sc.Send(msg);
                 return true;
             }
             catch (Exception ex)
             {
+                //throw ex;
                 return false;
             }
         }
@@ -1333,6 +1339,7 @@ namespace KedSys35
                 msg.IsBodyHtml = true;
                 string mailServer = System.Configuration.ConfigurationManager.AppSettings["MailServer"].ToString();
                 string messageFrom = System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"].ToString();
+                string mailpwd = System.Configuration.ConfigurationManager.AppSettings["MailPwd"].ToString();
                 msg.From = new System.Net.Mail.MailAddress(messageFrom);
                 for (int i = 0; i <= messageTo.GetUpperBound(0); i++)
                     msg.To.Add(messageTo[i]);
@@ -1346,8 +1353,12 @@ namespace KedSys35
                 {
                     sc.EnableSsl = true;
                     sc.UseDefaultCredentials = false;
-                    sc.Credentials = new System.Net.NetworkCredential("kadsysv2@gmail.com", "kadsysv2123");
+                    //sc.Credentials = new System.Net.NetworkCredential("kadsysv2@gmail.com", "kadsysv2123");
                 }
+
+                if (mailpwd.Length > 0)
+                    sc.Credentials = new System.Net.NetworkCredential(messageFrom, mailpwd);
+
                 sc.Send(msg);
                 return true;
             }

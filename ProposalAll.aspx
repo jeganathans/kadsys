@@ -77,33 +77,6 @@
                     </asp:TemplateField>
                     <asp:TemplateField>
                         <HeaderTemplate>
-                            <asp:Label ID="lblManager" runat="server" Text="Manager"></asp:Label>
-                            <div class="pull-right">
-                                <asp:LinkButton ID="srtManager" runat="server" Text="<i class='icon-sort'></i>"
-                                    CommandName="Sort" SortExpression="Manager" CommandArgument="Manager"></asp:LinkButton>
-                                <a href="#" id="fltManager" data-filterex="Manager"><i class="icon-filter">
-                                </i></a>
-                            </div>
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <asp:Label ID="Manager" CssClass="" runat="server" Text='<%#Eval("MgrName")%>'></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField>
-                        <HeaderTemplate>
-                            <asp:Label ID="lblLeader" runat="server" Text="Leader"></asp:Label>
-                            <div class="pull-right">
-                                <asp:LinkButton ID="srtLeader" runat="server" Text="<i class='icon-sort'></i>" CommandName="Sort"
-                                    SortExpression="Leader" CommandArgument="Leader"></asp:LinkButton>
-                                <a href="#" id="fltLeader" data-filterex="Leader"><i class="icon-filter"></i></a>
-                            </div>
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <asp:Label ID="Leader" CssClass="" runat="server" Text='<%#Eval("LeaderName")%>'></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField>
-                        <HeaderTemplate>
                             <asp:Label ID="lblCoordinatorName" runat="server" Text="Coordinator"></asp:Label>
                             <div class="pull-right">
                                 <asp:LinkButton ID="srtCoordinatorName" runat="server" Text="<i class='icon-sort'></i>" CommandName="Sort"
@@ -117,31 +90,28 @@
                     </asp:TemplateField>
                     <asp:TemplateField>
                         <HeaderTemplate>
-                            <asp:Label ID="lblDepartment" runat="server" Text="Department"></asp:Label>
+                            <asp:Label ID="lblProposalDesc" runat="server" Text="Description"></asp:Label>
                             <div class="pull-right">
-                                <asp:LinkButton ID="srtDepartment" runat="server" Text="<i class='icon-sort'></i>" CommandName="Sort"
-                                    SortExpression="Department" CommandArgument="Department"></asp:LinkButton>
-                                <a href="#" id="fltDepartment" data-filterex="Department"><i class="icon-filter"></i></a>
+                                <asp:LinkButton ID="srtProposalDesc" runat="server" Text="<i class='icon-sort'></i>" CommandName="Sort"
+                                    SortExpression="ProposalDesc" CommandArgument="ProposalDesc"></asp:LinkButton>
+                                <a href="#" id="fltProposalDesc" data-filterex="ProposalDesc"><i class="icon-filter"></i></a>
                             </div>
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="Department" CssClass="" runat="server" Text='<%#Eval("Department")%>'></asp:Label>
+                            <asp:Label ID="ProposalDesc" CssClass="" ToolTip='<%#Eval("ProposalDesc")%>' runat="server" Text='<%#Eval("ProposalDescShort")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField ItemStyle-HorizontalAlign="Right">
+                    <asp:TemplateField>
                         <HeaderTemplate>
-                            <asp:Label ID="lblOffered" runat="server" Text="Offered"></asp:Label>
+                            <asp:Label ID="lblTypeofstudy" runat="server" Text="Type of Study"></asp:Label>
+                            <div class="pull-right">
+                                <asp:LinkButton ID="srtTypeofstudy" runat="server" Text="<i class='icon-sort'></i>" CommandName="Sort"
+                                    SortExpression="Typeofstudy" CommandArgument="Typeofstudy"></asp:LinkButton>
+                                <a href="#" id="fltTypeofstudy" data-filterex="Typeofstudy"><i class="icon-filter"></i></a>
+                            </div>
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="Offered" CssClass="" runat="server" Text='<%#Eval("Offered")%>'></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField ItemStyle-HorizontalAlign="Right">
-                        <HeaderTemplate>
-                            <asp:Label ID="lblAgreed" runat="server" Text="Agreed"></asp:Label>
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <asp:Label ID="Agreed" CssClass="" runat="server" Text='<%#Eval("Agreed")%>'></asp:Label>
+                            <asp:Label ID="Typeofstudy" CssClass="" runat="server" Text='<%#Eval("Typeofstudy")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField ItemStyle-HorizontalAlign="Right">
@@ -152,6 +122,32 @@
                             <asp:Label ID="Probability" CssClass="" runat="server" Text='<%#Eval("Probability")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
+                    <asp:TemplateField ItemStyle-HorizontalAlign="Right">
+                        <HeaderTemplate>
+                            <asp:Label ID="lblProbabilityValue" runat="server" Text="Probability Value"></asp:Label>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="ProbabilityValue" CssClass="" runat="server" Text='<%#Eval("ProbabilityValue")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    
+                    <asp:TemplateField ItemStyle-HorizontalAlign="Right">
+                        <HeaderTemplate>
+                            <asp:Label ID="lblDuedate" runat="server" Text="Due date"></asp:Label>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Duedate" CssClass="" runat="server" Text='<%#Eval("Duedate")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField ItemStyle-HorizontalAlign="Right">
+                        <HeaderTemplate>
+                            <asp:Label ID="lblSenddate" runat="server" Text="Sent date"></asp:Label>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Senddate" CssClass="" runat="server" Text='<%#Eval("Senddate")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    
                     <asp:TemplateField>
                         <HeaderTemplate>
                             <asp:Label ID="lblStatus" runat="server" Text="Status"></asp:Label>
