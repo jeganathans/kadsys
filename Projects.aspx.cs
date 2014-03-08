@@ -518,17 +518,17 @@ namespace KedSys35
                 Label lblUID = (Label)row.FindControl("lblUID");
                 TextBox txtPDDepartment = (TextBox)row.FindControl("txtPDDepartment");
                 TextBox txtPDSupervisor = (TextBox)row.FindControl("txtPDSupervisor");
-                TextBox txtPDNoofHours = (TextBox)row.FindControl("txtPDNoofHours");
+                TextBox txtPDStartDate = (TextBox)row.FindControl("txtPDStartDate");
                 TextBox txtPDTargetDate = (TextBox)row.FindControl("txtPDTargetDate");
                 DropDownList ddPDStatus = (DropDownList)row.FindControl("ddPDStatus");
 
-                if (txtPDSupervisor.Text.Trim().Length > 3 && txtPDNoofHours.Text.Trim().Length > 0
+                if (txtPDSupervisor.Text.Trim().Length > 3 && txtPDStartDate.Text.Trim().Length > 0
                         && txtPDTargetDate.Text.Trim().Length > 0 && ddPDStatus.Text.Trim().Length > 0)
                 {
                     xmldetails[0] += "<detail><UID>" + lblUID.Text + "</UID>";
                     xmldetails[0] += "<Department>" + txtPDDepartment.Text + "</Department>";
                     //xmldetails[0] += "<Supervisor>" + txtPDSupervisor.Text + "</Supervisor>";
-                    xmldetails[0] += "<NoofHours>" + txtPDNoofHours.Text + "</NoofHours>";
+                    xmldetails[0] += "<StartDate>" + txtPDStartDate.Text + "</StartDate>";
                     xmldetails[0] += "<TargetDate>" + txtPDTargetDate.Text + "</TargetDate>";
                     xmldetails[0] += "<Status>" + ddPDStatus.Text + "</Status>";
                     xmldetails[0] += "</detail>";

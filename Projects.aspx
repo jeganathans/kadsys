@@ -309,13 +309,22 @@
                                                                         </div>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField>
+                                                                <asp:TemplateField Visible="false">
                                                                     <HeaderTemplate>
                                                                         <asp:Label ID="lblHours" runat="server" style="max-width: 75px" Text="Total Hours"></asp:Label>
                                                                     </HeaderTemplate>
                                                                     <ItemTemplate>
                                                                         <asp:TextBox ID="txtPDNoofHours" style="max-width: 75px" CssClass="cbox text-right" runat="server"
-                                                                            Text='<%#Eval("NoofHours")%>' data-required="yes"></asp:TextBox>
+                                                                            Text='<%#Eval("NoofHours")%>' ></asp:TextBox> <%-- data-required="yes"--%>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField>
+                                                                    <HeaderTemplate>
+                                                                        <asp:Label ID="lblStartDate" CssClass="boxleft" runat="server" Text="Start Date"></asp:Label>
+                                                                    </HeaderTemplate>
+                                                                    <ItemTemplate>
+                                                                        <asp:TextBox ID="txtPDStartDate" style="max-width: 100px" CssClass="boxlefttrans date-picker-furure zstartdate" runat="server"
+                                                                            Text='<%#Eval("StartDate")%>' data-required="yes"></asp:TextBox>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField>
@@ -323,7 +332,7 @@
                                                                         <asp:Label ID="lblTargetDate" CssClass="boxleft" runat="server" Text="Target Date"></asp:Label>
                                                                     </HeaderTemplate>
                                                                     <ItemTemplate>
-                                                                        <asp:TextBox ID="txtPDTargetDate" style="max-width: 100px" CssClass="boxlefttrans date-picker-furure" runat="server"
+                                                                        <asp:TextBox ID="txtPDTargetDate" style="max-width: 100px" CssClass="boxlefttrans date-picker-furure zenddate" runat="server"
                                                                             Text='<%#Eval("TargetDate")%>' data-required="yes"></asp:TextBox>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
@@ -746,10 +755,24 @@
                         else
                         {
                             emptytask = false;
-                            $(inputs).closest('tr').find('input[name$=txtPDDepartment]').removeClass('cerrortask');
+                            //$(inputs).closest('tr').find('input[name$=txtPDDepartment]').removeClass('cerrortask');
                         }
                         
                     });
+                    if (hasvalues == 1)
+                    {
+                        var oStartdate = $(row).closest('tr').find('.zstartdate')
+                        var oEnddate = $(row).closest('tr').find('.zenddate')
+                        var objStartDate = new Date(oStartdate.val());
+                        var objEndDate = new Date(oEnddate.val());
+                        
+                        if (objStartDate > objEndDate)
+                        {
+                            $(inputs).closest('tr').find('input[name$=txtPDDepartment]').addClass('cerrortask');
+                            $(inputs).closest('tr').find('input[name$=txtPDDepartment]').attr("title", "Start date should be less than End date.");
+                            hasvalues = 0
+                        }
+                    }
                     if (emptytask == true)
                     {
                         $(row).closest('tr').find('input').removeClass('cerrortask');
@@ -757,6 +780,8 @@
                     }
                     if (hasvalues == 0)
                         hasvaluesAll = 0;
+                    else
+                        $(row).closest('tr').find('input').removeClass('cerrortask');
                 });
                 
                 if (hasvaluesAll == 1)
