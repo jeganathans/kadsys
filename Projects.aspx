@@ -43,7 +43,7 @@
         <div class="col-md-12">
             <div id="form_wizard_1" class="portlet box green" >
                 <div class="portlet-title">
-                    <div class="caption">Project Wizard - <span class="step-title">Step 1 of 4</span></div>
+                    <div class="caption">Project Wizard - <span class="step-title">Step 1 of 5</span></div>
                 </div>
                 <div class="portlet-body form">
                      <div id="submit_form">
@@ -51,27 +51,33 @@
                            <div class="form-body">
                                 <ul id="proptab" class="nav nav-pills nav-justified steps">
                                  <li>
-                                    <a href="#tab1" data-toggle="tab" class="step">
+                                    <a href="#tab1" data-toggle="tab" class="step" style="padding-left:5px;padding-right:5px">
                                     <span class="number">1</span>
-                                    <span class="desc"><i class="icon-ok"></i>Project Entry</span>   
+                                    <span class="desc" style="font-size:12px"><i class="icon-ok"></i>Project Entry</span>   
                                     </a>
                                  </li>
                                  <li>
-                                    <a href="#tab2" data-toggle="tab" class="step">
+                                    <a href="#tab2" data-toggle="tab" class="step" style="padding-left:5px;padding-right:5px">
                                     <span class="number">2</span>
-                                    <span class="desc" style="font-size:14px"><i class="icon-ok"></i>Department Assignment</span>   
+                                    <span class="desc" style="font-size:12px"><i class="icon-ok"></i>Tasks</span>   
                                     </a>
                                  </li>
                                  <li>
-                                    <a href="#tab3" data-toggle="tab" class="step">
+                                    <a href="#tab3" data-toggle="tab" class="step" style="padding-left:5px;padding-right:5px">
                                     <span class="number">3</span>
-                                    <span class="desc"><i class="icon-ok"></i>Field Work</span>   
+                                    <span class="desc" style="font-size:11px"><i class="icon-ok"></i>Department Assignment</span>   
                                     </a>
                                  </li>
                                  <li>
-                                    <a href="#tab4" data-toggle="tab" class="step">
+                                    <a href="#tab4" data-toggle="tab" class="step" style="padding-left:5px;padding-right:5px">
                                     <span class="number">4</span>
-                                    <span class="desc"><i class="icon-ok"></i>Invoice</span>   
+                                    <span class="desc" style="font-size:12px"><i class="icon-ok"></i>Field Work</span>   
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="#tab5" data-toggle="tab" class="step" style="padding-left:5px;padding-right:5px">
+                                    <span class="number">5</span>
+                                    <span class="desc" style="font-size:12px"><i class="icon-ok"></i>Invoice</span>   
                                     </a>
                                  </li>
                               </ul>
@@ -196,7 +202,7 @@
                                                             <label class="control-label">
                                                                 Start Date<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:TextBox id = txtStartDate class="form-control date-picker-start" runat="server"></asp:TextBox>
+                                                                <asp:TextBox id = txtStartDate class="form-control date-picker-start-Proj" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -206,7 +212,7 @@
                                                             <label class="control-label">
                                                                 End Date<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:TextBox id = txtEndDate class="form-control date-picker-end" runat="server"></asp:TextBox>
+                                                                <asp:TextBox id = txtEndDate class="form-control date-picker-end-Proj" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -226,7 +232,7 @@
                                                             <label class="control-label">
                                                                 Actual Completion Date</label>
                                                             <div class="input-groupd">
-                                                                <asp:TextBox id = "txtActualCompletionDate" class="form-control date-picker-end" runat="server"></asp:TextBox>
+                                                                <asp:TextBox id = "txtActualCompletionDate" class="form-control date-picker-end-Proj" runat="server"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -246,7 +252,175 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="tab-pane" id="tab2">
+                                        <div action="#" class="horizontal-form">
+                                            <div class="form-body" style="display: none">
+                                                <asp:HiddenField ID="hidTotalHours" runat="server" />
+                                                <asp:ScriptManager ID="ScriptManager1" EnablePartialRendering="true" runat="server">
+                                                </asp:ScriptManager>
+                                                <div class="upheight upheightTask">
+                                                <asp:UpdatePanel ID="panelemppanel" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                                    <ContentTemplate >
+                                                        <div class="nomargintop">
+                                                            <div class="listleftside listleftsideTask">
+                                                                <asp:DropDownList ID="ddTaskEmpDept" CssClass="form-control" runat="server" AutoPostBack="true"
+                                                                    OnSelectedIndexChanged="DDTaskEmpDept_Changed">
+                                                                </asp:DropDownList>
+                                                                <asp:ListView ID="lvTaskEmployee" runat="server">
+                                                                    <LayoutTemplate>
+                                                                        <ul class="clearfix nopadingleft">
+                                                                            <input id="empfiltTask" class="form-control csearchbg" />
+                                                                            <%--<div class="scroller" style="height:400px" data-always-visible="1" data-rail-visible="0">--%>
+                                                                            <div class="clearfix zemplistTask">
+                                                                                <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
+                                                                            </div>
+                                                                            <%--</div>--%>
+                                                                        </ul>
+                                                                    </LayoutTemplate>
+                                                                    <ItemTemplate>
+                                                                        <li class="btn btn-xs default margin1 textleft curpointer" style="width: 200px" data-empTask="yes"
+                                                                            data-employeeid="<%#Eval("EmployeeID")%>">
+                                                                            <%#Eval("EmpName")%>
+                                                                        </li>
+                                                                        <div>
+                                                                        </div>
+                                                                    </ItemTemplate>
+                                                                </asp:ListView>
+                                                            </div>
+                                                            <div class="marginleft250 marginleft250Task nopadingtop">
+                                                                <asp:ListView ID="lvTasks" runat="server">
+                                                                    <LayoutTemplate>
+                                                                        <ul class="sub-menu nopadingleft">
+                                                                            <div class="form-group">
+                                                                                <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
+                                                                            </div>
+                                                                        </ul>
+                                                                    </LayoutTemplate>
+                                                                    <ItemTemplate>
+                                                                        <li class="btn btn-xs default margin1 textleft curpointer" style="width: 140x" data-task="yes">
+                                                                            <%#Eval("TaskName")%>
+                                                                        </li>
+                                                                    </ItemTemplate>
+                                                                </asp:ListView>
+                                                                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                                                    <ContentTemplate>
+                                                                        <asp:GridView runat="server" ID="grdTasks" AutoGenerateColumns="false" OnRowDataBound="grdTasks_OnRowDataBound"
+                                                                            class="proptable proptableTask table-bordered">
+                                                                            <Columns>
+                                                                                <asp:TemplateField HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden">
+                                                                                    <ItemTemplate>
+                                                                                        <asp:Label ID="UID" runat="server" Text='<%#Eval("UID")%>'></asp:Label>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden">
+                                                                                    <ItemTemplate>
+                                                                                        <asp:TextBox ID="EmployeeID" CssClass="boxlefttrans" runat="server" Text='<%#Eval("EmployeeID")%>'></asp:TextBox>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField>
+                                                                                    <HeaderTemplate>
+                                                                                        <asp:Label ID="lblEmployee" runat="server" Text="Employee"></asp:Label>
+                                                                                    </HeaderTemplate>
+                                                                                    <ItemTemplate>
+                                                                                        <asp:TextBox ID="EmpName" CssClass="boxlefttrans" runat="server" Width="175px" Style="max-width: 210px"
+                                                                                            Text='<%#Eval("EmpName")%>'></asp:TextBox>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField>
+                                                                                    <HeaderTemplate>
+                                                                                        <asp:Label ID="lblTaskName" runat="server" Text="Task Name"></asp:Label>
+                                                                                    </HeaderTemplate>
+                                                                                    <ItemTemplate>
+                                                                                        <asp:TextBox ID="TaskName" CssClass="boxlefttrans" runat="server" Width="175px" Style="max-width: 210px"
+                                                                                            Text='<%#Eval("TaskName")%>'></asp:TextBox>
+                                                                                            <i></i>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField>
+                                                                                    <HeaderTemplate>
+                                                                                        <asp:Label ID="lblStart" runat="server" Text="Start Date"></asp:Label>
+                                                                                    </HeaderTemplate>
+                                                                                    <ItemTemplate>
+                                                                                        <input name="StartDateH" style="max-width: 100px" class="boxlefttrans date-picker-start"
+                                                                                            size="16" type="text" value='<%#Eval("StartDate")%>' />
+                                                                                        <asp:TextBox ID="StartDate" Style="max-width: 100px" CssClass="hidden" runat="server"
+                                                                                            Text='<%#Eval("StartDate")%>'></asp:TextBox>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField>
+                                                                                    <HeaderTemplate>
+                                                                                        <asp:Label ID="lblEnd" CssClass="boxleft" runat="server" Text="End Date"></asp:Label>
+                                                                                    </HeaderTemplate>
+                                                                                    <ItemTemplate>
+                                                                                        <input name="EndDateH" style="max-width: 100px" class="boxlefttrans date-picker-end"
+                                                                                            size="16" type="text" value='<%#Eval("EndDate")%>' />
+                                                                                        <asp:TextBox ID="EndDate" Style="max-width: 100px" CssClass="hidden" runat="server"
+                                                                                            Text='<%#Eval("EndDate")%>'></asp:TextBox>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center">
+                                                                                    <HeaderTemplate>
+                                                                                        <asp:Label ID="lblHours" CssClass="text-center" Style="max-width: 75px" runat="server"
+                                                                                            Text="Hours per Day"></asp:Label>
+                                                                                    </HeaderTemplate>
+                                                                                    <ItemTemplate>
+                                                                                        <asp:TextBox ID="Hours" Style="max-width: 75px" CssClass="cboxdec text-right" runat="server"
+                                                                                            Text='<%#Eval("Hours")%>'></asp:TextBox>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center">
+                                                                                    <HeaderTemplate>
+                                                                                        <asp:Label ID="lblTaskStatus" CssClass="text-center" Style="max-width: 75px" runat="server"
+                                                                                            Text="Task Status"></asp:Label>
+                                                                                    </HeaderTemplate>
+                                                                                    <ItemTemplate>
+                                                                                        <asp:DropDownList ID="TaskStatus" runat="server" ></asp:DropDownList>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center">
+                                                                                    <HeaderTemplate>
+                                                                                        <asp:Label ID="lblStatus" CssClass="text-center" runat="server" Text="Status"></asp:Label>
+                                                                                    </HeaderTemplate>
+                                                                                    <ItemTemplate>
+                                                                                        <asp:Image ID="imgstatus" runat="server" Visible="false"/>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField ItemStyle-HorizontalAlign="Center">
+                                                                                    <ItemTemplate>
+                                                                                        <asp:LinkButton ID="btn_deletetask" name="btn_deletetask" type="submit" class="btn purple btn-xs" ToolTip="Delete Task"
+                                                                                            runat="server" Text="<i class='icon-remove'></i>" OnCommand="btn_deletetask">
+                                                                                        </asp:LinkButton>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                                <asp:TemplateField HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden">
+                                                                                    <ItemTemplate>
+                                                                                        <asp:TextBox ID="RecordSequence" runat="server" Text='<%#Eval("RecordSequence")%>'></asp:TextBox>
+                                                                                    </ItemTemplate>
+                                                                                </asp:TemplateField>
+                                                                            </Columns>
+                                                                        </asp:GridView>
+                                                                        <asp:Button ID="btnupdatetask" Style="display: none" runat="server" Text="Button"
+                                                                            OnClick="btnupdatetask_Click" />
+                                                                    </ContentTemplate>
+                                                                    <Triggers>
+                                                                        <asp:AsyncPostBackTrigger ControlID="btnupdatetask" EventName="Click" />
+                                                                        <asp:AsyncPostBackTrigger ControlID="ddTaskEmpDept" EventName="SelectedIndexChanged" />
+                                                                        <asp:AsyncPostBackTrigger ControlID="grdTasks" EventName="RowDataBound" />
+                                                                    </Triggers>
+                                                                </asp:UpdatePanel>
+                                                            </div>
+                                                        </div>
+                                                    </ContentTemplate>
+                                                    <Triggers>
+                                                        <asp:AsyncPostBackTrigger ControlID="DDTaskEmpDept" EventName="SelectedIndexChanged" />
+                                                    </Triggers>
+                                                </asp:UpdatePanel>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab3">
                                         <div action="#" class="horizontal-form">
                                             <div class="form-body" style="display: none">
                                                 <div class="nomargintop">
@@ -277,7 +451,7 @@
                                                     </div>
                                                     <div class="marginleft250 nopadingtop">
                                                         <asp:GridView runat="server" ID="grdDepts" AutoGenerateColumns="false" 
-                                                            class="proptable table-bordered" OnRowDataBound="grdDepts_OnRowDataBound"> 
+                                                            class="proptable proptableDept table-bordered" OnRowDataBound="grdDepts_OnRowDataBound"> 
                                                             <Columns>
                                                                 <asp:TemplateField HeaderStyle-CssClass="hidden" ItemStyle-CssClass="hidden">
                                                                     <ItemTemplate>
@@ -352,7 +526,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="tab3">
+                                    <div class="tab-pane" id="tab4">
                                         <div action="#" class="horizontal-form">
                                             <div class="form-body" style="display:none">
                                                 <div class="row">
@@ -420,7 +594,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="tab4">
+                                    <div class="tab-pane" id="tab5">
                                         <div action="#" class="horizontal-form">
                                             <div class="form-body" style="display:none">
                                                 <div class="alert alert-success">                                                                                                        <div class="row">
@@ -639,13 +813,308 @@
     
     <script>
     
+    
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            prm.add_endRequest(function() {
+                LoadTaskScript();
+            });
+            
+            function checkvalidTask() {
+                var resValid;
+                resValid = false;
+                
+                var hasvaluesAll = 1;
+                
+                $('.proptableTask tr').each(function (i, row) {
+                    var inputs = $(row).closest('tr').find('input[data-taskinput]')
+                    var emptytask = true;
+                    var hasvalues = 1;
+                    $.each(inputs, function(index, inputs) {
+                        if (inputs.value.trim().length == 0)
+                        { 
+                            $(inputs).closest('td').find('input').addClass('cerrortask');
+                            $(inputs).closest('td').find('input').attr("title", "Required");
+                            hasvalues = 0;
+                        }
+                        else
+                        {
+                            emptytask = false;
+                            $(inputs).closest('td').find('input').removeClass('cerrortask');
+                            
+                            if (inputs.name.indexOf("Hours") > 0 )
+                            {
+                                var ivalue = Number(inputs.value.replace(/[^0-9\.]+/g,""));
+                                var tothours = Number($("[name$=hidTotalHours]")[0].value.replace(/[^0-9\.]+/g,""));
+                                if (ivalue > tothours)
+                                {
+                                    $(inputs).closest('td').find('input').addClass('cerrortask');
+                                    $(inputs).closest('td').find('input').attr("title", "Should be less than or equal to " + tothours + " Hours");
+                                    hasvalues = 0;
+                                }
+                            }
+                            
+                            
+                        }
+                        
+                    });
+                    if (emptytask == true)
+                    {
+                        $(row).closest('tr').find('input').removeClass('cerrortask');
+                        hasvalues = 1;
+                    }
+                    if (hasvalues == 0)
+                        hasvaluesAll = 0;
+                });
+                
+                if (hasvaluesAll == 1)
+                    resValid = true;
+                else
+                    resValid = false;
+                
+                return resValid;
+                
+            }
+    
+            function setactiheight() {
+                if ($('.marginleft250Task').height() > 0 || $('.listleftsideTask').height() > 0)
+                {
+                    if ($('.marginleft250Task').height() < $('.listleftsideTask').height())
+                        $('.upheightTask').height($('.listleftsideTask').height());
+                    else
+                        $('.upheightTask').height($('.marginleft250Task').height());
+                }
+            }
+
+            function LoadTaskScript() {
+            
+                $("[name$=Hours]").inputmask("decimal",{digits: 2, validator: "[0-8]",
+                    placeholder:" ", clearMaskOnLostFocus: true 
+                });
+                
+                $('#empfiltTask').keyup(function(){
+                   var valThis = $(this).val().toLowerCase();
+                    $('.zemplistTask>li').each(function(){
+                     var text = $(this).text().toLowerCase();
+                        if ((text.indexOf(valThis) > 0) || valThis=="")
+                            $(this).show();
+                        else
+                            $(this).hide();         
+                   });
+                   setactiheight();
+                });
+              
+                
+                setactiheight();
+                
+                jQuery('input[data-newtask]').attr('readonly','readonly');
+                jQuery('input[data-newemp]').attr('readonly','readonly');
+                
+                $('[data-taskinput]').change(function() {
+                    /*if (this.value.length == 0)
+                    {
+                        if ($(this).closest('tr').find("[name$=RecordSequence]").val() != "-1");
+                        this.focus();
+                        alert("Value could not be empty");
+                    }
+                    else*/
+                    
+                    if (this.name.indexOf("Hours") > 0 )
+                    {
+                        var ivalue = Number(this.value.replace(/[^0-9\.]+/g,""));
+                        var tothours = Number($("[name$=hidTotalHours]")[0].value.replace(/[^0-9\.]+/g,""));
+                        if (ivalue > tothours)
+                        {
+                            $(this).closest('td').find('input').addClass('cerrortask');
+                            $(this).closest('td').find('input').attr("title", "Should be less than or equal to " + tothours + " Hours");
+                            return;
+                        }
+                        else
+                            $(this).closest('td').find('input').removeClass('cerrortask');
+                    }
+                    
+                        checkupdate(this);
+                });
+                
+                $('.date-picker-start, .date-picker-end').change(function() {
+                    if ($(this).val().trim().length == 0)
+                    {
+                        var objValue = $(this).closest('td').find('[data-taskinput]')[0];
+                        objValue.value = "";
+                    }
+                });
+                
+                if (jQuery().datepicker) {
+                    $(".date-picker-start")
+                    .datepicker({
+                        dateFormat: "mm/dd/yyyy",
+                        rtl: App.isRTL(),
+                        autoclose: true,
+                        forceParse: true
+                    })
+                    .on('changeDate', function(ev, inst){
+                        var newDate = $(this).datepicker("getDate");
+                        if (!Date.parse(newDate))
+                            return;
+                        var newText = $(this)[0].value;
+                        var objStart = $(this).closest('td').find('[data-taskinput]')[0];
+                        var objStartDate = new Date(objStart.value);
+                        var objEndH = $(this).closest('td').next('td').find('.date-picker-end')[0];
+                        var objEnd = $(this).closest('td').next('td').find('[data-taskinput]')[0];
+                        var objEndDate = new Date(objEnd.value);
+                        if (objStartDate == newDate)
+                            return;
+                        else
+                        {
+                            objStart.value = newText;
+                            $(objEndH).datepicker('setStartDate', newText);
+
+                            if (!Date.parse(objEndDate))
+                            {
+                                $(this).datepicker('hide');
+                                $(objEndH).datepicker('show');
+                            }
+                            else if (objEndDate < newDate)
+                            {
+                                objEndH.value="";
+                                objEnd.value="";
+                                $(this).datepicker('hide');
+                                $(objEndH).datepicker('show');
+                            }
+                            else if (objEndDate >= newDate) 
+                                checkupdate(objStart);
+                            
+                            
+                        }
+                    });
+                    
+                    
+                    $(".date-picker-end").datepicker({
+                        dateFormat: "mm/dd/yyyy",
+                        rtl: App.isRTL(),
+                        autoclose: true,
+                        forceParse: true
+                    })
+                    .on('changeDate', function(ev, inst){
+                        var newDate = $(this).datepicker("getDate");
+                        if (!Date.parse(newDate))
+                            return;
+                        var newText = $(this)[0].value;
+                        var objEnd = $(this).closest('td').find('[data-taskinput]')[0];
+                        var objEndDate = new Date(objEnd.value);
+                        var objStartH = $(this).closest('td').prev('td').find('.date-picker-start')[0];
+                        var objStart = $(this).closest('td').prev('td').find('[data-taskinput]')[0];
+                        var objStartDate = new Date(objStart.value);
+                        if (objEndDate == newDate)
+                            return;
+                        else
+                        {
+                            objEnd.value = newText;
+                            if (!Date.parse(objStartDate))
+                            {
+                                $(this).datepicker('hide');
+                                $(objStartH).datepicker('show');
+                            }
+                            else if (objStartDate > newDate)
+                            {
+                                objStartH.value="";
+                                objStart.value="";
+                                $(this).datepicker('hide');
+                                $(objStartH).datepicker('show');
+                            }
+                            else if (objStartDate <= newDate) 
+                                checkupdate(objEnd);
+                        }
+                    });
+                    
+                    
+                    var dataendp = $(".date-picker-end");
+                    $.each(dataendp, function(index, dataendp) {
+                        var objStartH = $(dataendp).closest('td').prev('td').find('.date-picker-start')[0];
+                        if(objStartH.value)
+                            $(dataendp).datepicker('setStartDate', objStartH.value);
+                        else
+                            $(dataendp).datepicker('setStartDate', null);
+                        
+                    });
+                }
+                
+                function checkupdate(objchanged)
+                {
+                    /*alert("change");
+                    return;*/
+                    if ($('.cerrortask').length > 0)
+                        return;
+                    
+                    var inputs = $(objchanged).closest('tr').find('input[data-taskinput]')
+                    var hasvalues = 1;
+                    $.each(inputs, function(index, inputs) {
+                        if (inputs.value.trim().length == 0)
+                        { 
+                            //$(inputs).closest('td').find('input').addClass('cerrortask');
+                            hasvalues = 0;
+                        }
+                        else
+                        {
+                            $(inputs).closest('td').find('input').removeClass('cerrortask');
+                        }
+                    });
+                    
+                    if (hasvalues == 1)
+                        document.getElementById('<%= btnupdatetask.ClientID %>').click();
+                    
+                }
+                
+                jQuery(document).ready(function() {
+                    $('li[data-task]').draggable({ revert: true });
+                    $('input[data-newtask]').droppable({
+                        accept: 'li[data-task]',
+                        drop: function(event, ui) {
+                            var targecell = $(event.target); //.find('input');
+                            var taskname = event.srcElement.innerText.trim();
+                            targecell[0].value = taskname;
+                            checkupdate(targecell[0]);
+                        },
+                        activeClass: "highlighttask",
+
+
+                    });
+                        
+                    $('li[data-empTask]').draggable({ revert: true });
+                    $('input[data-newemp]').droppable({  //.closest('td').droppable({
+                        accept: 'li[data-empTask]',
+                        drop: function(event, ui) {
+                            var targecell = $(event.target); //.find('input');
+                            //var empname = event.srcElement.innerText.trim();
+                            var empname = $(ui.draggable)[0].innerText.trim();
+                            var targetidcell = $(targecell).closest('tr').find("[name$=EmployeeID]")
+                            //var empid = event.srcElement.getAttribute("data-EmployeeID");
+                            var empid = $(ui.draggable)[0].getAttribute("data-EmployeeID");
+                            targecell[0].value = empname;
+                            targetidcell[0].value = empid;
+                            checkupdate(targecell[0]);
+                        },
+                        activeClass: "highlighttask",
+                    });
+                    
+                    
+                    
+                    
+                });
+            }
+            
+            
+            jQuery(document).ready(function() {
+                   LoadTaskScript(); 
+            });
+    
             function setcurrentTab() {
                 if ($('form').valid() == false) {
                         return false;
                 }
                 
                 var $valid = checkvalid();
-                if(!$valid) {
+                var $validTask = checkvalidTask();
+                if(!$valid || !$validTask) {
                     toastr.options = {
                         closeButton: true,
                         timeOut: "6000",
@@ -741,7 +1210,7 @@
                 
                 var hasvaluesAll = 1;
                 
-                $('.proptable tr').each(function (i, row) {
+                $('.proptableDept tr').each(function (i, row) {
                     var inputs = $(row).closest('tr').find('[data-required]')
                     var emptytask = true;
                     var hasvalues = 1;
@@ -939,7 +1408,7 @@
                 });
                 
                 if (jQuery().datepicker) {
-                    $(".date-picker-start")
+                    $(".date-picker-start-Proj")
                     .datepicker({
                         dateFormat: "mm/dd/yyyy",
                         rtl: App.isRTL(),
@@ -951,7 +1420,7 @@
                         if (!Date.parse(newDate))
                             return;
                         var newText = $(this)[0].value;
-                        var objEndH = $('.date-picker-end')[0];
+                        var objEndH = $('.date-picker-end-Proj')[0];
                         var objEndDate = new Date(objEndH.value);
                         {
                             $(objEndH).datepicker('setStartDate', newText);
@@ -971,7 +1440,7 @@
                     });
                     
                     
-                    $(".date-picker-end").datepicker({
+                    $(".date-picker-end-Proj").datepicker({
                         dateFormat: "mm/dd/yyyy",
                         rtl: App.isRTL(),
                         autoclose: true,
@@ -982,7 +1451,7 @@
                         if (!Date.parse(newDate))
                             return;
                         var newText = $(this)[0].value;
-                        var objStartH = $('.date-picker-start')[0];
+                        var objStartH = $('.date-picker-start-Proj')[0];
                         var objStartDate = new Date(objStartH.value);
                         {
                             if (!Date.parse(objStartDate))
@@ -1000,8 +1469,8 @@
                     });
                     
                     
-                    var dataendp = $(".date-picker-end");
-                    var objStartH = $('.date-picker-start')[0];
+                    var dataendp = $(".date-picker-end-Proj");
+                    var objStartH = $('.date-picker-start-Proj')[0];
                     if(objStartH.value)
                         $(dataendp).datepicker('setStartDate', objStartH.value);
                     else

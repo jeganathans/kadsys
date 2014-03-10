@@ -7,7 +7,7 @@ var ProjWizard = function() {
             if (!jQuery().bootstrapWizard) {
                 return;
             }
-            
+
             if (jQuery().datepicker) {
                 $('.date-picker').datepicker({
                     rtl: App.isRTL(),
@@ -56,8 +56,12 @@ var ProjWizard = function() {
                     $('#form_wizard_1').find('.button-submit').hide();      //hide
                 }
                 App.scrollTo($('.page-title'));
+
+                if (current == 2) {
+                    setactiheight();
+                }
             }
-            
+
             var form = $('form');
             // default form wizard
             $('#form_wizard_1').bootstrapWizard({
@@ -67,7 +71,7 @@ var ProjWizard = function() {
                     if (form.valid() == false) {
                         return false;
                     }
-                    if (checkvalid() == false) {
+                    if (checkvalid() == false || checkvalidTask() ==false) {
                         toastr.options = {
                             closeButton: true,
                             timeOut: "6000",
@@ -83,7 +87,7 @@ var ProjWizard = function() {
                     if (form.valid() == false) {
                         return false;
                     }
-                    if (checkvalid() == false) {
+                    if (checkvalid() == false || checkvalidTask() == false) {
                         toastr.options = {
                             closeButton: true,
                             timeOut: "6000",
@@ -99,7 +103,7 @@ var ProjWizard = function() {
                     if (form.valid() == false) {
                         return false;
                     }
-                    if (checkvalid() == false) {
+                    if (checkvalid() == false || checkvalidTask() == false) {
                         toastr.options = {
                             closeButton: true,
                             timeOut: "6000",
@@ -124,7 +128,7 @@ var ProjWizard = function() {
 
             $('#form_wizard_1').find('.button-previous').hide();
             /*$('#form_wizard_1 .button-submit').click(function() {
-                alert('Finished! Hope you like it :)');
+            alert('Finished! Hope you like it :)');
             }).hide();*/
 
         }

@@ -289,7 +289,7 @@ namespace KedSys35
             return ds;
         }
 
-        public Boolean UP_IU_Projects(string UID, string ProjectID, string ProposalRef, string ResearchEngineer, string ProjectName, string ProjectDesc, string ClientName, string Agency, string Leader, string ProjectType, string Department, string StartDate, string EndDate, string Status, string FWPOFieldwork, string FWTypeofStudy, string FWTargetSample, string FWSampleCollected, string FWTargetDate, string FWConSentDate, string FWType, string ActualCompletionDate, string strloginuser, string DeptXML, string DeptSupervisors, string InvoiceXML, out string strerrmsg, out string newUID, out string newProjectID)
+        public Boolean UP_IU_Projects(string UID, string ProjectID, string ProposalRef, string ResearchEngineer, string ProjectName, string ProjectDesc, string ClientName, string Agency, string Leader, string ProjectType, string Department, string StartDate, string EndDate, string Status, string FWPOFieldwork, string FWTypeofStudy, string FWTargetSample, string FWSampleCollected, string FWTargetDate, string FWConSentDate, string FWType, string ActualCompletionDate, string strloginuser, string DeptXML, string DeptSupervisors, string InvoiceXML, string TaskXML, out string strerrmsg, out string newUID, out string newProjectID)
         {
             Boolean result = false;
             Database objDataBase = DatabaseFactory.CreateDatabase();
@@ -327,6 +327,7 @@ namespace KedSys35
                 objDataBase.AddInParameter(cmd, "@DeptXML", DbType.String, (DeptXML == string.Empty) ? (object)DBNull.Value : DeptXML);
                 objDataBase.AddInParameter(cmd, "@DeptSupervisors", DbType.String, (DeptSupervisors == string.Empty) ? (object)DBNull.Value : DeptSupervisors);
                 objDataBase.AddInParameter(cmd, "@InvoiceXML", DbType.String, (InvoiceXML == string.Empty) ? (object)DBNull.Value : InvoiceXML);
+                objDataBase.AddInParameter(cmd, "@TaskXML", DbType.String, (TaskXML == string.Empty) ? (object)DBNull.Value : TaskXML);
                 objDataBase.AddInParameter(cmd, "@LoginID", DbType.String, strloginuser);
                 ds = objDataBase.ExecuteDataSet(cmd);
 

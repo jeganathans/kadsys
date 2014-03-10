@@ -137,7 +137,7 @@
                             <asp:Label ID="Status" CssClass="" runat="server" Text='<%#Eval("Status")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center">
+                    <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center" Visible="false">
                         <HeaderTemplate>
                             <asp:Label ID="lblTask" runat="server" Text="Task"></asp:Label>
                         </HeaderTemplate>
