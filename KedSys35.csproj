@@ -251,6 +251,13 @@
     <Compile Include="TimeSheetDashboard.aspx.designer.cs">
       <DependentUpon>TimeSheetDashboard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheetDetailed.aspx.cs">
+      <DependentUpon>TimeSheetDetailed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TimeSheetDetailed.aspx.designer.cs">
+      <DependentUpon>TimeSheetDetailed.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AccessModule.aspx" />
@@ -1809,6 +1816,7 @@
     <Content Include="assets\plugins\jquery.pwstrength.bootstrap\test\index.html" />
     <Content Include="assets\plugins\jquery.pwstrength.bootstrap\test\pwstrength.js" />
     <Content Include="assets\plugins\jquery.pwstrength.bootstrap\test\rules.html" />
+    <Content Include="assets\plugins\jquery.responsivetable.js" />
     <Content Include="assets\plugins\jquery.sparkline.min.js" />
     <Content Include="assets\plugins\jqvmap\jqvmap\data\jquery.vmap.sampledata.js" />
     <Content Include="assets\plugins\jqvmap\jqvmap\jquery.vmap.js" />
@@ -1952,6 +1960,7 @@
     <Content Include="temp.aspx" />
     <Content Include="TimeSheet.aspx" />
     <Content Include="TimeSheetDashboard.aspx" />
+    <Content Include="TimeSheetDetailed.aspx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\fonts\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />

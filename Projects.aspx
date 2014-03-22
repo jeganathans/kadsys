@@ -142,7 +142,8 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Agency<span class="required">*</span></label>
                                                             <div class="input-groupd">
-                                                                <asp:DropDownList ID="ddAgency" class="form-control select2me" runat="server"></asp:DropDownList>
+                                                                <asp:TextBox ID="duAgency" CssClass="zduAgency" runat="server" style="display:none"></asp:TextBox> 
+                                                                <asp:DropDownList ID="ddAgency" name ="ddAgency" class="form-control select2me zddAgency" multiple runat="server"></asp:DropDownList>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1103,8 +1104,30 @@
             }
             
             
+            $( window ).load(function() {
+                    $('select.zddAgency').select2({ placeholder: ""});
+                    var data = [];
+                    var strdata = $('.zduAgency').val().replace(/"/g, '').replace('[','').replace(']','');
+                    $(strdata.split(",")).each(function () {
+                        data.push({id: this, text: this});
+                    });
+                    if (strdata.length > 0)
+                        $('select.zddAgency').select2('data', data);
+
+           });
+           
+           
+           
+            
+            
             jQuery(document).ready(function() {
                    LoadTaskScript(); 
+                   
+                   $('.zddAgency').on("change", function(e) {
+                        var data1= $(this).select2('val');
+                        var targetidcell = $('.zduAgency');
+                        $(targetidcell).val(JSON.stringify(data1));
+                    });
             });
     
             function setcurrentTab() {

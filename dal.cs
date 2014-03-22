@@ -649,9 +649,40 @@ namespace KedSys35
         
 #endregion
 
+        #region TimeSheetReports
+        public DataSet UP_Report_TimeSheet_DD(string EmployeeID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_TimeSheet_DD");
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID)? (object)DBNull.Value : EmployeeID);
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Report_TimesheetDetailed(string DATEFROM, string DATETO, string EMPID, string MGRID, string DIRID, string DEPARTMENT, string LOGINEMPID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_TimesheetDetailed");
+            objDataBase.AddInParameter(cmd, "@DATEFROM", DbType.String, string.IsNullOrEmpty(DATEFROM) ? (object)DBNull.Value : DATEFROM);
+            objDataBase.AddInParameter(cmd, "@DATETO", DbType.String, string.IsNullOrEmpty(DATETO) ? (object)DBNull.Value : DATETO);
+            objDataBase.AddInParameter(cmd, "@EMPID", DbType.String, string.IsNullOrEmpty(EMPID) ? (object)DBNull.Value : EMPID);
+            objDataBase.AddInParameter(cmd, "@MGRID", DbType.String, string.IsNullOrEmpty(MGRID) ? (object)DBNull.Value : MGRID);
+            objDataBase.AddInParameter(cmd, "@DIRID", DbType.String, string.IsNullOrEmpty(DIRID) ? (object)DBNull.Value : DIRID);
+            objDataBase.AddInParameter(cmd, "@DEPARTMENT", DbType.String, string.IsNullOrEmpty(DEPARTMENT) ? (object)DBNull.Value : DEPARTMENT);
+            objDataBase.AddInParameter(cmd, "@LOGINEMPID", DbType.String, string.IsNullOrEmpty(LOGINEMPID) ? (object)DBNull.Value : LOGINEMPID);
+
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+        #endregion
 
 
-#region accounts_master
+
+        #region accounts_master
         public DataSet UP_Fetch_Accounts()
         {
             //Database objDataBase = DatabaseFactory.CreateDatabase();
@@ -1257,6 +1288,21 @@ namespace KedSys35
             return result;
         }
 #endregion
+
+
+        public DataSet UP_Fetch_Number_Filters()
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_Number_Filters");
+            ds = objDataBase.ExecuteDataSet(cmd);
+
+            return ds;
+        }
+
+        
 
         public string SendMailtest(string body, string subject, string messageTo)
         {

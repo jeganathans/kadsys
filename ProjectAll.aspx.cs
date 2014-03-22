@@ -81,14 +81,24 @@ namespace KedSys35
             else
                 ds = dl.UP_Fetch_ProjectAll(strloginEmployeeID);
 
+
             string filtercriteria = "";
             filtercriteria = DBfilter;
 
-            if (ViewState["FilterExpression"].ToString().Length > 0)
+            string customfilter = string.Empty;
+            customfilter = gridFilterbind(ds, filtercriteria);
+
+            if (customfilter.Length > 0)
+                if (filtercriteria.Length > 0)
+                    filtercriteria = filtercriteria + " and " + customfilter;
+                else
+                    filtercriteria = customfilter;
+
+            /*if (ViewState["FilterExpression"].ToString().Length > 0)
                 if (filtercriteria.Length > 0)
                     filtercriteria = filtercriteria + " and " + ViewState["FilterExpression"].ToString();
                 else
-                    filtercriteria = ViewState["FilterExpression"].ToString();
+                    filtercriteria = ViewState["FilterExpression"].ToString();*/
 
             if (filtercriteria.Length > 0)
             {
@@ -131,6 +141,121 @@ namespace KedSys35
                 btnRemoveFilter.Visible = false;
             }
             GridView1.DataBind();
+
+            gridColumnSelection();
+        }
+
+        protected string gridFilterbind(DataSet ds, string filtercriteria)
+        {
+            string customfilter = string.Empty;
+            DataView dv = ds.Tables[0].DefaultView;
+            dv.RowFilter = filtercriteria;
+
+            DataTable dtprojectref = dv.ToTable(true, "ProjectID");
+            fltddProjectID.DataSource = dtprojectref;
+            fltddProjectID.DataValueField = "ProjectID";
+            fltddProjectID.DataTextField = "ProjectID";
+            fltddProjectID.DataBind();
+
+            DataTable dtprojectname = dv.ToTable(true, "ProjectName");
+            fltddProjectName.DataSource = dtprojectname;
+            fltddProjectName.DataValueField = "ProjectName";
+            fltddProjectName.DataTextField = "ProjectName";
+            fltddProjectName.DataBind();
+
+            DataTable dtClientName = dv.ToTable(true, "ClientName");
+            fltddClientName.DataSource = dtClientName;
+            fltddClientName.DataValueField = "ClientName";
+            fltddClientName.DataTextField = "ClientName";
+            fltddClientName.DataBind();
+
+            DataTable dtCoordinatorName = dv.ToTable(true, "CoordinatorName");
+            fltddCoordinatorName.DataSource = dtCoordinatorName;
+            fltddCoordinatorName.DataValueField = "CoordinatorName";
+            fltddCoordinatorName.DataTextField = "CoordinatorName";
+            fltddCoordinatorName.DataBind();
+
+            DataTable dtStatus = dv.ToTable(true, "Status");
+            fltddStatus.DataSource = dtStatus;
+            fltddStatus.DataValueField = "Status";
+            fltddStatus.DataTextField = "Status";
+            fltddStatus.DataBind();
+
+
+            string strcolfilter;
+            strcolfilter = colfilter(fltduProjectID.Text, "ProjectID");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduProjectName.Text, "ProjectName");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduClientName.Text, "ClientName");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduCoordinatorName.Text, "CoordinatorName");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduStatus.Text, "Status");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            
+
+            return customfilter;
+        }
+
+        protected string colfilter(string strrawfiltertext, string strcolumnname)
+        {
+            string customfilter = string.Empty;
+
+            String[] strparameters;
+            String  strcsv;
+            if (strrawfiltertext.Length > 0)
+            {
+                strcsv = strrawfiltertext.Replace("[", "").Replace("]", "").Replace("\"", "");
+                if (strcsv.Length > 0)
+                {
+                    strparameters = strcsv.Split(',');
+                    foreach (string strvalue in strparameters)
+                    {
+                        customfilter += ((customfilter.Length>0)?" or ":"") + strcolumnname + " = '" + strvalue + "'";
+                    }
+
+                    customfilter = "(" + customfilter + ")";
+                }
+            }
+
+            return customfilter;
+        }
+
+        protected void gridColumnSelection()
+        {
+            GridView1.Columns[1].Visible = (gchkCol1.Checked) ? true : false;
+            GridView1.Columns[2].Visible = (gchkCol2.Checked) ? true : false;
+            GridView1.Columns[3].Visible = (gchkCol3.Checked) ? true : false;
+            GridView1.Columns[4].Visible = (gchkCol4.Checked) ? true : false;
+            GridView1.Columns[5].Visible = (gchkCol5.Checked) ? true : false;
+            GridView1.Columns[6].Visible = (gchkCol6.Checked) ? true : false;
+            GridView1.Columns[7].Visible = (gchkCol7.Checked) ? true : false;
+            GridView1.Columns[8].Visible = (gchkCol8.Checked) ? true : false;
+            GridView1.Columns[9].Visible = (gchkCol9.Checked) ? true : false;
+            GridView1.Columns[10].Visible = (gchkCol10.Checked) ? true : false;
+            GridView1.Columns[11].Visible = (gchkCol11.Checked) ? true : false;
+            GridView1.Columns[12].Visible = (gchkCol12.Checked) ? true : false;
+            GridView1.Columns[13].Visible = (gchkCol13.Checked) ? true : false;
+            GridView1.Columns[14].Visible = (gchkCol14.Checked) ? true : false;
+            GridView1.Columns[15].Visible = (gchkCol15.Checked) ? true : false;
+            
+        }
+
+
+        protected void gridManage(object sender, EventArgs e)
+        {
+            BindGrid();
         }
 
         protected void btn_select_Click(object sender, EventArgs e)

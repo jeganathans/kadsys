@@ -189,7 +189,7 @@ namespace KedSys35
             ddAgency.DataTextField = "AccountName";
             ddAgency.DataValueField = "AccountName";
             ddAgency.DataBind();
-            ddAgency.Items.Insert(0, new ListItem("--Select--", ""));
+            //ddAgency.Items.Insert(0, new ListItem("--Select--", ""));
 
             dv = ds.Tables[3].DefaultView;
             //dv.RowFilter = "Leader = True";
@@ -270,7 +270,14 @@ namespace KedSys35
                 txtProposalID.Text = ds.Tables[0].Rows[0]["ProposalRef"].ToString();
                 txtProjectDesc.Text = ds.Tables[0].Rows[0]["ProjectDesc"].ToString();
                 ddClientName.SelectedIndex = ddClientName.Items.IndexOf(ddClientName.Items.FindByText(ds.Tables[0].Rows[0]["ClientName"].ToString()));
-                ddAgency.SelectedIndex = ddAgency.Items.IndexOf(ddAgency.Items.FindByText(ds.Tables[0].Rows[0]["Agency"].ToString()));
+                
+                //ddAgency.SelectedIndex = ddAgency.Items.IndexOf(ddAgency.Items.FindByText(ds.Tables[0].Rows[0]["Agency"].ToString()));
+                string strduAgency = ds.Tables[0].Rows[0]["Agency"].ToString();
+                if (string.IsNullOrEmpty(strduAgency))
+                    duAgency.Text = string.Empty;
+                else
+                    duAgency.Text = "[\"" + strduAgency.Replace(",", "\",\"") + "\"]";
+
                 ddLeader.SelectedIndex = ddLeader.Items.IndexOf(ddLeader.Items.FindByValue(ds.Tables[0].Rows[0]["Leader"].ToString()));
                 ddResearchEngineer.SelectedIndex = ddResearchEngineer.Items.IndexOf(ddResearchEngineer.Items.FindByValue(ds.Tables[0].Rows[0]["ResearchEngineer"].ToString()));
                 ddProjectType.SelectedIndex = ddProjectType.Items.IndexOf(ddProjectType.Items.FindByText(ds.Tables[0].Rows[0]["ProjectType"].ToString()));
@@ -494,7 +501,14 @@ namespace KedSys35
             ProjectName = txtProjectName.Text.Trim();
             ProjectDesc = txtProjectDesc.Text.Trim();
             ClientName = (ddClientName.SelectedIndex == 0) ? string.Empty : ddClientName.SelectedValue;
-            Agency = (ddAgency.SelectedIndex == 0) ? string.Empty : ddAgency.SelectedValue;
+
+            //Agency = (ddAgency.SelectedIndex == 0) ? string.Empty : ddAgency.SelectedValue;
+            Agency = string.Empty;
+            if (duAgency.Text.Length > 0)
+            {
+                Agency = duAgency.Text.Replace("[", "").Replace("]", "").Replace("\"", "");
+            }
+
             Leader = (ddLeader.SelectedIndex == 0) ? string.Empty : ddLeader.SelectedValue;
             ProjectType = (ddProjectType.SelectedIndex == 0) ? string.Empty : ddProjectType.SelectedValue;
             Department = (ddDepartment.SelectedIndex == 0) ? string.Empty : ddDepartment.SelectedValue;

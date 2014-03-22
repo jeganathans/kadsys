@@ -1583,14 +1583,14 @@
                 
                 $('.camt').change(function() {
                     $(this).val($(this).asNumber());
-                    $(this).formatCurrency({roundToDecimalPlace:2,symbol:''});
+                    $(this).formatCurrency({roundToDecimalPlace:0,symbol:'',groupDigits:true});
                 });
                 
                 $('.boxttans').formatCurrency({roundToDecimalPlace:2,symbol:''});
                 $('.cbox').formatCurrency({roundToDecimalPlace:0,symbol:''});
                 $('.cboxdec').formatCurrency({roundToDecimalPlace:2,symbol:''});
                 $('.cboxHours').formatCurrency({roundToDecimalPlace:2,symbol:'',groupDigits:false});
-                $('.camt').formatCurrency({roundToDecimalPlace:2,symbol:''});
+                $('.camt').formatCurrency({roundToDecimalPlace:0,symbol:'',groupDigits:true});
                 
                 var operinputs = $('.zshowper');
                 $.each(operinputs, function(index, oinput) {

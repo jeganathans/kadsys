@@ -75,9 +75,12 @@ namespace KedSys35
                 hidUID.Value = "";
                 ViewState["SortExpr"] = Sort_Direction;
                 ViewState["FilterExpression"] = "";
+                BindCombo();
                 BindGrid();
             }
         }
+
+
 
         void PageAccessControl()
         {
@@ -104,6 +107,26 @@ namespace KedSys35
                 btnadd.Visible = false;
         }
 
+        void BindCombo()
+        {
+            DataSet ds = dl.UP_Fetch_Number_Filters();
+
+            fltNCProbabilityValue.DataSource = ds.Tables[0];
+            fltNCProbabilityValue.DataTextField = "FilterCond";
+            fltNCProbabilityValue.DataValueField = "FilterOperator";
+            fltNCProbabilityValue.DataBind();
+
+            fltDCDuedate.DataSource = ds.Tables[0];
+            fltDCDuedate.DataTextField = "FilterCond";
+            fltDCDuedate.DataValueField = "FilterOperator";
+            fltDCDuedate.DataBind();
+
+            fltDCSenddate.DataSource = ds.Tables[0];
+            fltDCSenddate.DataTextField = "FilterCond";
+            fltDCSenddate.DataValueField = "FilterOperator";
+            fltDCSenddate.DataBind();
+        }
+
         void BindGrid()
         {
             DataSet ds;
@@ -113,11 +136,21 @@ namespace KedSys35
                 ds = dl.UP_Fetch_Proposal(strloginEmployeeID);
             string filtercriteria = "";
             filtercriteria = DBfilter;
-            if (ViewState["FilterExpression"].ToString().Length > 0)
+
+            string customfilter = string.Empty;
+            customfilter = gridFilterbind(ds, filtercriteria);
+
+            if (customfilter.Length > 0)
+                if (filtercriteria.Length > 0)
+                    filtercriteria = filtercriteria + " and " + customfilter;
+                else
+                    filtercriteria = customfilter;
+
+            /*if (ViewState["FilterExpression"].ToString().Length > 0)
                 if (filtercriteria.Length > 0)
                     filtercriteria = filtercriteria + " and " + ViewState["FilterExpression"].ToString();
                 else
-                    filtercriteria = ViewState["FilterExpression"].ToString();
+                    filtercriteria = ViewState["FilterExpression"].ToString();*/
 
             if (filtercriteria.Length > 0)
             {
@@ -160,6 +193,215 @@ namespace KedSys35
                 btnRemoveFilter.Visible = false;
             }
             GridView1.DataBind();
+
+            gridColumnSelection();
+        }
+
+        protected string gridFilterbind(DataSet ds, string filtercriteria)
+        {
+            string customfilter = string.Empty;
+            DataView dv = ds.Tables[0].DefaultView;
+            dv.RowFilter = filtercriteria;
+
+            DataTable dtprojectref = dv.ToTable(true, "ProposalID");
+            fltddProposalID.DataSource = dtprojectref;
+            fltddProposalID.DataValueField = "ProposalID";
+            fltddProposalID.DataTextField = "ProposalID";
+            fltddProposalID.DataBind();
+
+            DataTable dtClientName = dv.ToTable(true, "ClientName");
+            fltddClientName.DataSource = dtClientName;
+            fltddClientName.DataValueField = "ClientName";
+            fltddClientName.DataTextField = "ClientName";
+            fltddClientName.DataBind();
+
+            DataTable dtCoordinatorName = dv.ToTable(true, "CoordinatorName");
+            fltddCoordinatorName.DataSource = dtCoordinatorName;
+            fltddCoordinatorName.DataValueField = "CoordinatorName";
+            fltddCoordinatorName.DataTextField = "CoordinatorName";
+            fltddCoordinatorName.DataBind();
+
+            DataTable dtTypeofstudy = dv.ToTable(true, "Typeofstudy");
+            fltddTypeofstudy.DataSource = dtTypeofstudy;
+            fltddTypeofstudy.DataValueField = "Typeofstudy";
+            fltddTypeofstudy.DataTextField = "Typeofstudy";
+            fltddTypeofstudy.DataBind();
+
+            DataTable dtStatus = dv.ToTable(true, "Status");
+            fltddStatus.DataSource = dtStatus;
+            fltddStatus.DataValueField = "Status";
+            fltddStatus.DataTextField = "Status";
+            fltddStatus.DataBind();
+
+            DataTable dtMgrName = dv.ToTable(true, "MgrName");
+            fltddMgrName.DataSource = dtMgrName;
+            fltddMgrName.DataValueField = "MgrName";
+            fltddMgrName.DataTextField = "MgrName";
+            fltddMgrName.DataBind();
+
+            DataTable dtLeaderName = dv.ToTable(true, "LeaderName");
+            fltddLeaderName.DataSource = dtLeaderName;
+            fltddLeaderName.DataValueField = "LeaderName";
+            fltddLeaderName.DataTextField = "LeaderName";
+            fltddLeaderName.DataBind();
+
+            DataTable dtBroadCategory = dv.ToTable(true, "BroadCategory");
+            fltddBroadCategory.DataSource = dtBroadCategory;
+            fltddBroadCategory.DataValueField = "BroadCategory";
+            fltddBroadCategory.DataTextField = "BroadCategory";
+            fltddBroadCategory.DataBind();
+
+            DataTable dtDepartment = dv.ToTable(true, "Department");
+            fltddDepartment.DataSource = dtDepartment;
+            fltddDepartment.DataValueField = "Department";
+            fltddDepartment.DataTextField = "Department";
+            fltddDepartment.DataBind();
+
+            DataTable dtProbability = dv.ToTable(true, "Probability");
+            fltddProbability.DataSource = dtProbability;
+            fltddProbability.DataValueField = "Probability";
+            fltddProbability.DataTextField = "Probability";
+            fltddProbability.DataBind();
+
+
+            string strcolfilter;
+            strcolfilter = colfilter(fltduProposalID.Text, "ProposalID");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduClientName.Text, "ClientName");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduCoordinatorName.Text, "CoordinatorName");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduTypeofstudy.Text, "Typeofstudy");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduStatus.Text, "Status");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduMgrName.Text, "MgrName");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduLeaderName.Text, "LeaderName");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduBroadCategory.Text, "BroadCategory");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduDepartment.Text, "Department");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduProbability.Text, "Probability");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+
+            strcolfilter = colNumberfilter(fltNCVProbabilityValue.Text, fltNCProbabilityValue.SelectedItem.Value, "ProbabilityValue");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colDatefilter(fltDCVDuedate.Text, fltDCDuedate.SelectedItem.Value, "DuedateFilter");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colDatefilter(fltDCVSenddate.Text, fltDCSenddate.SelectedItem.Value, "Senddate");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+
+
+            return customfilter;
+        }
+
+        protected string colfilter(string strrawfiltertext, string strcolumnname)
+
+        {
+            string customfilter = string.Empty;
+
+            String[] strparameters;
+            String strcsv;
+            if (strrawfiltertext.Length > 0)
+            {
+                strcsv = strrawfiltertext.Replace("[", "").Replace("]", "").Replace("\"", "");
+                if (strcsv.Length > 0)
+                {
+                    strparameters = strcsv.Split(',');
+                    foreach (string strvalue in strparameters)
+                    {
+                        customfilter += ((customfilter.Length > 0) ? " or " : "") + strcolumnname + " = '" + strvalue + "'";
+                    }
+
+                    customfilter = "(" + customfilter + ")";
+                }
+            }
+
+            return customfilter;
+        }
+        protected string colNumberfilter(string strrawfiltertext, string stroperator, string strcolumnname)
+        {
+            string customfilter = string.Empty;
+
+            if (!string.IsNullOrEmpty(strrawfiltertext))
+            {
+                customfilter = "(" + strcolumnname + " " + stroperator + " " + strrawfiltertext.Replace(",","")  + ")";
+            }
+
+            return customfilter;
+        }
+
+        protected string colDatefilter(string strrawfiltertext, string stroperator, string strcolumnname)
+        {
+            string customfilter = string.Empty;
+
+            if (!string.IsNullOrEmpty(strrawfiltertext))
+            {
+                customfilter = "(" + strcolumnname + " " + stroperator + " '" + strrawfiltertext + "')";
+            }
+
+            return customfilter;
+        }
+
+        protected void gridColumnSelection()
+        {
+            GridView1.Columns[1].Visible = (gchkCol1.Checked) ? true : false;
+            GridView1.Columns[2].Visible = (gchkCol2.Checked) ? true : false;
+            GridView1.Columns[3].Visible = (gchkCol3.Checked) ? true : false;
+            GridView1.Columns[4].Visible = (gchkCol4.Checked) ? true : false;
+            GridView1.Columns[5].Visible = (gchkCol5.Checked) ? true : false;
+            GridView1.Columns[6].Visible = (gchkCol6.Checked) ? true : false;
+            GridView1.Columns[7].Visible = (gchkCol7.Checked) ? true : false;
+            GridView1.Columns[8].Visible = (gchkCol8.Checked) ? true : false;
+            GridView1.Columns[9].Visible = (gchkCol9.Checked) ? true : false;
+            GridView1.Columns[10].Visible = (gchkCol10.Checked) ? true : false;
+            GridView1.Columns[11].Visible = (gchkCol11.Checked) ? true : false;
+            GridView1.Columns[12].Visible = (gchkCol12.Checked) ? true : false;
+            GridView1.Columns[13].Visible = (gchkCol13.Checked) ? true : false;
+            GridView1.Columns[14].Visible = (gchkCol14.Checked) ? true : false;
+            GridView1.Columns[15].Visible = (gchkCol15.Checked) ? true : false;
+            GridView1.Columns[16].Visible = (gchkCol16.Checked) ? true : false;
+            GridView1.Columns[17].Visible = (gchkCol17.Checked) ? true : false;
+            GridView1.Columns[18].Visible = (gchkCol18.Checked) ? true : false;
+            GridView1.Columns[19].Visible = (gchkCol19.Checked) ? true : false;
+            GridView1.Columns[20].Visible = (gchkCol20.Checked) ? true : false;
+            GridView1.Columns[21].Visible = (gchkCol21.Checked) ? true : false;
+            GridView1.Columns[22].Visible = (gchkCol22.Checked) ? true : false;
+            GridView1.Columns[23].Visible = (gchkCol23.Checked) ? true : false;
+
+        }
+
+        protected void gridManage(object sender, EventArgs e)
+        {
+            BindGrid();
         }
 
         protected void btn_select_Click(object sender, EventArgs e)
