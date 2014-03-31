@@ -360,6 +360,10 @@
                                     <asp:TextBox ID="fltduCoordinatorName" CssClass="zdufilter" runat="server" style="display:none"></asp:TextBox> 
                                     <asp:DropDownList ID="fltddCoordinatorName" class="form-control select2me zddfilter" multiple runat="server"></asp:DropDownList>
                                 </div>
+                                <div class="controls">                                    <label class="control-label">Leader Name</label>
+                                    <asp:TextBox ID="fltduLeader" CssClass="zdufilter" runat="server" style="display:none"></asp:TextBox> 
+                                    <asp:DropDownList ID="fltddLeader" class="form-control select2me zddfilter" multiple runat="server"></asp:DropDownList>
+                                </div>
                                 <div class="controls">                                    <label class="control-label">Status</label>
                                     <asp:TextBox ID="fltduStatus" CssClass="zdufilter" runat="server" style="display:none"></asp:TextBox> 
                                     <asp:DropDownList ID="fltddStatus" class="form-control select2me zddfilter" multiple runat="server"></asp:DropDownList>

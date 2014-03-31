@@ -174,10 +174,10 @@
                      <a href="TimeSheet.aspx">
                      TimeSheet</a>
                   </li>
-                  <li >
+                  <%--<li >
                      <a href="TimeSheetDetailed.aspx">
                      Timesheet Analysis Report</a>
-                  </li>
+                  </li>--%>
                </ul>
             </li>
             <li class="" id="liFinance" runat="server" visible="false">
@@ -197,7 +197,61 @@
                <a href="Reports.aspx">
                <i class="icon-certificate"></i> 
                <span class="title">Reports</span>
-               </a>
+               <span class="arrow "></span>               </a>
+               <ul class="sub-menu">
+                  <li>
+                     <a href="javascript:;">
+                     Proposal
+                     <span class="arrow"></span>
+                     </a>
+                     <ul class="sub-menu">
+                        <li>
+                             <a href="ReportProposalDetail.aspx">
+                             Proposal Detail Report</a>
+                        </li>
+                        <li>
+                             <a href="ReportSentDate.aspx">
+                             Proposal Datewise Report</a>
+                        </li>
+                        <li>
+                             <a href="ReportProposalStatus.aspx">
+                             Proposal Status Report</a>
+                        </li>
+                     </ul>
+                  </li>
+                  <li>
+                     <a href="javascript:;">
+                     Project Invoicing
+                     <span class="arrow"></span>
+                     </a>
+                     <ul class="sub-menu">
+                        <li>
+                             <a href="ReportInvoiceDetails.aspx">
+                             Invoice Detail Report</a>
+                        </li>
+                        <li>
+                             <a href="ReportInvoiceGroup.aspx">
+                             Invoice Group Report</a>
+                        </li>
+                     </ul>
+                  </li>
+                  <li>
+                     <a href="javascript:;">
+                     Timesheet
+                     <span class="arrow"></span>
+                     </a>
+                     <ul class="sub-menu">
+                        <li>
+                             <a href="TimeSheetDetailed.aspx">
+                             Timesheet Analysis Report</a>
+                        </li>
+                        <li>
+                             <a href="ReportTSSubmission.aspx">
+                             Timesheet Submission Report</a>
+                        </li>
+                     </ul>
+                  </li>
+               </ul>
             </li>
             <li class="" id="liMasters" runat="server" visible="false">
                <a href="javascript:;">
@@ -355,6 +409,7 @@
                pg = "Accounts.aspx";
            $('a[href="' + pg + '"]').parent('li').addClass("active");
            $('a[href="' + pg + '"]').parent('li').parent('ul').parent('li').addClass("active");
+           $('a[href="' + pg + '"]').parent('li').parent('ul').parent('li').parent('ul').parent('li').addClass("active");
        });
 
    </script>

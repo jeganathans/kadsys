@@ -480,7 +480,7 @@ namespace KedSys35
         protected Boolean saveopertion(out String strerrmsg, out string newUID, out string newProjectID)
         {
             string UID, ProjectID, ProposalRef, ResearchEngineer, ProjectName, ProjectDesc, ClientName, Agency, Leader, ProjectType, Department, Status, FWPOFieldwork, FWTypeofStudy, FWTargetSample, FWSampleCollected, FWTargetDate, FWConSentDate, FWType;
-            string StartDate, EndDate, ActualCompletionDate;
+            string StartDate, EndDate, ActualCompletionDate, AgreedBaseCurrency;
             string[] DeptXML;
             string InvoiceXML;
             string TaskXML;
@@ -525,6 +525,8 @@ namespace KedSys35
 
             ActualCompletionDate = txtActualCompletionDate.Text;
 
+            AgreedBaseCurrency = txtagreed.Text;
+
 
             //FWType = (ddFWType.SelectedIndex == 0) ? string.Empty : ddFWType.SelectedValue;
             FWType = string.Empty;
@@ -539,7 +541,7 @@ namespace KedSys35
 
             TaskXML = getTasksXMLforSubmit();
 
-            result = dl.UP_IU_Projects(UID, ProjectID, ProposalRef, ResearchEngineer, ProjectName, ProjectDesc, ClientName, Agency, Leader, ProjectType, Department, StartDate, EndDate, Status, FWPOFieldwork, FWTypeofStudy, FWTargetSample, FWSampleCollected, FWTargetDate, FWConSentDate, FWType, ActualCompletionDate, strloginuser, DeptXML[0], DeptXML[1], InvoiceXML, TaskXML, out strerrmsg, out newUID, out newProjectID);
+            result = dl.UP_IU_Projects(UID, ProjectID, ProposalRef, ResearchEngineer, ProjectName, ProjectDesc, ClientName, Agency, Leader, ProjectType, Department, StartDate, EndDate, Status, FWPOFieldwork, FWTypeofStudy, FWTargetSample, FWSampleCollected, FWTargetDate, FWConSentDate, FWType, ActualCompletionDate, AgreedBaseCurrency, strloginuser, DeptXML[0], DeptXML[1], InvoiceXML, TaskXML, out strerrmsg, out newUID, out newProjectID);
 
             return result;
 
@@ -640,7 +642,10 @@ namespace KedSys35
             }
             ddBaseCurrency.SelectedIndex = ddBaseCurrency.Items.IndexOf(ddBaseCurrency.Items.FindByText(ds.Tables[5].Rows[0]["BaseCurrency"].ToString()));
 
-            lblagreed.Text = ds.Tables[0].Rows[0]["AgreedBaseCurrency"].ToString();
+            //lblagreed.Text = ds.Tables[0].Rows[0]["AgreedBaseCurrency"].ToString();
+            if (!IsPostBack)
+                txtagreed.Text = ds.Tables[0].Rows[0]["AgreedBaseCurrency"].ToString();
+
 
             decimal TotalInvoiceAmount = 0, TotalPendingValue = 0;
             foreach (DataRow row in ds.Tables[3].Rows)
@@ -651,7 +656,8 @@ namespace KedSys35
             lblTotalInvoiceAmount.Text = TotalInvoiceAmount.ToString();
 
             decimal agreedamount = 0;
-            decimal.TryParse(ds.Tables[0].Rows[0]["AgreedBaseCurrency"].ToString().Replace(",", ""), out agreedamount);
+            //decimal.TryParse(ds.Tables[0].Rows[0]["AgreedBaseCurrency"].ToString().Replace(",", ""), out agreedamount);
+            decimal.TryParse(txtagreed.Text.Replace(",", ""), out agreedamount);
 
             TotalPendingValue = agreedamount - TotalInvoiceAmount;
             if (TotalPendingValue < 0)
@@ -659,6 +665,12 @@ namespace KedSys35
 
             lblTotalPendingValue.Text = TotalPendingValue.ToString();
             
+        }
+
+        protected void txtagreed_changed(object sender, EventArgs e)
+        {
+            BindInvGrid();
+            hidtab.Value = "#tab5";
         }
 
         protected void btnAddInvoice_Click(object sender, EventArgs e)

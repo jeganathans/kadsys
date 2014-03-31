@@ -96,7 +96,7 @@ namespace KedSys35
         {
             EmployeeID = ddEmpName.SelectedValue;
             ViewState["EmployeeID"] = EmployeeID;
-            dsCombo.Tables[0].DefaultView.RowFilter = "EmployeeID = " + ddEmpName.SelectedValue;
+            dsCombo.Tables[0].DefaultView.RowFilter = "EmployeeID = '" + ddEmpName.SelectedValue + "'";
             if (dsCombo.Tables[0].DefaultView.Count == 1)
             {
                 txtManagerName.Text = dsCombo.Tables[0].DefaultView[0]["ManagerName"].ToString();
@@ -215,6 +215,27 @@ namespace KedSys35
             }
 
             GridTS.DataBind();
+
+
+            if (dsTimeSheet.Tables[2].Rows.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(dsTimeSheet.Tables[2].Rows[0]["dateSubmitedLast"].ToString()))
+                {
+                    lbltsinfo.Text = "Timesheet last submitted at " + dsTimeSheet.Tables[2].Rows[0]["dateSubmitedLast"].ToString();
+                    lbltsinfo.CssClass = "text-success";
+                }
+                else
+                {
+                    lbltsinfo.Text = "Timesheet not yet submitted";
+                    lbltsinfo.CssClass = "text-danger";
+                }
+            }
+            else
+            {
+                lbltsinfo.Text = "Timesheet not yet submitted";
+                lbltsinfo.CssClass = "text-danger";
+            }
+            
         }
 
         protected void btn_starttask(object sender, EventArgs e)
@@ -525,6 +546,59 @@ namespace KedSys35
         protected void btn_submit_Click(object sender, EventArgs e)
         {
             Boolean result = false;
+            int inteTotalMinutes;
+            result = saveopertion(out inteTotalMinutes);
+
+            if (result == true)
+            {
+                if (inteTotalMinutes > 0)
+                {
+                    hidtoaster.Value = "success|Updated successfully";
+                }
+                else
+                {
+                    hidtoaster.Value = "error|Please input task details";
+                }
+
+                BindGrid();
+            }
+            else
+            {
+                hidtoaster.Value = "error|Transaction Failed";
+            }
+        }
+
+        protected void btn_finalsubmit_Click(object sender, EventArgs e)
+        {
+            Boolean result = false;
+            int inteTotalMinutes;
+            result = saveopertion(out inteTotalMinutes);
+
+            if (inteTotalMinutes == 0)
+            {
+                hidtoaster.Value = "error|Please input task details";
+                return;
+            }
+
+
+            DateTime dateSubmited = DateTime.UtcNow.AddMinutes(420);
+            result = dl.UP_IU_TimeSheet_Submit(EmployeeID, TimeSheetDate, dateSubmited);
+             
+            if (result == true)
+            {
+                hidtoaster.Value = "success|Submitted successfully";
+                BindGrid();
+            }
+            else
+            {
+                hidtoaster.Value = "error|Transaction Failed";
+            }
+        }
+
+        protected Boolean saveopertion(out int inteTotalMinutes)
+        {
+            Boolean result = false;
+            inteTotalMinutes = 0;
 
             string xmldetails = string.Empty;
             xmldetails = "<root>";
@@ -533,7 +607,7 @@ namespace KedSys35
                 Label UID = (Label)row.FindControl("UID");
                 Label priority = (Label)row.FindControl("priority");
                 Label ProjectRef = (Label)row.FindControl("ProjectRef");
-                
+
                 TextBox CurrencyValue = (TextBox)row.FindControl("CurrencyValue");
                 TextBox Comments = (TextBox)row.FindControl("Comments");
                 TextBox TotalMinutes = (TextBox)row.FindControl("TotalMinutes");
@@ -574,22 +648,15 @@ namespace KedSys35
                     if (priority.Text == "1" || priority.Text == "3")
                         xmldetails += "<TaskLogStatus>" + ddTaskStatus.SelectedItem.Text + "</TaskLogStatus>";
                     xmldetails += "</detail>";
+
+                    inteTotalMinutes += Convert.ToInt16(TotalMinutes.Text);
                 }
             }
             xmldetails += "</root>";
 
             result = dl.UP_IU_TimeSheetLog(EmployeeID, TimeSheetDate, xmldetails);
 
-
-            if (result == true)
-            {
-                hidtoaster.Value = "success|Updated successfully";
-                BindGrid();
-            }
-            else
-            {
-                hidtoaster.Value = "error|Transaction Failed";
-            }
+            return result;
         }
 
         protected void fltddchanged(Object sender, EventArgs e)

@@ -177,6 +177,48 @@
     <Compile Include="ProposalDashboard.aspx.designer.cs">
       <DependentUpon>ProposalDashboard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ReportInvoiceDetails.aspx.cs">
+      <DependentUpon>ReportInvoiceDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportInvoiceDetails.aspx.designer.cs">
+      <DependentUpon>ReportInvoiceDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportInvoiceGroup.aspx.cs">
+      <DependentUpon>ReportInvoiceGroup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportInvoiceGroup.aspx.designer.cs">
+      <DependentUpon>ReportInvoiceGroup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportProposalDetail.aspx.cs">
+      <DependentUpon>ReportProposalDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportProposalDetail.aspx.designer.cs">
+      <DependentUpon>ReportProposalDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportProposalStatus.aspx.cs">
+      <DependentUpon>ReportProposalStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportProposalStatus.aspx.designer.cs">
+      <DependentUpon>ReportProposalStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportSentDate.aspx.cs">
+      <DependentUpon>ReportSentDate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportSentDate.aspx.designer.cs">
+      <DependentUpon>ReportSentDate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportTSSubmission.aspx.cs">
+      <DependentUpon>ReportTSSubmission.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportTSSubmission.aspx.designer.cs">
+      <DependentUpon>ReportTSSubmission.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SessionExpired.aspx.cs">
       <DependentUpon>SessionExpired.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1949,6 +1991,12 @@
     <Content Include="ProjectTask.aspx" />
     <Content Include="ProposalAll.aspx" />
     <Content Include="ProposalDashboard.aspx" />
+    <Content Include="ReportInvoiceDetails.aspx" />
+    <Content Include="ReportInvoiceGroup.aspx" />
+    <Content Include="ReportProposalDetail.aspx" />
+    <Content Include="ReportProposalStatus.aspx" />
+    <Content Include="ReportSentDate.aspx" />
+    <Content Include="ReportTSSubmission.aspx" />
     <Content Include="SessionExpired.aspx" />
     <Content Include="Site.Master" />
     <Content Include="Dashboard.aspx" />
@@ -2206,7 +2254,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>50210</DevelopmentServerPort>
+          <DevelopmentServerPort>50022</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

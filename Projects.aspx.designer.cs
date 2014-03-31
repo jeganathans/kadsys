@@ -374,13 +374,13 @@ namespace KedSys35 {
         protected global::System.Web.UI.WebControls.TextBox txtFWConSentDate;
         
         /// <summary>
-        /// lblagreed control.
+        /// txtagreed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblagreed;
+        protected global::System.Web.UI.WebControls.TextBox txtagreed;
         
         /// <summary>
         /// lblTotalInvoiceAmount control.

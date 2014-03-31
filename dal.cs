@@ -210,6 +210,69 @@ namespace KedSys35
         }
 #endregion
 
+        #region ProposalReports
+        public DataSet UP_Report_Proposal_DD(string EmployeeID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_Proposal_DD");
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Report_ProposalDetail(string DATEFROM, string DATETO, string MGRID, string LEADERID, string DEPARTMENT, string STATUS, string LOGINEMPID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_ProposalDetail");
+            objDataBase.AddInParameter(cmd, "@DATEFROM", DbType.String, string.IsNullOrEmpty(DATEFROM) ? (object)DBNull.Value : DATEFROM);
+            objDataBase.AddInParameter(cmd, "@DATETO", DbType.String, string.IsNullOrEmpty(DATETO) ? (object)DBNull.Value : DATETO);
+            objDataBase.AddInParameter(cmd, "@MGRID", DbType.String, string.IsNullOrEmpty(MGRID) ? (object)DBNull.Value : MGRID);
+            objDataBase.AddInParameter(cmd, "@LEADERID", DbType.String, string.IsNullOrEmpty(LEADERID) ? (object)DBNull.Value : LEADERID);
+            objDataBase.AddInParameter(cmd, "@DEPARTMENT", DbType.String, string.IsNullOrEmpty(DEPARTMENT) ? (object)DBNull.Value : DEPARTMENT);
+            objDataBase.AddInParameter(cmd, "@STATUS", DbType.String, string.IsNullOrEmpty(STATUS) ? (object)DBNull.Value : STATUS);
+            objDataBase.AddInParameter(cmd, "@LOGINEMPID", DbType.String, string.IsNullOrEmpty(LOGINEMPID) ? (object)DBNull.Value : LOGINEMPID);
+
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Report_ManagerDateWise(string DATEFROM, string DATETO, string MGRID, string LEADERID, string DEPARTMENT, string STATUS, string LOGINEMPID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_ManagerDateWise");
+            objDataBase.AddInParameter(cmd, "@DATEFROM", DbType.String, string.IsNullOrEmpty(DATEFROM) ? (object)DBNull.Value : DATEFROM);
+            objDataBase.AddInParameter(cmd, "@DATETO", DbType.String, string.IsNullOrEmpty(DATETO) ? (object)DBNull.Value : DATETO);
+            objDataBase.AddInParameter(cmd, "@MGRID", DbType.String, string.IsNullOrEmpty(MGRID) ? (object)DBNull.Value : MGRID);
+            objDataBase.AddInParameter(cmd, "@LEADERID", DbType.String, string.IsNullOrEmpty(LEADERID) ? (object)DBNull.Value : LEADERID);
+            objDataBase.AddInParameter(cmd, "@DEPARTMENT", DbType.String, string.IsNullOrEmpty(DEPARTMENT) ? (object)DBNull.Value : DEPARTMENT);
+            objDataBase.AddInParameter(cmd, "@STATUS", DbType.String, string.IsNullOrEmpty(STATUS) ? (object)DBNull.Value : STATUS);
+            objDataBase.AddInParameter(cmd, "@LOGINEMPID", DbType.String, string.IsNullOrEmpty(LOGINEMPID) ? (object)DBNull.Value : LOGINEMPID);
+
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Report_ProposalStatus(string DATEFROM, string DATETO, string LOGINEMPID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_ProposalStatus");
+            objDataBase.AddInParameter(cmd, "@DATEFROM", DbType.String, string.IsNullOrEmpty(DATEFROM) ? (object)DBNull.Value : DATEFROM);
+            objDataBase.AddInParameter(cmd, "@DATETO", DbType.String, string.IsNullOrEmpty(DATETO) ? (object)DBNull.Value : DATETO);
+            objDataBase.AddInParameter(cmd, "@LOGINEMPID", DbType.String, string.IsNullOrEmpty(LOGINEMPID) ? (object)DBNull.Value : LOGINEMPID);
+
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+        #endregion
+
 #region dashboard
 
         public DataSet UP_Fetch_Dashboard()
@@ -289,7 +352,7 @@ namespace KedSys35
             return ds;
         }
 
-        public Boolean UP_IU_Projects(string UID, string ProjectID, string ProposalRef, string ResearchEngineer, string ProjectName, string ProjectDesc, string ClientName, string Agency, string Leader, string ProjectType, string Department, string StartDate, string EndDate, string Status, string FWPOFieldwork, string FWTypeofStudy, string FWTargetSample, string FWSampleCollected, string FWTargetDate, string FWConSentDate, string FWType, string ActualCompletionDate, string strloginuser, string DeptXML, string DeptSupervisors, string InvoiceXML, string TaskXML, out string strerrmsg, out string newUID, out string newProjectID)
+        public Boolean UP_IU_Projects(string UID, string ProjectID, string ProposalRef, string ResearchEngineer, string ProjectName, string ProjectDesc, string ClientName, string Agency, string Leader, string ProjectType, string Department, string StartDate, string EndDate, string Status, string FWPOFieldwork, string FWTypeofStudy, string FWTargetSample, string FWSampleCollected, string FWTargetDate, string FWConSentDate, string FWType, string ActualCompletionDate, string AgreedBaseCurrency, string strloginuser, string DeptXML, string DeptSupervisors, string InvoiceXML, string TaskXML, out string strerrmsg, out string newUID, out string newProjectID)
         {
             Boolean result = false;
             Database objDataBase = DatabaseFactory.CreateDatabase();
@@ -324,6 +387,7 @@ namespace KedSys35
                 objDataBase.AddInParameter(cmd, "@FWConSentDate", DbType.String, (FWConSentDate == string.Empty) ? (object)DBNull.Value : FWConSentDate);
                 objDataBase.AddInParameter(cmd, "@FWType", DbType.String, (FWType == string.Empty) ? (object)DBNull.Value : FWType);
                 objDataBase.AddInParameter(cmd, "@ActualCompletionDate", DbType.String, (ActualCompletionDate == string.Empty) ? (object)DBNull.Value : ActualCompletionDate);
+                objDataBase.AddInParameter(cmd, "@AgreedBaseCurrency", DbType.String, (AgreedBaseCurrency == string.Empty) ? (object)DBNull.Value : AgreedBaseCurrency);
                 objDataBase.AddInParameter(cmd, "@DeptXML", DbType.String, (DeptXML == string.Empty) ? (object)DBNull.Value : DeptXML);
                 objDataBase.AddInParameter(cmd, "@DeptSupervisors", DbType.String, (DeptSupervisors == string.Empty) ? (object)DBNull.Value : DeptSupervisors);
                 objDataBase.AddInParameter(cmd, "@InvoiceXML", DbType.String, (InvoiceXML == string.Empty) ? (object)DBNull.Value : InvoiceXML);
@@ -509,6 +573,64 @@ namespace KedSys35
 
 #endregion
 
+        #region ProjectInvoiceReports
+        public DataSet UP_Report_ProjectInvoice_DD(string EmployeeID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_ProjectInvoice_DD");
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Report_ProjectInvoice_Group_DD(string EmployeeID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_ProjectInvoice_Group_DD");
+            objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, string.IsNullOrEmpty(EmployeeID) ? (object)DBNull.Value : EmployeeID);
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Report_InvoiceDetail(string DATEFROM, string DATETO, string COORDID, string LEADERID, string DEPARTMENT, string LOGINEMPID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_InvoiceDetail");
+            objDataBase.AddInParameter(cmd, "@DATEFROM", DbType.String, string.IsNullOrEmpty(DATEFROM) ? (object)DBNull.Value : DATEFROM);
+            objDataBase.AddInParameter(cmd, "@DATETO", DbType.String, string.IsNullOrEmpty(DATETO) ? (object)DBNull.Value : DATETO);
+            objDataBase.AddInParameter(cmd, "@COORDID", DbType.String, string.IsNullOrEmpty(COORDID) ? (object)DBNull.Value : COORDID);
+            objDataBase.AddInParameter(cmd, "@LEADERID", DbType.String, string.IsNullOrEmpty(LEADERID) ? (object)DBNull.Value : LEADERID);
+            objDataBase.AddInParameter(cmd, "@DEPARTMENT", DbType.String, string.IsNullOrEmpty(DEPARTMENT) ? (object)DBNull.Value : DEPARTMENT);
+            objDataBase.AddInParameter(cmd, "@LOGINEMPID", DbType.String, string.IsNullOrEmpty(LOGINEMPID) ? (object)DBNull.Value : LOGINEMPID);
+
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Report_InvoiceMonthWise(string DATEFROM, string DATETO, string LEVEL, string LOGINEMPID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_InvoiceMonthWise");
+            objDataBase.AddInParameter(cmd, "@DATEFROM", DbType.String, string.IsNullOrEmpty(DATEFROM) ? (object)DBNull.Value : DATEFROM);
+            objDataBase.AddInParameter(cmd, "@DATETO", DbType.String, string.IsNullOrEmpty(DATETO) ? (object)DBNull.Value : DATETO);
+            objDataBase.AddInParameter(cmd, "@LEVEL", DbType.String, string.IsNullOrEmpty(LEVEL) ? (object)DBNull.Value : LEVEL);
+            objDataBase.AddInParameter(cmd, "@LOGINEMPID", DbType.String, string.IsNullOrEmpty(LOGINEMPID) ? (object)DBNull.Value : LOGINEMPID);
+
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+   
+        #endregion
+
 #region TimeSheet
 
         public DataSet UP_Fetch_TimeSheet_DD(string UserID)
@@ -621,6 +743,28 @@ namespace KedSys35
             return result;
         }
 
+        public Boolean UP_IU_TimeSheet_Submit(string EmployeeID, string TimeSheetDate, DateTime dateSubmited)
+        {
+            Boolean result = false;
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DbCommand cmd;
+            try
+            {
+                cmd = objDataBase.GetStoredProcCommand("UP_IU_TimeSheet_Submit");
+                objDataBase.AddInParameter(cmd, "@EmployeeID", DbType.String, (EmployeeID == "") ? (object)DBNull.Value : EmployeeID);
+                objDataBase.AddInParameter(cmd, "@TimeSheetDate", DbType.String, (TimeSheetDate == "") ? (object)DBNull.Value : TimeSheetDate);
+                objDataBase.AddInParameter(cmd, "@dateSubmited", DbType.DateTime, dateSubmited);
+                objDataBase.ExecuteDataSet(cmd);
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+                result = false;
+            }
+            return result;
+        }
+
         
 
         public Boolean UP_IU_TimeSheet(string EmployeeID, string TimeSheetDate, string InTime, string OutTime, string Updateby)
@@ -674,6 +818,25 @@ namespace KedSys35
             objDataBase.AddInParameter(cmd, "@DIRID", DbType.String, string.IsNullOrEmpty(DIRID) ? (object)DBNull.Value : DIRID);
             objDataBase.AddInParameter(cmd, "@DEPARTMENT", DbType.String, string.IsNullOrEmpty(DEPARTMENT) ? (object)DBNull.Value : DEPARTMENT);
             objDataBase.AddInParameter(cmd, "@LOGINEMPID", DbType.String, string.IsNullOrEmpty(LOGINEMPID) ? (object)DBNull.Value : LOGINEMPID);
+
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Report_TimesheetSubmission(string DATEFROM, string DATETO, string EMPID, string MGRID, string DIRID, string DEPARTMENT, string LOGINEMPID, string TSSTATUS)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Report_TimesheetSubmission");
+            objDataBase.AddInParameter(cmd, "@DATEFROM", DbType.String, string.IsNullOrEmpty(DATEFROM) ? (object)DBNull.Value : DATEFROM);
+            objDataBase.AddInParameter(cmd, "@DATETO", DbType.String, string.IsNullOrEmpty(DATETO) ? (object)DBNull.Value : DATETO);
+            objDataBase.AddInParameter(cmd, "@EMPID", DbType.String, string.IsNullOrEmpty(EMPID) ? (object)DBNull.Value : EMPID);
+            objDataBase.AddInParameter(cmd, "@MGRID", DbType.String, string.IsNullOrEmpty(MGRID) ? (object)DBNull.Value : MGRID);
+            objDataBase.AddInParameter(cmd, "@DIRID", DbType.String, string.IsNullOrEmpty(DIRID) ? (object)DBNull.Value : DIRID);
+            objDataBase.AddInParameter(cmd, "@DEPARTMENT", DbType.String, string.IsNullOrEmpty(DEPARTMENT) ? (object)DBNull.Value : DEPARTMENT);
+            objDataBase.AddInParameter(cmd, "@LOGINEMPID", DbType.String, string.IsNullOrEmpty(LOGINEMPID) ? (object)DBNull.Value : LOGINEMPID);
+            objDataBase.AddInParameter(cmd, "@TSSTATUS", DbType.String, string.IsNullOrEmpty(TSSTATUS) ? (object)DBNull.Value : TSSTATUS);
 
             ds = objDataBase.ExecuteDataSet(cmd);
             return ds;

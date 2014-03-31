@@ -236,10 +236,12 @@
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
-                            
+                            <div><asp:Label ID="lbltsinfo" CssClass="text-success" runat="server"></asp:Label></div>
                             <div class="form-actions right">
-                                <asp:Button id="btn_submit" class="btn green" text="Submit" type="submit" runat="server" 
+                                <asp:Button id="btn_submit" class="btn green" text="Save" type="submit" runat="server" 
                                     OnClientClick="return checkvalid();" onclick="btn_submit_Click"></asp:Button>
+                                <asp:Button id="btn_finalsubmit" class="btn green" text="Submit Timesheet" type="submit" runat="server" 
+                                    OnClientClick="return checkvalid();" onclick="btn_finalsubmit_Click"></asp:Button>
                             </div>
                         
                         </div>

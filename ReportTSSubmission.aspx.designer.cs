@@ -11,16 +11,16 @@
 namespace KedSys35 {
     
     
-    public partial class TimeSheet {
+    public partial class ReportTSSubmission {
         
         /// <summary>
-        /// formcontact control.
+        /// formreport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm formcontact;
+        protected global::System.Web.UI.HtmlControls.HtmlForm formreport;
         
         /// <summary>
         /// brdPageID control.
@@ -32,15 +32,6 @@ namespace KedSys35 {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor brdPageID;
         
         /// <summary>
-        /// hidprot control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidprot;
-        
-        /// <summary>
         /// hidtoaster control.
         /// </summary>
         /// <remarks>
@@ -48,6 +39,15 @@ namespace KedSys35 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidtoaster;
+        
+        /// <summary>
+        /// hidprot control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidprot;
         
         /// <summary>
         /// hidUID control.
@@ -59,103 +59,67 @@ namespace KedSys35 {
         protected global::System.Web.UI.WebControls.HiddenField hidUID;
         
         /// <summary>
-        /// ddEmpName control.
+        /// txtDtFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddEmpName;
+        protected global::System.Web.UI.WebControls.TextBox txtDtFrom;
         
         /// <summary>
-        /// txtManagerName control.
+        /// txtDtTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtManagerName;
+        protected global::System.Web.UI.WebControls.TextBox txtDtTo;
         
         /// <summary>
-        /// txtTimeSheetDate control.
+        /// ddEmployee control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTimeSheetDate;
+        protected global::System.Web.UI.WebControls.DropDownList ddEmployee;
         
         /// <summary>
-        /// txtInTime control.
+        /// ddManager control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtInTime;
+        protected global::System.Web.UI.WebControls.DropDownList ddManager;
         
         /// <summary>
-        /// txtOutTime control.
+        /// ddDirector control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtOutTime;
+        protected global::System.Web.UI.WebControls.DropDownList ddDirector;
         
         /// <summary>
-        /// btn_save control.
+        /// ddDepartment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btn_save;
+        protected global::System.Web.UI.WebControls.DropDownList ddDepartment;
         
         /// <summary>
-        /// fltddProjectRef control.
+        /// ddTSStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList fltddProjectRef;
-        
-        /// <summary>
-        /// fltddProjectName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList fltddProjectName;
-        
-        /// <summary>
-        /// fltddTaskName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList fltddTaskName;
-        
-        /// <summary>
-        /// GridTS control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridTS;
-        
-        /// <summary>
-        /// lbltsinfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbltsinfo;
+        protected global::System.Web.UI.WebControls.DropDownList ddTSStatus;
         
         /// <summary>
         /// btn_submit control.
@@ -167,39 +131,12 @@ namespace KedSys35 {
         protected global::System.Web.UI.WebControls.Button btn_submit;
         
         /// <summary>
-        /// btn_finalsubmit control.
+        /// GridView1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_finalsubmit;
-        
-        /// <summary>
-        /// hidfilterex control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidfilterex;
-        
-        /// <summary>
-        /// txtFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFilter;
-        
-        /// <summary>
-        /// btnFilterOk control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilterOk;
+        protected global::System.Web.UI.WebControls.GridView GridView1;
     }
 }

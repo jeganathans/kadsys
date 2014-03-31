@@ -175,6 +175,12 @@ namespace KedSys35
             fltddCoordinatorName.DataTextField = "CoordinatorName";
             fltddCoordinatorName.DataBind();
 
+            DataTable dtLeader = dv.ToTable(true, "Leader");
+            fltddLeader.DataSource = dtLeader;
+            fltddLeader.DataValueField = "Leader";
+            fltddLeader.DataTextField = "Leader";
+            fltddLeader.DataBind();
+
             DataTable dtStatus = dv.ToTable(true, "Status");
             fltddStatus.DataSource = dtStatus;
             fltddStatus.DataValueField = "Status";
@@ -198,6 +204,11 @@ namespace KedSys35
             strcolfilter = colfilter(fltduCoordinatorName.Text, "CoordinatorName");
             if (strcolfilter.Length > 0)
                 customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
+            strcolfilter = colfilter(fltduLeader.Text, "Leader");
+            if (strcolfilter.Length > 0)
+                customfilter += ((customfilter.Length > 0) ? " and " : "") + strcolfilter;
+
 
             strcolfilter = colfilter(fltduStatus.Text, "Status");
             if (strcolfilter.Length > 0)

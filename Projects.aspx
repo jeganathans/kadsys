@@ -612,13 +612,14 @@
                                                     
                                                     <div class="row">
                                                     <div class="col-md-4">
-                                                        <asp:Label ID="lblagreed" CssClass="form-control dcurr" runat="server"></asp:Label>
+                                                        <%--<asp:Label ID="lblagreed" CssClass="form-control dcurr" runat="server"></asp:Label>--%>
+                                                        <asp:TextBox ID="txtagreed" CssClass="form-control dcurr zagree" runat="server" AutoPostBack="true" OnTextChanged="txtagreed_changed" ></asp:TextBox>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <asp:Label ID="lblTotalInvoiceAmount" CssClass="form-control dcurr" runat="server"></asp:Label>
+                                                        <asp:Label ID="lblTotalInvoiceAmount" CssClass="form-control dcurr ztotinv" runat="server"></asp:Label>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <asp:Label ID="lblTotalPendingValue" CssClass="form-control dcurr" runat="server"></asp:Label>
+                                                        <asp:Label ID="lblTotalPendingValue" CssClass="form-control dcurr ztotpend" runat="server"></asp:Label>
                                                     </div>
                                                 </div>
                                                 </div>
@@ -1352,6 +1353,14 @@
                     $('.addInv').hide();
                     $('.updateInv').show();
                 }
+                
+                /*$(".zagree").change(function() {
+                    var agreed = $(this).asNumber();
+                    var totinvamt = $(".ztotinv").asNumber();
+                    var totpend = agreed - totinvamt;
+                    $(".ztotpend").text = totpend;
+                    
+                });*/
                 
                 $('.dcurr').change(function() {
                     $(this).val($(this).asNumber());
