@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="TimeSheetDetailed.aspx.cs"
-    Inherits="KedSys35.TimeSheetDetailed" Title="Kadence | TimeSheet" %>
+    Inherits="KedSys35.TimeSheetDetailed" Title="Kadence | TimeSheet"  EnableEventValidation="false"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-datepicker/css/datepicker.css" />
@@ -132,6 +132,7 @@
                     <div class="caption">Report</div>
                     <div class="pull-right">
                     <%--<a href="#" id="btnadd" class="btn btn-xs default zbtnadd" runat="server">Add <i class="icon-plus"></i></a>--%>
+                        <asp:Button ID="btxXlExport" class="btn btn-xs default" Text="Export to Excel" OnClick="btn_XlExport_Click" runat="server" />
                     </div>
                     <%--<div class="tools">
                         <a href="" class="reload"></a>

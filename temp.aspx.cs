@@ -29,7 +29,7 @@ namespace KedSys35
             //Session["EmployeeRole"] = "Administrator";
             //Session["Department"] = "Fieldwork";
 
-            //Response.Redirect("ReportTSSubmission.aspx");
+            //Response.Redirect("ReportAuditLog.aspx");
 
             //Session["ProposalID"] = "Q131209001";
             //Response.Redirect("Proposal.aspx");

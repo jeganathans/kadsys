@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Kadence | TimeSheet" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ReportTSSubmission.aspx.cs" Inherits="KedSys35.ReportTSSubmission" EnableEventValidation="false"%>
+﻿<%@ Page Title="Kadence | Audit Log" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ReportAuditLog.aspx.cs" 
+Inherits="KedSys35.ReportAuditLog" EnableEventValidation="false" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-datepicker/css/datepicker.css" />
     <script type="text/javascript" src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
@@ -15,15 +16,10 @@
         <div class="col-md-12">
             <!-- BEGIN PAGE TITLE & BREADCRUMB-->
             <h3 class="page-title">
-                Timesheet Submission Report
+                Audit Log Report
             </h3>
             <ul class="page-breadcrumb breadcrumb">
-                <li><i class="icon-home"></i><a href="TimeSheetDashboard.aspx">Home</a> <i class="icon-angle-right">
-                </i></li>
-                <%--<li><a href="#">Masters</a> <i class="icon-angle-right"></i></li>--%>
-                <li><a href="TimeSheet.aspx">Time Sheet</a></li>
-                <li id="brdliPageID"><i class="icon-angle-right"></i><a id="brdPageID" href="#" runat="server">
-                </a></li>
+                <li><i class="icon-home"></i><a href="Dashboard.aspx">Home</a></li>
             </ul>
             <!-- END PAGE TITLE & BREADCRUMB-->
         </div>
@@ -50,79 +46,19 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">
-                                            Date From</label>
+                                            Module Name</label>
                                         <div class="input-groupd">
-                                            <asp:TextBox ID="txtDtFrom" class="form-control date-picker" type="text"
-                                                runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Date To</label>
-                                        <div class="input-groupd">
-                                            <asp:TextBox ID="txtDtTo" class="form-control date-picker" type="text"
-                                                runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Employee Name</label>
-                                        <div class="input-groupd">
-                                            <asp:DropDownList ID="ddEmployee" class="form-control select2me" runat="server">
+                                            <asp:DropDownList ID="ddModulename" class="form-control select2me" runat="server"
+                                                AutoPostBack="true" OnSelectedIndexChanged="ddModulename_Changed">
                                             </asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
-                                <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label">
-                                            Manager Name</label>
+                                        <label ID="lblReffield" CssClass="control-label" runat="server"></label>
                                         <div class="input-groupd">
-                                            <asp:DropDownList ID="ddManager" class="form-control select2me" runat="server">
-                                            </asp:DropDownList>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/span-->
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Director Name</label>
-                                        <div class="input-groupd">
-                                            <asp:DropDownList ID="ddDirector" class="form-control select2me" runat="server">
-                                            </asp:DropDownList>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/span-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Department</label>
-                                        <div class="input-groupd">
-                                            <asp:DropDownList ID="ddDepartment" class="form-control select2me" runat="server">
-                                            </asp:DropDownList>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/span-->
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Timesheet Status</label>
-                                        <div class="input-groupd">
-                                            <asp:DropDownList ID="ddTSStatus" class="form-control select2me" runat="server">
+                                            <asp:DropDownList ID="ddReffield" class="form-control select2me" runat="server">
                                             </asp:DropDownList>
                                         </div>
                                     </div>
@@ -142,7 +78,7 @@
                     <div class="caption">Report</div>
                     <div class="pull-right">
                     <%--<a href="#" id="btnadd" class="btn btn-xs default zbtnadd" runat="server">Add <i class="icon-plus"></i></a>--%>
-                        <asp:Button ID="btxXlExport" class="btn btn-xs default" Text="Export to Excel" OnClick="btn_XlExport_Click" runat="server" />
+                    <asp:Button ID="btxXlExport" class="btn btn-xs default" Text="Export to Excel" OnClick="btn_XlExport_Click" runat="server" />
                     </div>
                     <%--<div class="tools">
                         <a href="" class="reload"></a>
@@ -150,77 +86,73 @@
                     </div>
                     
                     <div id="portlet-detail-grid" class="portlet-body">
-                    <asp:GridView ID="GridView1" runat="server" Width="100%" AutoGenerateColumns="False"
+                    <asp:GridView ID="GridView1" name="GridView1" runat="server" Width="100%" AutoGenerateColumns="False"
                         AllowPaging="true" OnPageIndexChanging = "OnPaging" PageSize = "10"
                         AllowSorting="true" OnSorting = "OnSorting" 
                         OnRowDataBound="gv_RowCommand" OnRowCommand="gv_RowCommand"
                         class="tablefontsm table table-striped table-bordered table-hover" HeaderStyle-Wrap="false" RowStyle-Wrap="false">
                         <Columns>
-                            <asp:TemplateField HeaderStyle-Width="175px" ItemStyle-Width="175px" >
+                            <asp:TemplateField>
                                 <HeaderTemplate>
-                                    <asp:Label ID="lblEMPName" runat="server" Text="Employee Name"></asp:Label>
+                                    <asp:Label ID="lblModulename" runat="server" Text="Module Name"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="EMPName" CssClass="" runat="server" Text='<%#Eval("EMPName")%>'></asp:Label>
+                                    <asp:Label ID="Modulename" CssClass="" runat="server" Text='<%#Eval("Modulename")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField>
                                 <HeaderTemplate>
-                                    <asp:Label ID="lblMgrName" runat="server" Text="Manager"></asp:Label>
+                                    <asp:Label ID="lblSubnodulename" runat="server" Text="Sub Module"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="MgrName" CssClass="" runat="server" Text='<%#Eval("MgrName")%>'></asp:Label>
+                                    <asp:Label ID="Subnodulename" CssClass="" runat="server" Text='<%#Eval("Subnodulename")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField>
                                 <HeaderTemplate>
-                                    <asp:Label ID="lblDirectorName" runat="server" Text="Director"></asp:Label>
+                                    <asp:Label ID="lblFieldname" runat="server" Text="Field Name"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="DirectorName" CssClass="" Width="150px" runat="server" Text='<%#Eval("DirectorName")%>'></asp:Label>
+                                    <asp:Label ID="Fieldname" CssClass="" runat="server" Text='<%#Eval("Fieldname")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField>
                                 <HeaderTemplate>
-                                    <asp:Label ID="lblDepartment" runat="server" Text="Department"></asp:Label>
+                                    <asp:Label ID="lblFieldValue" runat="server" Text="Field Value"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="Department" CssClass="" Width="150px" runat="server" Text='<%#Eval("Department")%>'></asp:Label>
+                                    <asp:Label ID="FieldValue" CssClass="" runat="server" Text='<%#Eval("FieldValue")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            
                             <asp:TemplateField>
                                 <HeaderTemplate>
-                                    <asp:Label ID="lblCalenderDate" runat="server" Text="TimeSheet Date"></asp:Label>
+                                    <asp:Label ID="lblOperation" runat="server" Text="Operation"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="CalenderDate" CssClass="" Width="150px" runat="server" Text='<%#Eval("CalenderDate")%>'></asp:Label>
+                                    <asp:Label ID="Operation" CssClass="" runat="server" Text='<%#Eval("Operation")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            
                             <asp:TemplateField>
                                 <HeaderTemplate>
-                                    <asp:Label ID="lblSubmitted" runat="server" Text="Submitted (Yes/No)"></asp:Label>
+                                    <asp:Label ID="lblLoginID" runat="server" Text="User"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="Submitted" CssClass="" Width="150px" runat="server" Text='<%#Eval("Submitted")%>'></asp:Label>
+                                    <asp:Label ID="LoginID" CssClass="" runat="server" Text='<%#Eval("LoginID")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            
+                            
                             <asp:TemplateField>
                                 <HeaderTemplate>
-                                    <asp:Label ID="lbldateSubmited" runat="server" Text="Submitted On"></asp:Label>
+                                    <asp:Label ID="lblUpdatedDate" runat="server" Text="Updated On"></asp:Label>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="dateSubmited" CssClass="" Width="150px" runat="server" Text='<%#Eval("dateSubmited")%>'></asp:Label>
+                                    <asp:Label ID="UpdatedDate" CssClass="" runat="server" Text='<%#Eval("UpdatedDate")%>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField>
-                                <HeaderTemplate>
-                                    <asp:Label ID="lblTotalMinutes" runat="server" Text="Total Hrs Spent"></asp:Label>
-                                </HeaderTemplate>
-                                <ItemTemplate>
-                                    <asp:Label ID="TotalMinutes" CssClass="" Width="150px" runat="server" Text='<%#Eval("TotalMinutes")%>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                          
+                            
                         </Columns>
                         <PagerTemplate>
                             <div class="form-actions-half">
@@ -320,6 +252,7 @@
                 });
                 //$('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
             }
+
         });
     </script>
 

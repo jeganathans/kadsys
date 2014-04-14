@@ -1453,6 +1453,42 @@ namespace KedSys35
 #endregion
 
 
+        #region AuditLogReports
+        public DataSet UP_Fetch_AuditLogReport_DD()
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_AuditLogReport_DD");
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Fetch_AuditLogReport_Field(string Modulename)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_AuditLogReport_Field");
+            objDataBase.AddInParameter(cmd, "@Modulename", DbType.String, string.IsNullOrEmpty(Modulename) ? (object)DBNull.Value : Modulename);
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+
+        public DataSet UP_Fetch_AuditLogReport(string Modulename, string RefUID)
+        {
+            Database objDataBase = DatabaseFactory.CreateDatabase();
+            DataSet ds = new DataSet();
+            DbCommand cmd;
+            cmd = objDataBase.GetStoredProcCommand("UP_Fetch_AuditLogReport");
+            objDataBase.AddInParameter(cmd, "@Modulename", DbType.String, string.IsNullOrEmpty(Modulename) ? (object)DBNull.Value : Modulename);
+            objDataBase.AddInParameter(cmd, "@RefUID", DbType.String, string.IsNullOrEmpty(RefUID) ? (object)DBNull.Value : RefUID);
+            ds = objDataBase.ExecuteDataSet(cmd);
+            return ds;
+        }
+        #endregion
+
+
         public DataSet UP_Fetch_Number_Filters()
         {
             Database objDataBase = DatabaseFactory.CreateDatabase();

@@ -251,6 +251,18 @@
                         </li>
                      </ul>
                   </li>
+                  <li>
+                     <a href="javascript:;">
+                     Audit Log
+                     <span class="arrow"></span>
+                     </a>
+                     <ul class="sub-menu">
+                        <li>
+                             <a href="ReportAuditLog.aspx">
+                             Audit Log Report</a>
+                        </li>
+                     </ul>
+                  </li>
                </ul>
             </li>
             <li class="" id="liMasters" runat="server" visible="false">

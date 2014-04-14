@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Xml.Linq;
+using System.IO;
 
 namespace KedSys35
 {
@@ -23,6 +24,7 @@ namespace KedSys35
         DataSet dsCombo;
         string empRole;
         string strloginEmployeeID = "";
+        Boolean allowPaging = true;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -99,8 +101,34 @@ namespace KedSys35
         protected void btn_submit_Click(object sender, EventArgs e)
         {
             Boolean result = false;
+            if (sender == null)
+                allowPaging = false;
+            else
+                allowPaging = true;
             BindGrid();
 
+
+        }
+
+        protected void btn_XlExport_Click(object sender, EventArgs e)
+        {
+            btn_submit_Click(null, null);
+
+            string attachment = "attachment; filename=Report.xls";
+            Response.ClearContent();
+            Response.AddHeader("content-disposition", attachment);
+            Response.ContentType = "application/ms-excel";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            GridView1.RenderControl(htw);
+            Response.Write(sw.ToString());
+            Response.End();
+
+
+        }
+
+        public override void VerifyRenderingInServerForm(Control control)
+        {
 
         }
 
@@ -133,7 +161,7 @@ namespace KedSys35
                 hidprot.Value = "portlet-control-grid";
             }
 
-
+            GridView1.AllowPaging = allowPaging;
             GridView1.DataBind();
         }
 

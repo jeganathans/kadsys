@@ -11,7 +11,7 @@
 namespace KedSys35 {
     
     
-    public partial class ReportSentDate {
+    public partial class ReportAuditLog {
         
         /// <summary>
         /// formreport control.
@@ -50,58 +50,31 @@ namespace KedSys35 {
         protected global::System.Web.UI.WebControls.HiddenField hidUID;
         
         /// <summary>
-        /// txtDtFrom control.
+        /// ddModulename control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDtFrom;
+        protected global::System.Web.UI.WebControls.DropDownList ddModulename;
         
         /// <summary>
-        /// txtDtTo control.
+        /// lblReffield control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDtTo;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblReffield;
         
         /// <summary>
-        /// ddManager control.
+        /// ddReffield control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddManager;
-        
-        /// <summary>
-        /// ddLeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddLeader;
-        
-        /// <summary>
-        /// ddStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddStatus;
-        
-        /// <summary>
-        /// ddDepartment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddDepartment;
+        protected global::System.Web.UI.WebControls.DropDownList ddReffield;
         
         /// <summary>
         /// btn_submit control.

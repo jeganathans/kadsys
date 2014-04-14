@@ -177,6 +177,13 @@
     <Compile Include="ProposalDashboard.aspx.designer.cs">
       <DependentUpon>ProposalDashboard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ReportAuditLog.aspx.cs">
+      <DependentUpon>ReportAuditLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportAuditLog.aspx.designer.cs">
+      <DependentUpon>ReportAuditLog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ReportInvoiceDetails.aspx.cs">
       <DependentUpon>ReportInvoiceDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1991,6 +1998,7 @@
     <Content Include="ProjectTask.aspx" />
     <Content Include="ProposalAll.aspx" />
     <Content Include="ProposalDashboard.aspx" />
+    <Content Include="ReportAuditLog.aspx" />
     <Content Include="ReportInvoiceDetails.aspx" />
     <Content Include="ReportInvoiceGroup.aspx" />
     <Content Include="ReportProposalDetail.aspx" />

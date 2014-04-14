@@ -14,7 +14,7 @@ using System.IO;
 
 namespace KedSys35
 {
-    public partial class ReportProposalStatus : System.Web.UI.Page
+    public partial class ReportAuditLog : System.Web.UI.Page
     {
         dal dl = new dal();
         string EmployeeID;
@@ -22,6 +22,7 @@ namespace KedSys35
         string strloginuser = "";
         DataSet dsReport;
         DataSet dsCombo;
+        DataSet dsField;
         string empRole;
         string strloginEmployeeID = "";
         Boolean allowPaging = true;
@@ -40,31 +41,70 @@ namespace KedSys35
             if (!IsPostBack)
             {
                 hidprot.Value = "portlet-control";
-                ViewState["SortExpr"] = "MgrName ASC";
+                //ViewState["SortExpr"] = "Senddate ASC";
                 BindCombo();
+
             }
+            
         }
 
         void BindCombo()
         {
 
+            dsCombo = dl.UP_Fetch_AuditLogReport_DD();
 
-            txtDtFrom.Text = DateTime.UtcNow.AddMinutes(420).Date.AddDays(-1).ToShortDateString();
-            txtDtTo.Text = DateTime.UtcNow.AddMinutes(420).Date.AddDays(-1).ToShortDateString();
+            ddModulename.DataSource = dsCombo.Tables[0];
+            ddModulename.DataTextField = "Modulename";
+            ddModulename.DataValueField = "Modulename";
+            ddModulename.DataBind();
+
+            ddModulename_Changed(null, null);
+
+        }
+
+        protected void ddModulename_Changed(Object sender, EventArgs e)
+        {
+            string Modulename;
+            Modulename = ddModulename.SelectedItem.Value;
+            dsField = dl.UP_Fetch_AuditLogReport_Field(Modulename);
+            if (dsField.Tables.Count > 0)
+            {
+                if (dsField.Tables[0].Rows.Count > 0)
+                {
+                    lblReffield.InnerText = dsField.Tables[0].Rows[0]["Fieldname"].ToString();
+
+                    ddReffield.DataSource = dsField.Tables[0];
+                    ddReffield.DataTextField = "FieldValue";
+                    ddReffield.DataValueField = "RefUID";
+                    ddReffield.DataBind();
+                }
+                else
+                {
+                    lblReffield.InnerText = "N/A";
+                    ddReffield.DataBind();
+                }
+            }
+            else
+            {
+                lblReffield.InnerText = "N/A";
+                ddReffield.DataBind();
+            }
 
         }
 
         protected void btn_submit_Click(object sender, EventArgs e)
         {
             Boolean result = false;
+            
             if (sender == null)
                 allowPaging = false;
             else
                 allowPaging = true;
+
             BindGrid();
 
-
         }
+
         protected void btn_XlExport_Click(object sender, EventArgs e)
         {
             btn_submit_Click(null, null);
@@ -89,16 +129,14 @@ namespace KedSys35
 
         void BindGrid()
         {
-            string DATEFROM, DATETO, LOGINEMPID;
-            DATEFROM = txtDtFrom.Text;
-            DATETO = txtDtTo.Text;
-            LOGINEMPID = strloginEmployeeID;
+            string Modulename, RefUID;
+            Modulename = ddModulename.SelectedItem.Value;
+            RefUID = ddReffield.SelectedItem.Value;
 
-            dsReport = dl.UP_Report_ProposalStatus(DATEFROM, DATETO, LOGINEMPID);
-
+            dsReport = dl.UP_Fetch_AuditLogReport(Modulename, RefUID);
 
             DataView dv = dsReport.Tables[0].DefaultView;
-            dv.Sort = ViewState["SortExpr"].ToString();
+            //dv.Sort = ViewState["SortExpr"].ToString();
             GridView1.DataSource = dv;
             totalrecordsgrid = dsReport.Tables[0].Rows.Count;
             if (totalrecordsgrid == 0)
@@ -111,9 +149,7 @@ namespace KedSys35
                 hidprot.Value = "portlet-control-grid";
             }
 
-
             GridView1.AllowPaging = allowPaging;
-
             GridView1.DataBind();
         }
 
@@ -154,7 +190,7 @@ namespace KedSys35
         {
             if (e.Row.RowType == DataControlRowType.Header)
             {
-                if (ViewState["SortExpr"].ToString().Length > 0)
+                /*if (ViewState["SortExpr"].ToString().Length > 0)
                 {
                     string[] strsrtexp = ViewState["SortExpr"].ToString().Split(' ');
                     foreach (TableCell cell in e.Row.Cells)
@@ -177,7 +213,7 @@ namespace KedSys35
                             }
                         }
                     }
-                }
+                }*/
             }
             if (e.Row.RowType == DataControlRowType.Pager)
             {
